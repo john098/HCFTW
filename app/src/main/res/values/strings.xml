@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HCFTW</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_calendar">Calendar</string>
+    <string name="title_activity_login">Login</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_student__report">Student_Report</string>
+    <string name="How_many_hours_did_you_spend_teaching">Hour_Teach</string>
+    <string name="Choose_Month">Month</string>
+
+    <string-array name="Month">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+    </string-array>
+
+    <string name="title_activity_tutor__report">Tutor_Report</string>
+    <string name="Choose_Hour">Choose_Hour</string>
+
+    <string-array name="Hour">
+        <item>0</item>
+        <item>.25</item>
+        <item>.50</item>
+        <item>.75</item>
+        <item>1.00</item>
+        <item>1.25</item>
+        <item>1.50</item>
+        <item>1.75</item>
+        <item>2.00</item>
+        <item>2.25</item>
+        <item>2.50</item>
+        <item>2.75</item>
+        <item>3.00</item>
+        <item>3.25</item>
+        <item>3.50</item>
+        <item>3.75</item>
+        <item>4.00</item>
+        <item>4.25</item>
+        <item>4.50</item>
+        <item>4.75</item>
+        <item>5.00</item>
+        <item>5.25</item>
+        <item>5.50</item>
+        <item>5.75</item>
+        <item>6.00</item>
+        <item>6.25</item>
+        <item>6.50</item>
+        <item>6.75</item>
+        <item>7.00</item>
+        <item>7.25</item>
+        <item>7.50</item>
+        <item>7.75</item>
+        <item>8.00</item>
+        <item>8.25</item>
+        <item>8.50</item>
+        <item>8.75</item>
+        <item>9.00</item>
+        <item>9.25</item>
+        <item>9.50</item>
+        <item>9.75</item>
+        <item>10.00</item>
+    </string-array>
+
+    <string name="title_activity_tutor__home">Tutor_Home</string>
+    <string name="log_Out">logout</string>
+
+</resources>
