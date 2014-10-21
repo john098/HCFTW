@@ -35,18 +35,36 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
 
-                <Spinner
-                    android:layout_width="@android:dimen/thumbnail_width"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinner"
-                    android:layout_below="@+id/textView2"
-                    android:layout_alignParentStart="true"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:prompt="@string/Choose_Month"
-                    android:entries="@array/Month"
+                    android:layout_weight="2.37"
+                   >
+
+                    <Spinner
+                        android:layout_width="@android:dimen/thumbnail_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner"
+                        android:layout_below="@+id/textView2"
+                        android:layout_alignParentStart="true"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:prompt="@string/Choose_Month"
+                        android:entries="@array/Month"
 
 
-                    />
+                        />
+
+                    <Spinner
+                        android:layout_width="166dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/spinner4"
+                        android:layout_gravity="right"
+                        android:layout_alignParentStart="true"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:prompt="@string/Choose_Month"
+                        android:entries="@array/Month"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"

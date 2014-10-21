@@ -28,7 +28,9 @@
         <item>October</item>
         <item>November</item>
     </string-array>
-
+    <string-array name="Year">
+        <item>2014</item>
+    </string-array>
     <string name="title_activity_tutor__report">Tutor_Report</string>
     <string name="Choose_Hour">Choose_Hour</string>
 
