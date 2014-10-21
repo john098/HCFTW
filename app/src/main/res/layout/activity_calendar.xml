@@ -12,7 +12,16 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:layout_width="56dp"
+            android:layout_height="44dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Test"
+            android:id="@+id/textView"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right
