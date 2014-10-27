@@ -34,7 +34,7 @@
                 android:id="@+id/prevMonth"
                 android:cropToPadding="false"
                 android:scaleType="fitCenter"
-                 />
+                android:background="@drawable/arrow" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -43,12 +43,13 @@
                 android:id="@+id/curMonth" />
 
             <ImageButton
+                android:background="@drawable/arrowNext"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:cropToPadding="false"
                 android:scaleType="fitCenter"
                 android:id="@+id/nextMonth"
-                 />
+                />
         </LinearLayout>
         <GridView
             android:id="@+id/calendar"
