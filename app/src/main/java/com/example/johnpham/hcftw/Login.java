@@ -2,52 +2,98 @@ package com.example.johnpham.hcftw;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
 public class Login extends Activity {
-        EditText username;
-        EditText password;
+
+        private EditText userError;
+       private EditText username;
+        private EditText password;
         private String[] AccountPass={"foo@example.com:hello"};
-        private String a="a";
+        private String a="a@";
         private String b="b";
         private String c="c";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+       // userError.setError(null);
         setContentView(R.layout.activity_login);
+       final EditText userError;
+        userError=(EditText)findViewById(R.id.editText);
         username=(EditText)findViewById(R.id.editText);
         password=(EditText)findViewById(R.id.editText3);
+
         password.setOnEditorActionListener(new TextView.OnEditorActionListener(){
 
         @Override
             public boolean onEditorAction(TextView v, int actionId,KeyEvent event) {
+
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (username.getText().toString().equals((a))) {
-
-                    if (password.getText().toString().equals(b)) {
-
-                        //do something
-                        startActivity(new Intent(getApplicationContext(), Home.class));
-                    }
-
-                }
-
-
+                preCondition();
             }
             return false;
         }
 
               });
+            Button log=(Button)findViewById(R.id.SignIn);
+            log.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    preCondition();
+                }
+            });
+
+    }
+
+    public void preCondition()
+    {
+
+            login();
 
 
+
+    }
+    public void login()
+    {
+
+        if (username.getText().toString().equals((a))) {
+
+            if (password.getText().toString().equals(b)) {
+
+                //do something
+                startActivity(new Intent(getApplicationContext(), Home.class));
+            }
+            else {
+                password.setError("invalid password or Username");
+
+                password.requestFocus();
+            }
+
+        }else{
+
+            if (password.getText().toString().isEmpty()) {
+                password.setError("require field");
+                password.setHighlightColor(Color.RED);
+                password.requestFocus();
+            } if (username.getText().toString().isEmpty()) {
+                username.setError("require field");
+                username.setHighlightColor(Color.RED);
+                username.requestFocus();
+
+            }
+        }
     }
 
 
@@ -58,6 +104,10 @@ public class Login extends Activity {
 
 
         return true;
+    }
+    public boolean isEmail(String email)
+    {
+        return email.contains("@");
     }
 
     @Override

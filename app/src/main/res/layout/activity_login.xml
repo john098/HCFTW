@@ -33,7 +33,13 @@
         android:layout_below="@+id/textView"
         android:layout_alignStart="@+id/textView"
         android:layout_alignEnd="@+id/imageView2"
-        android:inputType="textWebEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:clickable="false"
+        android:focusable="true"
+        android:enabled="true"
+        android:editable="true"
+        android:hint="Enter Email"
+        android:lines="1"/>
 
 
     <TextView
@@ -53,7 +59,10 @@
         android:id="@+id/editText3"
         android:layout_below="@+id/textView3"
         android:layout_alignStart="@+id/textView3"
-        android:password="true"/>
+        android:password="true"
+        android:hint="Enter Password"
+        android:editable="true"
+        android:lines="1" />
 
     <Button
         android:layout_width="wrap_content"
