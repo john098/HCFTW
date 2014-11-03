@@ -13,7 +13,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Calendar"
+            android:name=".CalendarPage"
             android:label="@string/title_activity_calendar"
             android:screenOrientation="portrait" >
         </activity>
