@@ -22,6 +22,76 @@
         android:layout_gravity="start"
         android:name="com.example.johnpham.hcftw.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer2"/>
+    <TextView
+        android:id="@+id/section_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/prevMonth"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
+                android:background="@drawable/arrow" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month year"
+                android:id="@+id/curMonth" />
+
+            <ImageButton
+                android:background="@drawable/arrownext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
+                android:id="@+id/nextMonth"
+                />
+        </LinearLayout>
+        <GridView
+            android:id="@+id/calendar"
+            android:numColumns="7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        </GridView>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD"
+                android:id="@+id/AddButton"
+                android:layout_weight="0.84" />
+            <Button
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:text="CANCEL"
+                android:id="@+id/cancel" />
+        </LinearLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/container"
