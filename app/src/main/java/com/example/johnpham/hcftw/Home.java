@@ -63,7 +63,7 @@ public class Home extends Activity
                 break;
             case 3:
                 mTitle = "Calendar";
-                startActivity(new Intent(getApplicationContext(), CalendarPage.class));
+                startActivity(new Intent(getApplicationContext(), Volunteer_Report.class));
 
                 break;
             case 4:
