@@ -73,6 +73,7 @@ public class Tutor_Report extends Activity
                 break;
             case 3:
                 mTitle = "Calendar";
+                startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
            case 4:
                 mTitle="Report";
