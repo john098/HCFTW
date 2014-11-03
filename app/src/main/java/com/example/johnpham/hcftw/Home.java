@@ -42,18 +42,6 @@ public class Home extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-       /* View v=(View)findViewById(R.id.logout);
-        v.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v)
-            {
-               // onDestroy();
-                startActivity(new Intent(getApplicationContext(), Login.class));
-            }
-
-
-        });*/
-
-
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -162,6 +150,4 @@ public class Home extends Activity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
-
 }
