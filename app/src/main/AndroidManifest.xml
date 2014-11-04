@@ -33,6 +33,11 @@
             android:label="@string/title_activity_tutor__report"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".Calender_"
+            android:label="Calender_"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

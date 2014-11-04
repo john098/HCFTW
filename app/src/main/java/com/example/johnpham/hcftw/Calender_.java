@@ -17,10 +17,11 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 
-public class Calender_ extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Calender_ extends
+        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,OnClickListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -57,7 +58,7 @@ public class Calender_ extends Activity
     }
 
     public void onSectionAttached(int number) {
-        switch (number) {
+       /* switch (number) {
             case 1:
                 mTitle = "Home";
                 break;
@@ -70,7 +71,7 @@ public class Calender_ extends Activity
             case 4:
                 mTitle = "Report";
                 break;
-        }
+        }*/
     }
 
     public void restoreActionBar() {
@@ -104,6 +105,11 @@ public class Calender_ extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     /**
