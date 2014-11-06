@@ -48,14 +48,14 @@ public class EmailReader extends Activity {
         subj.setText(subjString);
         mess.setText(test.nextToken());
         //listener
-        reply.setOnClickListener(new View.OnClickListener() {
+        /*reply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),Compose.class);
                 i.putExtra("Name",fromString);
                 i.putExtra("Subject",subjString);
                 startActivity(i);
             }
-        });
+        });*/
 
 
 
