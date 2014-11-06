@@ -33,13 +33,15 @@ public class Compose extends Activity {
             subjString = i.getStringExtra("Subject");
             subjField.setText("Re: " + subjString);
         }
+        /*
+        removed Cancel button, because of back arrow on actionbar
         cancel = (Button) findViewById(R.id.cancelButton);
         //check for compose click
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
         send = (Button) findViewById(R.id.sendButton);
         //check for compose click
         send.setOnClickListener(new View.OnClickListener() {

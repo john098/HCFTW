@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Submit"
-                android:id="@+id/button"
+                android:id="@+id/sendButton"
                 android:textColor="#ffff050e" />
 
             <Button
