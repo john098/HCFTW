@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingLeft="64dp"
+android:paddingRight="64dp"
+android:paddingTop="16dp"
+android:paddingBottom="16dp"
+tools:context="com.example.johnpham.hcftw.Compose"
+android:id="@+id/compose">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:text="New Message"
+    android:id="@+id/newMess"
+    android:textColor="#ffff0003"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true" />
+
+    <EditText
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:lines="1"
+    android:maxLines="1"
+    android:id="@+id/toTextBox"
+    android:layout_below="@+id/newMess"
+    android:editable="true"
+    android:hint="To:"
+    android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+<EditText
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:lines="1"
+    android:maxLines="1"
+    android:id="@+id/ccTextBox"
+    android:editable="true"
+    android:layout_below="@+id/toTextBox"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:hint="Cc:" />
+
+<EditText
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:lines="1"
+    android:maxLines="1"
+    android:id="@+id/bccTextBox"
+    android:editable="true"
+    android:layout_below="@+id/ccTextBox"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:hint="Bcc:" />
+
+<EditText
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/emailTextBox"
+    android:layout_alignParentStart="true"
+    android:editable="true"
+    android:gravity="left"
+    android:layout_below="@+id/divider"
+    android:layout_alignEnd="@+id/divider"
+    android:layout_above="@+id/sendButton" />
+
+<EditText
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/subjTextBox"
+    android:editable="true"
+    android:layout_below="@+id/bccTextBox"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:hint="Subject:" />
+<View
+    android:layout_width="fill_parent"
+    android:layout_height="3dp"
+    android:background="@android:color/darker_gray"
+    android:id="@+id/divider"
+    android:layout_below="@+id/subjTextBox"
+    android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/sendButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
