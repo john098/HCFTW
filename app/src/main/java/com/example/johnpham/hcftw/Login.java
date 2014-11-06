@@ -1,6 +1,8 @@
 package com.example.johnpham.hcftw;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +15,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+import android.content.Context;
 
 
 public class Login extends Activity {
@@ -26,37 +32,71 @@ public class Login extends Activity {
         private String c="c";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-       // userError.setError(null);
-        setContentView(R.layout.activity_login);
-       final EditText userError;
-        userError=(EditText)findViewById(R.id.editText);
-        username=(EditText)findViewById(R.id.editText);
-        password=(EditText)findViewById(R.id.editText3);
+        if(isNetworkAvailable()) {
 
-        password.setOnEditorActionListener(new TextView.OnEditorActionListener(){
+            // userError.setError(null);
+            setContentView(R.layout.activity_login);
+            final EditText userError;
+            userError = (EditText) findViewById(R.id.editText);
+            username = (EditText) findViewById(R.id.editText);
+            password = (EditText) findViewById(R.id.editText3);
 
-        @Override
-            public boolean onEditorAction(TextView v, int actionId,KeyEvent event) {
+            password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                preCondition();
-            }
-            return false;
-        }
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-              });
-            Button log=(Button)findViewById(R.id.SignIn);
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        preCondition();
+                    }
+                    return false;
+                }
+
+            });
+            Button log = (Button) findViewById(R.id.SignIn);
             log.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     preCondition();
                 }
             });
+        }
+        else{
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
+            // Setting Dialog Title
+            alertDialog.setTitle("Error");
+
+            // Setting Dialog Message
+            alertDialog.setMessage("No internetion");
+
+            // Setting alert dialog icon
+            alertDialog.setIcon(R.drawable.x);
+
+
+
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    close();
+                }
+            });
+
+
+            alertDialog.show();
+        }
     }
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    public void close()
+    {
+        super.onDestroy();
+        this.finish();
+    }
     public void preCondition()
     {
 

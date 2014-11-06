@@ -1,6 +1,7 @@
 package com.example.johnpham.hcftw;
 
 import android.app.Activity;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -16,11 +17,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
+
+import java.util.Calendar;
 
 
-public class Calender_ extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Calender_ extends
+        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,OnClickListener{
+    private static final String tag = "Main";
+    private Button selectedDayMonthYearButton;
+    private Button currentMonth;
+    private ImageView prevMonth;
+    private ImageView nextMonth;
+    private GridView calendarView;
+   // private GridCellAdapter adapter;
+    private Calendar _calendar;
+    private int month, year;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -105,6 +122,10 @@ public class Calender_ extends Activity
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onClick(View v) {
+
+    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -146,4 +167,26 @@ public class Calender_ extends Activity
         }
     }
 
+   /* public class GridCellAdapter extends BaseAdapter implements OnClickListener{
+        private  List<String>list;
+        public View getView(int position, View convertView, ViewGroup parent){
+
+        }
+        public int getCount() {
+            return list.size();
+        }
+        public void onClick(View view)
+        {
+
+        }
+        public long getItemId(int position)
+        {
+           return position;
+        }
+        public String getItem(int position){
+            return list.get(position);
+        }
+
+    }*/
 }
+
