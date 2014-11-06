@@ -23,7 +23,7 @@ public class EmailReader extends Activity {
     String subjString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+      /*  super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_reader);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -50,14 +50,14 @@ public class EmailReader extends Activity {
         //listener
         /*reply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),Compose.class);
+            //    Intent i = new Intent(getApplicationContext(),Compose.class);
                 i.putExtra("Name",fromString);
                 i.putExtra("Subject",subjString);
                 startActivity(i);
             }
         });*/
 
-
+*/
 
     }
 
