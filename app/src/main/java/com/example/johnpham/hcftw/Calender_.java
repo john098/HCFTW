@@ -23,6 +23,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.content.Intent;
 
 import java.util.Calendar;
 
@@ -38,6 +39,7 @@ public class Calender_ extends
    // private GridCellAdapter adapter;
     private Calendar _calendar;
     private int month, year;
+    private Button add;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -62,6 +64,14 @@ public class Calender_ extends
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        add=(Button)findViewById(R.id.AddButton);
+        add.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NewNotes.class));
+            }
+        });
+
     }
 
     @Override
@@ -124,6 +134,8 @@ public class Calender_ extends
     }
     @Override
     public void onClick(View v) {
+
+
 
     }
 
