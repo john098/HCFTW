@@ -60,7 +60,7 @@ public class Home extends Activity
                 break;
             case 2:
                 mTitle = "Email";
-                startActivity(new Intent(getApplicationContext(),Email.class));
+                /*startActivity(new Intent(getApplicationContext(),Email.class));*/
                 break;
             case 3:
                 mTitle = "Calendar";
