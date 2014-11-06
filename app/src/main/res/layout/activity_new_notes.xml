@@ -124,9 +124,9 @@
                 android:layout_height="fill_parent"
                 android:text="Select time"
                 android:id="@+id/time"
-                android:gravity="center|bottom"
+                android:gravity="bottom"
                 android:layout_gravity="bottom"
-                android:layout_weight="0.06" />
+                android:layout_weight="0.12" />
 
         </LinearLayout>
         <LinearLayout

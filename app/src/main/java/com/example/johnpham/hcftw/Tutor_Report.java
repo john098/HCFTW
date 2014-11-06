@@ -63,7 +63,6 @@ public class Tutor_Report extends Activity
         switch (number) {
             case 1:
                 if(numb!=0) {
-
                     startActivity(new Intent(getApplicationContext(), Home.class));
                 }
                 numb++;
@@ -73,7 +72,7 @@ public class Tutor_Report extends Activity
                 break;
             case 3:
                 mTitle = "Calendar";
-             //   startActivity(new Intent(getApplicationContext(), Calender_.class));
+                startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
            case 4:
                 mTitle="Report";
