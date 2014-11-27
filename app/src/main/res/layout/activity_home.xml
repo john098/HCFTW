@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:id="@+id/imageView3"
-                android:background="@drawable/hcftw" />
+                android:background="@drawable/three" />
 
             <ImageView
                 android:layout_width="match_parent"

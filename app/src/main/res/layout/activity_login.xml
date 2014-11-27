@@ -11,7 +11,7 @@
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="@dimen/navigation_drawer_width"
         android:id="@+id/imageView2"
-        android:background="@drawable/screen"
+        android:background="@drawable/three"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

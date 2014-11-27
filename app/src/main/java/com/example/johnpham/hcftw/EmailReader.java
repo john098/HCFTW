@@ -51,9 +51,9 @@ public class EmailReader extends Activity {
         reply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             //    Intent i = new Intent(getApplicationContext(),Compose.class);
-                i.putExtra("Name",fromString);
-                i.putExtra("Subject",subjString);
-                startActivity(i);
+             //   i.putExtra("Name",fromString);
+               // i.putExtra("Subject",subjString);
+                //startActivity(i);
             }
         });
 
