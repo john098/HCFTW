@@ -42,16 +42,6 @@
             android:label="Calender_"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name="NewNotes"
-            android:label="New Event"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="Email"
-            android:label="Email"
-            android:screenOrientation="portrait" >
-        </activity>
     </application>
 
 
