@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.content.Intent;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 
 public class Volunteer_Report extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
+        private  ArrayList<String> years = new ArrayList<String>();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -42,10 +46,17 @@ public class Volunteer_Report extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-       /* Spinner dropdown = (Spinner)findViewById(R.id.spinner);
-        String[] items = new String[]{"1", "2", "three"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
-        dropdown.setAdapter(adapter);*/
+
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 2009; i <= thisYear; i++)
+        {
+            years.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, years);
+
+        Spinner spinYear = (Spinner)findViewById(R.id.spinner4);
+        spinYear.setAdapter(adapter);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class EmailReader extends Activity {
     String subjString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      /*  super.onCreate(savedInstanceState);
+       super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_reader);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

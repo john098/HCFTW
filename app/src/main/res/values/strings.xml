@@ -27,9 +27,15 @@
         <item>September</item>
         <item>October</item>
         <item>November</item>
+        <item>December</item>
     </string-array>
+
     <string-array name="Year">
         <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
     </string-array>
 
     <string name="title_activity_tutor__report">Tutor_Report</string>
