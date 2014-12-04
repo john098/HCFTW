@@ -16,14 +16,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class Tutor_Report extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private int numb=0;
-
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -47,6 +53,9 @@ public class Tutor_Report extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+
     }
 
     @Override
@@ -63,7 +72,6 @@ public class Tutor_Report extends Activity
         switch (number) {
             case 1:
                 if(numb!=0) {
-
                     startActivity(new Intent(getApplicationContext(), Home.class));
                 }
                 numb++;

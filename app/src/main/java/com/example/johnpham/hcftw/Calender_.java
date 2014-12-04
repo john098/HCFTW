@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +34,7 @@ import android.text.format.DateFormat;
 
 
 public class Calender_ extends
-        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, OnClickListener{
+        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
     private static final String tag = "Main";
     private Button curMonth;
     private ImageView prevMonth;
@@ -41,6 +42,7 @@ public class Calender_ extends
     private GridView calendarView;
     private GridCellAdapter adapter;
     private Calendar _calendar;
+
     private int month, year;
     private final DateFormat date = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
@@ -89,6 +91,14 @@ public class Calender_ extends
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
+         Button add=(Button)findViewById(R.id.AddButton);
+        add.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NewNotes.class));
+            }
+        });
+
 
     }
 
@@ -162,6 +172,7 @@ public class Calender_ extends
 
     @Override
     public void onClick(View v) {
+
         if (v == prevMonth)
         {
             if (month <= 1)

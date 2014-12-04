@@ -63,7 +63,7 @@ private AutoCompleteTextView text;
             call();
             }
         });
-        Button t1=(Button)findViewById(R.id.time1);
+        final Button t1=(Button)findViewById(R.id.time1);
         t1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,8 +79,10 @@ private AutoCompleteTextView text;
                 {
                     enter.setError("Please enter title");
                 }
-
-
+                if(b.getText().toString().equals(""))
+                    t.setError(("please select the time"));
+                if(d.getText().toString().equals(""))
+                    t1.setError("please select the time");
             }
         });
     }
