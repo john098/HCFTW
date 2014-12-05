@@ -51,6 +51,8 @@
         <activity android:name=".EmailReader"
             android:label="Email Reader"
             android:screenOrientation="portrait" ></activity>
+        <activity android:name=".NewNotes"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 
