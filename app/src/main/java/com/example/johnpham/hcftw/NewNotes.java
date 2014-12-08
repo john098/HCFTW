@@ -2,6 +2,7 @@ package com.example.johnpham.hcftw;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -157,8 +158,11 @@ public void call()
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.logout) {
+          Intent intent=new Intent(getApplicationContext(),Login.class);
+          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+          startActivity(intent);
+          return true;
         }
         return super.onOptionsItemSelected(item);
     }
