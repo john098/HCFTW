@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +28,7 @@ import java.util.concurrent.Callable;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
+    private int count=0;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -52,46 +53,43 @@ public class Home extends Activity
                 Authentication.acquireToken(
                         Home.this
                 );
-
-        final Context context = this;
-        Futures.addCallback(authenticated, new FutureCallback<Void>() {
-
-            @Override
-            public void onSuccess(Void result) {
-                Controller.getInstance().postASyncTask( new Callable<Void>() {
-                    @Override
-                    public Void call() throws Exception {
-                        runOnUiThread(new Runnable() {
+        if(count==0) {
 
 
-                         public void onBackPressed()
-                        {
+            final Context context = this;
+            Futures.addCallback(authenticated, new FutureCallback<Void>() {
+                @Override
+                public void onSuccess(Void result) {
+                    Controller.getInstance().postASyncTask(new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(
+                                            Home.this,
+                                            "Authentication successful",
+                                            Toast.LENGTH_SHORT).show();
 
+                                    // enable scenarios
+                                    mNavigationDrawerFragment.setUp(
+                                            R.id.navigation_drawer,
+                                            (DrawerLayout) findViewById(R.id.drawer_layout));
+                                }
+                            });
+
+                            return null;
                         }
-                            @Override
-                            public void run() {
-                                Toast.makeText(
-                                        Home.this,
-                                        "Authentication successful",
-                                        Toast.LENGTH_SHORT).show();
+                    });
+                }
 
-                                // enable scenarios
-                                mNavigationDrawerFragment.setUp(
-                                        R.id.navigation_drawer,
-                                        (DrawerLayout) findViewById(R.id.drawer_layout));
-                            }
+                public void onFailure(final Throwable t) {
+                    Controller.getInstance().handleError(Home.this, t.getMessage());
 
-
-                        });
-
-                        return null;
-                    }
-                });
-            }
-            public void onFailure(final Throwable t) {
-                Controller.getInstance().handleError(Home.this, t.getMessage());
-            }
-        });
+                }
+            });
+            count++;
+        }
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -147,12 +145,6 @@ public class Home extends Activity
         return super.onCreateOptionsMenu(menu);
     }
     @Override
-    public void onBackPressed(){
-
-    }
-
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -205,5 +197,6 @@ public class Home extends Activity
             ((Home) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
     }
 }

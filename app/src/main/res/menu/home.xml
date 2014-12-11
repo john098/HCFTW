@@ -10,6 +10,6 @@
         </item>
     <item android:id="@+id/about"
           android:title="About"
-        ></item>
+    ></item>
 
 </menu>

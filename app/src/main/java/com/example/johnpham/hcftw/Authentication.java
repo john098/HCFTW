@@ -6,6 +6,7 @@ package com.example.johnpham.hcftw;
 import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.aad.adal.AuthenticationCallback;
@@ -18,6 +19,8 @@ public class Authentication {
     public static SettableFuture<Void> acquireToken(final Activity rootActivity) {
 
         final SettableFuture<Void> result = SettableFuture.create();
+
+
 
         getAuthenticationContext(rootActivity).acquireToken(
                 rootActivity,
@@ -41,7 +44,10 @@ public class Authentication {
                     public void onError(Exception t) {
                         result.setException(t);
                     }
+
+
                 });
+
 
         return result;
     }
