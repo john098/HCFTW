@@ -20,7 +20,22 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:cardview-v7:21.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:20.0.0'
-    compile files('mail-calendar-contact-1.0-javadoc.jar')
+// base OData stuff:
+    compile group: 'com.microsoft.services', name: 'odata-engine-core', version: '0.10.0'
+    compile group: 'com.microsoft.services', name: 'odata-engine-android-impl', version: '0.10.0', ext:'aar'
+
+
+    // choose the services/SDKs you need:
+    compile group: 'com.microsoft.services', name: 'outlook-services', version: '0.10.0'
+    compile group: 'com.microsoft.services', name: 'discovery-services', version: '0.10.0'
+    compile group: 'com.microsoft.services', name: 'directory-services', version: '0.10.0'
+    compile group: 'com.microsoft.services', name: 'file-services', version: '0.10.0'
+    compile group: 'com.microsoft.services', name: 'list-services', version: '0.10.0', ext:'aar'
+
+    // ADAL
+    compile (group: 'com.microsoft.aad', name: 'adal', version: '(,2.0)') {
+        // exclude group: 'com.android.support'   // this may not be necessary
+    }
 }

@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.SettableFuture;
+
+import java.util.concurrent.Callable;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -39,9 +48,50 @@ public class Home extends Activity
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        SettableFuture<Void> authenticated =
+                Authentication.acquireToken(
+                        Home.this
+                );
+
+        final Context context = this;
+        Futures.addCallback(authenticated, new FutureCallback<Void>() {
+
+            @Override
+            public void onSuccess(Void result) {
+                Controller.getInstance().postASyncTask( new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        runOnUiThread(new Runnable() {
+
+
+                         public void onBackPressed()
+                        {
+
+                        }
+                            @Override
+                            public void run() {
+                                Toast.makeText(
+                                        Home.this,
+                                        "Authentication successful",
+                                        Toast.LENGTH_SHORT).show();
+
+                                // enable scenarios
+                                mNavigationDrawerFragment.setUp(
+                                        R.id.navigation_drawer,
+                                        (DrawerLayout) findViewById(R.id.drawer_layout));
+                            }
+
+
+                        });
+
+                        return null;
+                    }
+                });
+            }
+            public void onFailure(final Throwable t) {
+                Controller.getInstance().handleError(Home.this, t.getMessage());
+            }
+        });
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -96,6 +146,11 @@ public class Home extends Activity
         }
         return super.onCreateOptionsMenu(menu);
     }
+    @Override
+    public void onBackPressed(){
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,9 +159,9 @@ public class Home extends Activity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.logout) {
-            Intent intent=new Intent(getApplicationContext(),Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+           // Intent intent=new Intent(getApplicationContext(),Login.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

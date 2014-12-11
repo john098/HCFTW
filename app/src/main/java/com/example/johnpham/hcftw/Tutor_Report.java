@@ -120,9 +120,9 @@ public class Tutor_Report extends Activity
         int id = item.getItemId();
         if (id == R.id.logout) {
 
-                Intent intent=new Intent(getApplicationContext(),Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                //Intent intent=new Intent(getApplicationContext(),Login.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              //  startActivity(intent);
 
             return true;
         }
