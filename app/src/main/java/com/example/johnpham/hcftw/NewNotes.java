@@ -20,6 +20,14 @@ import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.SettableFuture;
+import com.microsoft.outlookservices.EmailAddress;
+
+import java.util.concurrent.Callable;
+
 public class NewNotes extends Activity {
 private AutoCompleteTextView text;
     private AutoCompleteTextView enter;
@@ -55,6 +63,7 @@ private AutoCompleteTextView text;
                 note.setText("");
             }
         });
+
         final Button t=(Button)findViewById(R.id.time);
         Button time=(Button)findViewById(R.id.time);
         time.setOnClickListener(new View.OnClickListener() {

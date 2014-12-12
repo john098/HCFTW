@@ -71,7 +71,6 @@ public class Volunteer_Report extends Activity
     public void onSectionAttached(int number) {
         mTitle="Report";
         switch (number) {
-
             case 1:
                 //mTitle="Home";
 

@@ -34,7 +34,7 @@ import android.text.format.DateFormat;
 
 
 public class Calender_ extends
-        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
+        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
     private static final String tag = "Main";
     private Button curMonth;
     private ImageView prevMonth;
@@ -42,7 +42,7 @@ public class Calender_ extends
     private GridView calendarView;
     private GridCellAdapter adapter;
     private Calendar _calendar;
-
+    private int numb=0;
     private int month, year;
     private final DateFormat date = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
@@ -62,14 +62,10 @@ public class Calender_ extends
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender_);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+
         mTitle = getTitle();
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+
 
 
         _calendar = Calendar.getInstance(Locale.getDefault());
@@ -77,13 +73,13 @@ public class Calender_ extends
         year = _calendar.get(Calendar.YEAR);
 
         prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
-        prevMonth.setOnClickListener(this);
+        //prevMonth.setOnClickListener(this);
 
         curMonth = (Button) this.findViewById(R.id.curMonth);
         curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
 
         nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
-        nextMonth.setOnClickListener(this);
+       // nextMonth.setOnClickListener(this);
 
         calendarView = (GridView) this.findViewById(R.id.calendar);
 
@@ -98,6 +94,12 @@ public class Calender_ extends
                 startActivity(new Intent(getApplicationContext(), NewNotes.class));
             }
         });
+        // Set up the drawer.
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
     }
@@ -110,21 +112,30 @@ public class Calender_ extends
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
-
     public void onSectionAttached(int number) {
+        mTitle="Calendar";
         switch (number) {
             case 1:
-                mTitle = "Home";
+                if(numb!=0) {
+                    mTitle = "Home";
+                    startActivity(new Intent(getApplicationContext(), Home.class));
+                }
+                numb++;
                 break;
             case 2:
                 mTitle = "Email";
+                startActivity(new Intent(getApplicationContext(),Email.class));
                 break;
             case 3:
                 mTitle = "Calendar";
+                startActivity(new Intent(getApplicationContext(), Calender_.class));
+
                 break;
             case 4:
                 mTitle = "Report";
+                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
+
         }
     }
 
@@ -170,8 +181,8 @@ public class Calender_ extends
         calendarView.setAdapter(adapter);
     }
 
-    @Override
-    public void onClick(View v) {
+    //@Override
+   /* public void onClick(View v) {
 
         if (v == prevMonth)
         {
@@ -201,7 +212,7 @@ public class Calender_ extends
         }
 
     }
-
+*/
     /**
      * A placeholder fragment containing a simple view.
      */
