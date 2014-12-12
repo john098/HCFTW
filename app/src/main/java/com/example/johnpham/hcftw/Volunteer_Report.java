@@ -22,6 +22,7 @@ import android.widget.Spinner;
 
 public class Volunteer_Report extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        private int numb=0;
         private  ArrayList<String> years = new ArrayList<String>();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -73,12 +74,14 @@ public class Volunteer_Report extends Activity
         switch (number) {
 
             case 1:
-                //mTitle="Home";
-
-             // startActivity(new Intent(getApplicationContext(), Home.class));
+                if(numb!=0) {
+                    startActivity(new Intent(getApplicationContext(), Home.class));
+                }
+                numb++;
                 break;
             case 2:
                 mTitle = "Email";
+                startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
                 mTitle = "Calendar";

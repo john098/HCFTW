@@ -35,6 +35,7 @@ import android.text.format.DateFormat;
 
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
+    private int numb=0;
     private static final String tag = "Main";
     private Button curMonth;
     private ImageView prevMonth;
@@ -112,18 +113,25 @@ public class Calender_ extends
     }
 
     public void onSectionAttached(int number) {
+        mTitle="Calendar";
         switch (number) {
             case 1:
-                mTitle = "Home";
+                if(numb!=0) {
+                    startActivity(new Intent(getApplicationContext(), Home.class));
+                }
+                numb++;
                 break;
             case 2:
                 mTitle = "Email";
+                startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
                 mTitle = "Calendar";
+                //startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
             case 4:
                 mTitle = "Report";
+                startActivity(new Intent(getApplicationContext(), Volunteer_Report.class));
                 break;
         }
     }
