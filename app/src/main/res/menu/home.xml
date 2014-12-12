@@ -1,15 +1,19 @@
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Home" >
     <item android:id="@+id/logout"
         android:icon="@android:drawable/arrow_down_float"
-        android:title="logout">
-
-
-
-        </item>
+        android:title="logout"/>
     <item android:id="@+id/about"
-          android:title="About"
-    ></item>
-
+        android:title="About"
+        />
+    <item android:id="@+id/name"
+        android:title=""
+        android:showAsAction="ifRoom"
+        ></item>
 </menu>
+
+
+
+

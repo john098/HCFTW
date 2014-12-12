@@ -19,16 +19,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
+import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.ItemBody;
+import com.microsoft.outlookservices.Message;
+import com.microsoft.outlookservices.Recipient;
+import com.microsoft.outlookservices.User;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
+import com.microsoft.outlookservices.EmailAddress;
 
 import java.util.concurrent.Callable;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-    private int count=0;
+    private static int count=0;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -49,12 +54,11 @@ public class Home extends Activity
         mTitle = getTitle();
 
         // Set up the drawer.
+        if(count==0) {
         SettableFuture<Void> authenticated =
                 Authentication.acquireToken(
                         Home.this
                 );
-        if(count==0) {
-
 
             final Context context = this;
             Futures.addCallback(authenticated, new FutureCallback<Void>() {
@@ -82,13 +86,13 @@ public class Home extends Activity
                         }
                     });
                 }
-
                 public void onFailure(final Throwable t) {
                     Controller.getInstance().handleError(Home.this, t.getMessage());
 
                 }
             });
             count++;
+
         }
     }
     @Override
