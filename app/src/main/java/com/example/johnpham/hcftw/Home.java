@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,7 +74,7 @@ public class Home extends Activity
                                     Toast.makeText(
                                             Home.this,
                                             "Authentication successful",
-                                            Toast.LENGTH_SHORT).show();
+                                            Toast.LENGTH_LONG).show();
 
                                     // enable scenarios
                                     mNavigationDrawerFragment.setUp(
@@ -87,6 +88,7 @@ public class Home extends Activity
                     });
                 }
                 public void onFailure(final Throwable t) {
+
                     Controller.getInstance().handleError(Home.this, t.getMessage());
 
                 }
@@ -112,11 +114,11 @@ public class Home extends Activity
                 break;
             case 2:
                 mTitle = "Email";
-                startActivity(new Intent(getApplicationContext(),Email.class));
+                startActivity(new Intent(this,Email.class));
                 break;
             case 3:
                 mTitle = "Calendar";
-                startActivity(new Intent(getApplicationContext(), Calender_.class));
+                startActivity(new Intent(this, Calender_.class));
 
                 break;
             case 4:
@@ -133,6 +135,10 @@ public class Home extends Activity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Authentication.context.onActivityResult(requestCode, resultCode, data);
     }
 
 

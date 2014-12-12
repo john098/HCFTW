@@ -17,10 +17,13 @@ import java.util.StringTokenizer;
 
 
 public class EmailReader extends Activity {
-    String email;
+    //String email;
     String inbox;
     String fromString;
     String subjString;
+    String message;
+    String dater;
+    String emailAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -28,9 +31,19 @@ public class EmailReader extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent i = getIntent();
-        email = i.getStringExtra("Email");
-        StringTokenizer test = new StringTokenizer(email,"\n");
-        inbox = i.getStringExtra("Inbox");
+        i.getStringArrayListExtra("List");
+        dater = i.getStringExtra("Date");
+        emailAddress = i.getStringExtra("Email");
+        //email = i.getStringExtra("Email");
+        fromString = i.getStringExtra("From");
+        if(fromString.equals("Unknown")) {
+        fromString = emailAddress;
+        }
+        subjString = i.getStringExtra("Subject");
+        message = i.getStringExtra("Body");
+
+        //StringTokenizer test = new StringTokenizer(email,"\n");
+        //inbox = i.getStringExtra("Inbox");
         TextView inboxView = (TextView) findViewById(R.id.inboxReader);
         TextView date = (TextView) findViewById(R.id.dateText);
         Button reply = (Button) findViewById(R.id.replyButton);
@@ -41,17 +54,15 @@ public class EmailReader extends Activity {
         TextView mess = (TextView) findViewById(R.id.messageText);
         //setting the values
         inboxView.setText(inbox);
-        date.setText(new Date().toString());
-        fromString = test.nextToken();
+        date.setText(dater);
         from.setText(fromString);
-        subjString = test.nextToken();
         subj.setText(subjString);
-        mess.setText(test.nextToken());
+        mess.setText(message);
         //listener
         reply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),Compose.class);
-                i.putExtra("Name",fromString);
+                i.putExtra("Name",emailAddress);
                 i.putExtra("Subject",subjString);
                 startActivity(i);
             }
