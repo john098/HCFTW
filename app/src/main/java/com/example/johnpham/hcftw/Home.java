@@ -118,12 +118,10 @@ public class Home extends Activity
                 break;
             case 3:
                 mTitle = "Calendar";
-                startActivity(new Intent(this, Calender_.class));
-
+                startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
             case 4:
                 mTitle = "Report";
-
                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
 
