@@ -46,15 +46,23 @@
         </activity>
         <activity android:name=".Email"
             android:label="Email"
-            android:screenOrientation="portrait" ></activity>
+            android:screenOrientation="portrait" >
+
+            </activity>
         <activity android:name=".Compose"
             android:label="Compose"
-            android:screenOrientation="portrait" ></activity>
+            android:screenOrientation="portrait" >
+
+            </activity>
         <activity android:name=".EmailReader"
             android:label="Email Reader"
-            android:screenOrientation="portrait" ></activity>
+            android:screenOrientation="portrait" >
+
+            </activity>
         <activity android:name=".NewNotes"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+            </activity>
     </application>
 
 
