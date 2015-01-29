@@ -75,7 +75,7 @@ public class Calender_ extends
         _calendar = Calendar.getInstance(Locale.getDefault());
         month = _calendar.get(Calendar.MONTH);
         year = _calendar.get(Calendar.YEAR);
-
+        Log.d(Integer.toString(month),"yes");
         prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
         prevMonth.setOnClickListener(this);
 
@@ -175,9 +175,9 @@ public class Calender_ extends
 
         if (v == prevMonth)
         {
-            if (month <= 1)
+            if (month <= 0)
             {
-                month = 12;
+                month = 11;
                 year--;
             }
             else
@@ -188,9 +188,9 @@ public class Calender_ extends
         }
         if (v == nextMonth)
         {
-            if (month > 11)
+            if (month >= 11)
             {
-                month = 1;
+                month = 0;
                 year++;
             }
             else
@@ -338,9 +338,9 @@ public class Calender_ extends
             int nextMonth = 0;
             int nextYear = 0;
 
-            int curMonth = mm - 1;
-            String currentMonthName = getMonthAsString(curMonth);
-            daysInMonth = getNumberOfDaysOfMonth(curMonth);
+            int curMonth = mm;
+            String currentMonthName = getMonthAsString(mm);
+            daysInMonth = getNumberOfDaysOfMonth(mm);
 
 
 
