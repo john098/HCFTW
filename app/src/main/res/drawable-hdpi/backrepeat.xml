@@ -1,5 +1,5 @@
 <bitmap
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/pattern2"
+    android:src="@drawable/mediumpattern"
     android:tileMode="repeat"
     android:dither="true" />
