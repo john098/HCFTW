@@ -29,7 +29,6 @@
         <item>November</item>
         <item>December</item>
     </string-array>
-
     <string-array name="Year">
         <item>2014</item>
         <item>2013</item>
@@ -88,5 +87,6 @@
     <string name="title_activity_tutor__home">Tutor_Home</string>
     <string name="log_Out">logout</string>
     <string name="title_activity_calender_">Calender_</string>
+    <string name="title_activity_hcftw">HCFTW</string>
 
 </resources>

@@ -49,11 +49,8 @@ public class Home extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
         // Set up the drawer.
         if(count==0) {
         SettableFuture<Void> authenticated =
@@ -77,6 +74,10 @@ public class Home extends Activity
                                             Toast.LENGTH_LONG).show();
 
                                     // enable scenarios
+
+
+
+                                    mTitle = getTitle();
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
