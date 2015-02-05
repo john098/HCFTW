@@ -110,7 +110,7 @@ public class NavigationDrawerFragment extends Fragment {
                         "Report",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        mDrawerListView.setBackgroundColor(Color.parseColor("#0066ff"));
+        mDrawerListView.setBackgroundColor(Color.parseColor("#0c2f51"));
         return mDrawerListView;
     }
 

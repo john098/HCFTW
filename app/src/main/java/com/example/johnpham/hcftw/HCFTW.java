@@ -1,8 +1,11 @@
 package com.example.johnpham.hcftw;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -25,6 +28,8 @@ public class HCFTW extends Activity {
        final int count=0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hcftw);
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

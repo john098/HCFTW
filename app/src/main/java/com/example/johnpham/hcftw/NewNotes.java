@@ -1,7 +1,10 @@
 package com.example.johnpham.hcftw;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +40,8 @@ private AutoCompleteTextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         setContentView(R.layout.activity_new_notes);
         text=(AutoCompleteTextView)findViewById(R.id.Date);
         Calendar cal=Calendar.getInstance();
