@@ -2,7 +2,6 @@ package com.example.johnpham.hcftw;
 
 import android.app.Activity;
 import java.util.List;
-
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -10,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,12 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import java.util.Locale;
 import android.text.format.DateFormat;
-
-
-
+import android.widget.Toast;
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
     private static final String tag = "Main";
@@ -64,14 +61,14 @@ public class Calender_ extends
         setContentView(R.layout.activity_calender_);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
+      /*  mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
+*/
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+       // mNavigationDrawerFragment.setUp(
+         //       R.id.navigation_drawer,
+           //     (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
         _calendar = Calendar.getInstance(Locale.getDefault());
@@ -138,8 +135,8 @@ public class Calender_ extends
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+   // @Override
+   /* public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -150,8 +147,8 @@ public class Calender_ extends
         }
         return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
+*/
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -162,7 +159,7 @@ public class Calender_ extends
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
     private void setGridCellAdapterToDate(int month, int year)
     {
        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
@@ -247,7 +244,8 @@ public class Calender_ extends
    public class GridCellAdapter extends BaseAdapter implements OnClickListener{
         private static final String tag = "GridCellAdapter";
         private final Context _context;
-
+        private View first;
+       private View Second;
         private final List<String> list;
         private static final int DAY_OFFSET = 1;
         private final String[] weekdays = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -310,20 +308,13 @@ public class Calender_ extends
             // Get a reference to the Day gridcell
             gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
             gridcell.setOnClickListener(this);
-
-
-
             String[] day_color = list.get(position).split("-");
             String theday = day_color[0];
             String themonth = day_color[2];
             String theyear = day_color[3];
-
             // Set the Day GridCell
             gridcell.setText(theday);
             gridcell.setTag(theday + "-" + themonth + "-" + theyear);
-
-
-
             return row;
         }
 
@@ -418,11 +409,22 @@ public class Calender_ extends
         }
 
         public int getCount() {
+
             return list.size();
         }
         public void onClick(View view)
-        {
-
+        { Second=view;
+            if(first!=null) {
+                first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
+            }
+            String date_month_year = (String) view.getTag();
+            Second.setBackgroundColor(Color.RED);
+            Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
+            first=Second;
+            Intent i=new Intent(getApplicationContext(),Events.class);
+            i.putExtra("variable",date_month_year);
+            startActivity(i);
+          //  startActivity(new Intent(getApplicationContext(), Events.class));
         }
         public long getItemId(int position)
         {

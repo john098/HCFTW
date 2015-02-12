@@ -88,5 +88,6 @@
     <string name="log_Out">logout</string>
     <string name="title_activity_calender_">Calender_</string>
     <string name="title_activity_hcftw">HCFTW</string>
+    <string name="title_activity_events">Events</string>
 
 </resources>

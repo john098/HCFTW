@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 17
     buildToolsVersion "20.0.0"
 
     defaultConfig {
@@ -23,20 +23,17 @@ android {
 dependencies {
     compile 'com.android.support:cardview-v7:21.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-// base OData stuff:
-    compile group: 'com.microsoft.services', name: 'odata-engine-core', version: '0.10.0'
-    compile group: 'com.microsoft.services', name: 'odata-engine-android-impl', version: '0.10.0', ext:'aar'
-
-
+    // base OData stuff:
+    compile 'com.microsoft.services:odata-engine-core:0.10.0'
+    compile 'com.microsoft.services:odata-engine-android-impl:0.10.0@aar'
     // choose the services/SDKs you need:
-    compile group: 'com.microsoft.services', name: 'outlook-services', version: '0.10.0'
-    compile group: 'com.microsoft.services', name: 'discovery-services', version: '0.10.0'
-    compile group: 'com.microsoft.services', name: 'directory-services', version: '0.10.0'
-    compile group: 'com.microsoft.services', name: 'file-services', version: '0.10.0'
-    compile group: 'com.microsoft.services', name: 'list-services', version: '0.10.0', ext:'aar'
-
+    compile 'com.microsoft.services:outlook-services:0.10.0'
+    compile 'com.microsoft.services:discovery-services:0.10.0'
+    compile 'com.microsoft.services:directory-services:0.10.0'
+    compile 'com.microsoft.services:file-services:0.10.0'
+    compile 'com.microsoft.services:list-services:0.10.0@aar'
     // ADAL
-    compile (group: 'com.microsoft.aad', name: 'adal', version: '(,2.0)') {
+    compile('com.microsoft.aad:adal:(,2.0)') {
         // exclude group: 'com.android.support'   // this may not be necessary
     }
 }
