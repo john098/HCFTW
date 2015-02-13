@@ -418,7 +418,7 @@ public class Calender_ extends
                 first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
             }
             String date_month_year = (String) view.getTag();
-            Second.setBackgroundColor(Color.RED);
+            Second.setBackgroundColor(Color.BLUE);
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first=Second;
             Intent i=new Intent(getApplicationContext(),Events.class);

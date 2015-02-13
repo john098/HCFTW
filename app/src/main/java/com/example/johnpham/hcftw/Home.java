@@ -204,7 +204,6 @@ public class Home extends Activity
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
             return rootView;
         }
-
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
