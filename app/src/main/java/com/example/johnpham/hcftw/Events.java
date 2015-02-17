@@ -10,9 +10,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ArrayAdapter;
+
+import com.microsoft.outlookservices.Calendar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Events extends Activity {
+<<<<<<< HEAD
+private ListView list;
+
+=======
+>>>>>>> 0c37527343f41b8d0732eee30ee1811ddcbe4c80
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,11 +35,28 @@ public class Events extends Activity {
         Button j=(Button)findViewById(R.id.newEvent);
         TextView k=(TextView)findViewById(R.id.event);
         Bundle get=getIntent().getExtras();
-        if(get!=null)
+        Calendar cal;
+        //cal.getCalendarView();
+
+        list = (ListView) findViewById(R.id.lost);
+
+        ArrayList<String> array=new ArrayList<String>();
+      //  Calendar v=Calendar.getCalenderView();
+
+        Calendar ca=new Calendar();
+
+        array.add( ca.getId().toString());
+        ArrayAdapter<String> myAdapter=new
+                ArrayAdapter <String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                array);
+        list.setAdapter(myAdapter);
+      /*  if(get!=null)
         {
             String date=get.getString("variable");
             k.setText(date);
-        }
+        }*/
         j.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
