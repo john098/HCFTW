@@ -31,6 +31,21 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import android.text.format.DateFormat;
 import android.widget.Toast;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.Message;
+import com.microsoft.outlookservices.Recipient;
+import com.microsoft.outlookservices.odata.MessageFetcher;
+import com.microsoft.outlookservices.odata.OutlookClient;
+import com.microsoft.services.odata.impl.DefaultDependencyResolver;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
     private static final String tag = "Main";
