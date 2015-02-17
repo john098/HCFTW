@@ -329,7 +329,7 @@ public class Calender_ extends
             String theyear = day_color[3];
             // Set the Day GridCell
             gridcell.setText(theday);
-            gridcell.setTag(theday + "-" + themonth + "-" + theyear);
+            gridcell.setTag(theday + " " + themonth + " " + theyear);
             return row;
         }
 
@@ -434,6 +434,16 @@ public class Calender_ extends
             }
             String date_month_year = (String) view.getTag();
             Second.setBackgroundColor(Color.BLUE);
+           /* String repl="";
+            for(int i=0;i<date_month_year.length();i++)
+            {
+
+                 if(date_month_year.charAt(i)=='-')
+                 {
+                    date_month_year.replace('-',' ');
+                 }
+
+            }*/
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first=Second;
             Intent i=new Intent(getApplicationContext(),Events.class);
