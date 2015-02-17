@@ -122,7 +122,7 @@ public void call()
                     }
                     if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                    b.setText(hourOfDay + ":" + minute+  "  "+am_pm);
+                    b.setText(hourOfDay + ":" + String.format("%02d",minute) +  "  "+am_pm);
                 }
             }, mHour, mMinute, false);
 
