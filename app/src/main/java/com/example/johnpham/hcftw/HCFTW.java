@@ -27,9 +27,9 @@ public class HCFTW extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
        final int count=0;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hcftw);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+        setContentView(R.layout.activity_hcftw);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
