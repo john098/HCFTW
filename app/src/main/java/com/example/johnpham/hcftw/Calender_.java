@@ -398,7 +398,7 @@ public class Calender_ extends
             // Trailing Month days
             for (int i = 0; i < trailingSpaces; i++)
             {
-                list.add(String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i) + "-GREY" + "-" + getMonthAsString(prevMonth) + "-" + prevYear);
+                list.add(String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i) + "-GREY" + "-" + (prevMonth+1) + "-" + prevYear);
             }
 
             // Current Month Days
@@ -407,11 +407,11 @@ public class Calender_ extends
 
                 if (i == getCurrentDayOfMonth())
                 {
-                    list.add(String.valueOf(i) + "-BLUE" + "-" + getMonthAsString(curMonth) + "-" + yy);
+                    list.add(String.valueOf(i) + "-BLUE" + "-" + (curMonth+1) + "-" + yy);
                 }
                 else
                 {
-                    list.add(String.valueOf(i) + "-WHITE" + "-" + getMonthAsString(curMonth) + "-" + yy);
+                    list.add(String.valueOf(i) + "-WHITE" + "-" + (curMonth+1) + "-" + yy);
                 }
             }
 
@@ -419,7 +419,7 @@ public class Calender_ extends
             for (int i = 0; i < list.size() % 7; i++)
             {
 
-                list.add(String.valueOf(i + 1) + "-GREY" + "-" + getMonthAsString(nextMonth) + "-" + nextYear);
+                list.add(String.valueOf(i + 1) + "-GREY" + "-" + (nextMonth+1) + "-" + nextYear);
             }
         }
 
@@ -433,6 +433,7 @@ public class Calender_ extends
                 first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
             }
             String date_month_year = (String) view.getTag();
+
             Second.setBackgroundColor(Color.GRAY);
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first=Second;

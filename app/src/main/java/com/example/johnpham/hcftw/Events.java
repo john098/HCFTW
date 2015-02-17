@@ -46,7 +46,7 @@ private ListView list;
         TextView k=(TextView)findViewById(R.id.event);
         Bundle get=getIntent().getExtras();
         String dat=get.getString("variable");
-        Calendar cal;
+        //Calendar cal;
 
 
         //cal.getCalendarView();
@@ -61,18 +61,24 @@ private ListView list;
         ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
 
         try{
-
+            SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+            String date;
             List<Event> events=even.get();
             for(Event e: events)
             {
-               // client.getMe().getCalendar().getEvents().getById(e.getId());
-                //s.add(e);
-              //  Log.d("my time", date.toString());
-            //    Log.d("office time", e.getStart().getTime().toString());
-              //  if((e.getStart().getTime().toString().equals(dat)) {
-                String a = e.getSubject() + " " + e.getBodyPreview() + "\n" + e.getStart().getTime().toString()+" \n"+dat;
-                array.add(a);
-                //  }
+                if(!e.getIsAllDay()) {
+                    date = sdf.format(e.getStart().getTime());
+                    if (date.compareTo(dat) == 0) {
+                        String a = e.getSubject() + "\n" + e.getBodyPreview();
+                        array.add(a);
+                        break;
+                    }
+                }
+                    date = sdf.format(e.getEnd().getTime());
+                    if (date.compareTo(dat) == 0) {
+                        String a = e.getSubject() + "\n" + e.getBodyPreview();
+                        array.add(a);
+                    }
             }
 
             ArrayAdapter<String> myAdapter=new
