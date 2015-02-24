@@ -35,6 +35,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.Message;
 import com.microsoft.outlookservices.Recipient;
 import com.microsoft.outlookservices.odata.MessageFetcher;
@@ -45,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
@@ -59,6 +61,8 @@ public class Calender_ extends
     private int month, year;
     private final DateFormat date = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
+    protected OutlookClient client= new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
+
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -76,42 +80,52 @@ public class Calender_ extends
         setContentView(R.layout.activity_calender_);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+
+        //ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
+        //List<Event> events;
+        //try {
+          //  events = even.get();
       /*  mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 */
-        // Set up the drawer.
-       // mNavigationDrawerFragment.setUp(
-         //       R.id.navigation_drawer,
-           //     (DrawerLayout) findViewById(R.id.drawer_layout));
+            // Set up the drawer.
+            // mNavigationDrawerFragment.setUp(
+            //       R.id.navigation_drawer,
+            //     (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
-        _calendar = Calendar.getInstance(Locale.getDefault());
-        month = _calendar.get(Calendar.MONTH);
-        year = _calendar.get(Calendar.YEAR);
-        Log.d(Integer.toString(month),"yes");
-        prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
-        prevMonth.setOnClickListener(this);
+            _calendar = Calendar.getInstance(Locale.getDefault());
+            month = _calendar.get(Calendar.MONTH);
+            year = _calendar.get(Calendar.YEAR);
+            Log.d(Integer.toString(month), "yes");
+            prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
+            prevMonth.setOnClickListener(this);
 
-        curMonth = (Button) this.findViewById(R.id.curMonth);
-        curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
+            curMonth = (Button) this.findViewById(R.id.curMonth);
+            curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
 
-        nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
-        nextMonth.setOnClickListener(this);
+            nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
+            nextMonth.setOnClickListener(this);
 
-        calendarView = (GridView) this.findViewById(R.id.calendar);
+            calendarView = (GridView) this.findViewById(R.id.calendar);
 
-        // Initialised
-        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
-        adapter.notifyDataSetChanged();
-        calendarView.setAdapter(adapter);
-         Button add=(Button)findViewById(R.id.AddButton);
-        add.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), NewNotes.class));
-            }
-        });
+            // Initialised
+            adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+            adapter.notifyDataSetChanged();
+            calendarView.setAdapter(adapter);
+            Button add = (Button) findViewById(R.id.AddButton);
+            add.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), NewNotes.class));
+                }
+            });
+    //    }
+      //  catch(Exception e)
+        //{
+
+//        }
 
 
     }
@@ -257,11 +271,14 @@ public class Calender_ extends
     }
 
    public class GridCellAdapter extends BaseAdapter implements OnClickListener{
+       private ListenableFuture<List<Event>> even=client.getMe().getCalendar().getEvents().read();
+
         private static final String tag = "GridCellAdapter";
         private final Context _context;
         private View first;
        private View Second;
         private final List<String> list;
+      private List<Event> events;
         private static final int DAY_OFFSET = 1;
         private final String[] weekdays = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
         private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -272,12 +289,31 @@ public class Calender_ extends
         private int currentWeekDay;
         private Button gridcell;
         private TextView num_events_per_day;
+      private       SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+       private String date;
         //private final HashMap eventsPerMonthMap;
         private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
 
         public GridCellAdapter(Context context, int textViewResourceId, int month, int year)
         {
             super();
+            Runnable runnable=new Runnable() {
+                @Override
+                public void run() {
+                    //ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
+
+                    try {
+                        events = even.get();
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
+
+                }
+            };
+            Thread thread=new Thread(runnable);
+            thread.start();
             this._context = context;
             this.list = new ArrayList<String>();
             this.month = month;
@@ -428,7 +464,10 @@ public class Calender_ extends
             return list.size();
         }
         public void onClick(View view)
-        { Second=view;
+        {
+            ArrayList<String>body=new ArrayList<String>();
+             ArrayList<String> title=new ArrayList<String>();
+            Second=view;
             if(first!=null) {
                 first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
             }
@@ -437,10 +476,37 @@ public class Calender_ extends
             Second.setBackgroundColor(Color.GRAY);
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first=Second;
-            Intent i=new Intent(getApplicationContext(),Events.class);
-            i.putExtra("variable",date_month_year);
-            startActivity(i);
-          //  startActivity(new Intent(getApplicationContext(), Events.class));
+            try {
+                for (Event e : events) {
+                    //  e.getBody().setContentType(typ);
+                if(!e.getIsAllDay()) {
+                    date = sdf.format(e.getStart().getTime());
+                    if (date.compareTo(date_month_year) == 0) {
+                        String a = e.getSubject() + "\n" ;
+                        title.add(a);
+                        body.add(e.getBody().getContent());
+                        break;
+                    }
+                }
+                    date = sdf.format(e.getEnd().getTime());
+                    if (date.compareTo(date_month_year) == 0) {
+                        String a = e.getSubject() + "\n";
+                        title.add(a);
+                        body.add(e.getBody().getContent());
+                    }
+                }
+
+                Intent i = new Intent(getApplicationContext(), Events.class);
+                i.putExtra("body", body);
+                i.putExtra("title", title);
+                //  i.putExtra("variable",date_month_year);
+                startActivity(i);
+                //  startActivity(new Intent(getApplicationContext(), Events.class));
+            }
+            catch (Exception e)
+            {
+
+            }
         }
         public long getItemId(int position)
         {
