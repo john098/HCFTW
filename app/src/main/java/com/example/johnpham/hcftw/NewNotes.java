@@ -112,7 +112,7 @@ public void call()
                                       int minute) {
                     String am_pm = "";
 
-                    if(hourOfDay>12) {
+                    if(hourOfDay>=12) {
                         hourOfDay = hourOfDay - 12;
                         am_pm="PM";
                     }
@@ -141,7 +141,7 @@ public void call()
                         String am_pm = "PM";
 
 
-                        if(hourOfDay>12) {
+                        if(hourOfDay>=12) {
                             am_pm="PM";
                             hourOfDay = hourOfDay - 12;
 
@@ -152,7 +152,7 @@ public void call()
                         }
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                         d.setText(hourOfDay + ":" + minute+  "  "+am_pm);
+                         d.setText(hourOfDay + ":" + String.format("%02d",minute)+  "  "+am_pm);
 
                     }
                 }, mHour, mMinute, false);

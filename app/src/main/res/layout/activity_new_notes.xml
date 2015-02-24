@@ -115,18 +115,19 @@
                 android:id="@+id/timed"
                 android:layout_gravity="bottom|right"
                 android:gravity="bottom|right"
-                android:layout_weight="0.93"
+                android:layout_weight="0.80"
                 android:editable="false"
                 android:focusable="false"/>
 
             <Button
                 android:layout_width="66dp"
-                android:layout_height="fill_parent"
-                android:text="Select time"
+                android:layout_height="wrap_content"
+                android:text="Set Time"
                 android:id="@+id/time"
-                android:gravity="bottom"
-                android:layout_gravity="bottom"
-                android:layout_weight="0.12" />
+                android:layout_weight="0.17"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:layout_gravity="bottom" />
 
         </LinearLayout>
         <LinearLayout
@@ -152,7 +153,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text=""
                 android:id="@+id/timed1"
-                android:layout_weight="1.03"
+                android:layout_weight="0.90"
                 android:gravity="bottom|right"
                 android:layout_gravity="bottom|right"
                 android:editable="false"
@@ -160,12 +161,14 @@
 
             <Button
                 android:layout_width="88dp"
-                android:layout_height="fill_parent"
-                android:text="Select Time"
+                android:layout_height="wrap_content"
+                android:text="Set Time"
                 android:id="@+id/time1"
                 android:layout_weight="0.06"
-                android:layout_gravity="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:layout_gravity="bottom" />
 
         </LinearLayout>
 
