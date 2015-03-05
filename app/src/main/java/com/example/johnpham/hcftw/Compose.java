@@ -33,9 +33,13 @@ import java.util.concurrent.Callable;
 public class Compose extends Activity {
     Button send;
     String toString;
+    String ccString;
+    String bccString;
     String subjString;
     String messString;
     EditText toField;
+    EditText ccField;
+    EditText bccField;
     EditText subjField;
     EditText messField;
     @Override
@@ -48,6 +52,8 @@ public class Compose extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent i = getIntent();
         toField = (EditText) findViewById(R.id.toTextBox);
+        ccField = (EditText) findViewById(R.id.ccTextBox);
+        bccField = (EditText) findViewById(R.id.bccTextBox);
         subjField = (EditText) findViewById(R.id.subjTextBox);
         messField = (EditText) findViewById(R.id.emailTextBox);
         if(i.hasExtra("Name")) {
@@ -107,7 +113,7 @@ public class Compose extends Activity {
             // craft a message
             //final String messageCounter = String.valueOf(++this.messageCounter);
 
-            //EmailAddress toEmailAddress = new EmailAddress();
+            //get people email is to
             toString = toField.getText().toString();
             ArrayList<EmailAddress> addresses = new ArrayList<EmailAddress>();
             Scanner st = new Scanner(toString);
@@ -123,6 +129,40 @@ public class Compose extends Activity {
                 toRecipient.setEmailAddress(e);
                 recipients.add(toRecipient);
             }
+            //get people email is cc'd
+            ccString = ccField.getText().toString();
+            ArrayList<EmailAddress> ccAddr = new ArrayList<EmailAddress>();
+            Scanner st2 = new Scanner(ccString);
+            st.useDelimiter(" ,");
+            while(st2.hasNext()){
+                EmailAddress temp = new EmailAddress();
+                temp.setAddress(st.next());
+                ccAddr.add(temp);
+            }
+            ArrayList<Recipient> ccRecipients = new ArrayList<Recipient>();
+            for(EmailAddress e: ccAddr) {
+                Recipient ccRecipient = new Recipient();
+                ccRecipient.setEmailAddress(e);
+                ccRecipients.add(ccRecipient);
+            }
+            //get people email is to
+            bccString = bccField.getText().toString();
+            ArrayList<EmailAddress> bccAddresses = new ArrayList<EmailAddress>();
+            Scanner st3 = new Scanner(toString);
+            st.useDelimiter(" ,");
+            while(st3.hasNext()){
+                EmailAddress temp = new EmailAddress();
+                temp.setAddress(st.next());
+                bccAddresses.add(temp);
+            }
+            ArrayList<Recipient> bccRecipients = new ArrayList<Recipient>();
+            for(EmailAddress e: bccAddresses) {
+                Recipient bccRecipient = new Recipient();
+                bccRecipient.setEmailAddress(e);
+                bccRecipients.add(bccRecipient);
+            }
+
+
 
             ItemBody body = new ItemBody();
             messString = messField.getText().toString();
@@ -130,6 +170,8 @@ public class Compose extends Activity {
 
             Message m = new Message();
             m.setToRecipients(recipients);
+            m.setCcRecipients(ccRecipients);
+            m.setBccRecipients(bccRecipients);
             subjString = subjField.getText().toString();
             m.setSubject(subjString);
             m.setBody(body);
@@ -143,7 +185,6 @@ public class Compose extends Activity {
                     .getMessages()
                     .getById(addedMessage.getId())
                     .getOperations().send();
-
             // handle success and failure cases
             Futures.addCallback(sent, new FutureCallback<Integer>() {
                 @Override
