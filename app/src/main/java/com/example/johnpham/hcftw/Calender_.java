@@ -1,6 +1,8 @@
 package com.example.johnpham.hcftw;
 
 import android.app.Activity;
+
+import java.io.Serializable;
 import java.util.List;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -11,7 +13,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,10 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +43,7 @@ import android.widget.Toast;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.Message;
@@ -46,6 +56,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.logging.Handler;
 
 
 public class Calender_ extends
@@ -271,8 +282,8 @@ public class Calender_ extends
     }
 
    public class GridCellAdapter extends BaseAdapter implements OnClickListener{
-       private ListenableFuture<List<Event>> even=client.getMe().getCalendar().getEvents().read();
-
+       private ListenableFuture<List<Event>> even;//=client.getMe().getCalendar().getEvents().read();
+       private PopupWindow popUp;
         private static final String tag = "GridCellAdapter";
         private final Context _context;
         private View first;
@@ -297,13 +308,20 @@ public class Calender_ extends
         public GridCellAdapter(Context context, int textViewResourceId, int month, int year)
         {
             super();
-            Runnable runnable=new Runnable() {
+           final Singleton singleton=Singleton.getInstance();
+
+         /*   Runnable runnable=new Runnable() {
                 @Override
                 public void run() {
-                    //ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
 
                     try {
-                        events = even.get();
+                        while(true) {
+
+                            events = singleton.getEvent();
+
+
+                        }
+
                     }
                     catch(Exception e)
                     {
@@ -313,7 +331,7 @@ public class Calender_ extends
                 }
             };
             Thread thread=new Thread(runnable);
-            thread.start();
+            thread.start();*/
             this._context = context;
             this.list = new ArrayList<String>();
             this.month = month;
@@ -385,9 +403,6 @@ public class Calender_ extends
             int curMonth = mm;
             String currentMonthName = getMonthAsString(mm);
             daysInMonth = getNumberOfDaysOfMonth(mm);
-
-
-
             // Gregorian Calendar : MINUS 1, set to FIRST OF MONTH
             GregorianCalendar cal = new GregorianCalendar(yy, curMonth, 1);
 
@@ -465,8 +480,11 @@ public class Calender_ extends
         }
         public void onClick(View view)
         {
-            ArrayList<String>body=new ArrayList<String>();
-             ArrayList<String> title=new ArrayList<String>();
+            final ArrayList<String>body=new ArrayList<String>();
+            final ArrayList<String> title=new ArrayList<String>();
+           final ArrayList<Event> TodayEvent=new ArrayList<Event>();
+
+
             Second=view;
             if(first!=null) {
                 first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
@@ -476,37 +494,15 @@ public class Calender_ extends
             Second.setBackgroundColor(Color.GRAY);
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first=Second;
-            try {
-                for (Event e : events) {
-                    //  e.getBody().setContentType(typ);
-                if(!e.getIsAllDay()) {
-                    date = sdf.format(e.getStart().getTime());
-                    if (date.compareTo(date_month_year) == 0) {
-                        String a = e.getSubject() + "\n" ;
-                        title.add(a);
-                        body.add(e.getBody().getContent());
-                        break;
-                    }
-                }
-                    date = sdf.format(e.getEnd().getTime());
-                    if (date.compareTo(date_month_year) == 0) {
-                        String a = e.getSubject() + "\n";
-                        title.add(a);
-                        body.add(e.getBody().getContent());
-                    }
-                }
 
                 Intent i = new Intent(getApplicationContext(), Events.class);
                 i.putExtra("body", body);
                 i.putExtra("title", title);
-                //  i.putExtra("variable",date_month_year);
-                startActivity(i);
-                //  startActivity(new Intent(getApplicationContext(), Events.class));
-            }
-            catch (Exception e)
-            {
 
-            }
+                  i.putExtra("variable",date_month_year);
+
+                startActivity(i);
+
         }
         public long getItemId(int position)
         {
@@ -530,5 +526,7 @@ public class Calender_ extends
             return currentWeekDay;
         }
     }
+
 }
+
 

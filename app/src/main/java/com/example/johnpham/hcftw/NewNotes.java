@@ -22,22 +22,31 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.Event;
+import com.microsoft.outlookservices.ItemBody;
+import com.microsoft.outlookservices.odata.OutlookClient;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class NewNotes extends Activity {
 private AutoCompleteTextView text;
     private AutoCompleteTextView enter;
-    private TextView b;
-    private TextView d;
+    private TextView beginTime;
+    private TextView endTime;
     private EditText note;
-    @Override
+    private Event event;
+    private Singleton cl=Singleton.getInstance();
+    private ItemBody body;
+    private OutlookClient out;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar bar = getActionBar();
@@ -57,14 +66,14 @@ private AutoCompleteTextView text;
 
         Button clear=(Button)findViewById(R.id.Clear);
         note=(EditText)findViewById(R.id.editText);
-        b=(TextView)findViewById(R.id.timed);
-        d=(TextView)findViewById(R.id.timed1);
+        beginTime=(TextView)findViewById(R.id.timed);
+        endTime=(TextView)findViewById(R.id.timed1);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 enter.setText("");
-                b.setText("");
-                d.setText("");
+                beginTime.setText("");
+                endTime.setText("");
                 note.setText("");
             }
         });
@@ -93,10 +102,25 @@ private AutoCompleteTextView text;
                 {
                     enter.setError("Please enter title");
                 }
-                if(b.getText().toString().equals(""))
+                if(beginTime.getText().toString().equals(""))
                     t.setError(("please select the time"));
-                if(d.getText().toString().equals(""))
+                if(endTime.getText().toString().equals(""))
                     t1.setError("please select the time");
+
+                else {
+                    out=cl.getClient();
+                    Event temp=new Event();
+                    ItemBody body=new ItemBody();
+                    body.setContent(endTime.getText().toString());
+                    temp.setBody(body);
+
+                    temp.setSubject(enter.getText().toString());
+                    ListenableFuture<Event> k=out.getMe().getCalendar().getEvents().add(temp);
+                    onDestroy();
+                    Toast.makeText(getApplicationContext(),"Saved",Toast.LENGTH_LONG).show();
+
+                }
+
             }
         });
     }
@@ -122,7 +146,7 @@ public void call()
                     }
                     if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                    b.setText(hourOfDay + ":" + String.format("%02d",minute) +  "  "+am_pm);
+                    beginTime.setText(hourOfDay + ":" + String.format("%02d", minute) + "  " + am_pm);
                 }
             }, mHour, mMinute, false);
 
@@ -152,7 +176,7 @@ public void call()
                         }
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                         d.setText(hourOfDay + ":" + minute+  "  "+am_pm);
+                         endTime.setText(hourOfDay + ":" + minute + "  " + am_pm);
 
                     }
                 }, mHour, mMinute, false);

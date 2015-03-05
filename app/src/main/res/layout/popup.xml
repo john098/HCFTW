@@ -13,7 +13,7 @@
         android:background="@drawable/bg">
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="OK"
             android:id="@+id/PopupButton"
@@ -22,7 +22,7 @@
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/navigation_drawer_width"
+            android:layout_height="200dp"
             android:id="@+id/PopupList"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
@@ -49,6 +49,16 @@
 
                 />
         </ScrollView>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/DeleteButton"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/PopupButton"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 </LinearLayout>

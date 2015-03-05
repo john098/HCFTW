@@ -45,7 +45,7 @@ public class Home extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
+    private  Singleton single;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +71,16 @@ public class Home extends Activity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     Toast.makeText(
                                             Home.this,
                                             "Authentication successful",
                                             Toast.LENGTH_LONG).show();
+                                          single=Singleton.getInstance();
+
+
+
+
 
                                     // enable scenarios
 
@@ -84,6 +90,7 @@ public class Home extends Activity
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
+
                                 }
                             });
 
@@ -153,9 +160,14 @@ public class Home extends Activity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home, menu);
+
+
+
             restoreActionBar();
             return true;
         }
+      //  MenuItem item=(MenuItem)findViewById(R.id.name);
+      //  item.setTitle("hehee");
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -170,6 +182,7 @@ public class Home extends Activity
             //startActivity(intent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
