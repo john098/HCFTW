@@ -391,9 +391,9 @@ public class Email extends Activity
                     name = address.getName();
                 }
             }
-            viewHolder.from.setText("From: " + name);
-            viewHolder.subject.setText("Subject: " + m.getSubject());
-            viewHolder.body.setText("Body: " + m.getBodyPreview());
+            viewHolder.from.setText(name);
+            viewHolder.subject.setText(m.getSubject());
+            viewHolder.body.setText(m.getBodyPreview());
             return convertView;
         }
     }

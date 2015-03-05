@@ -26,6 +26,7 @@ import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.services.odata.impl.DefaultDependencyResolver;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 
@@ -106,22 +107,29 @@ public class Compose extends Activity {
             // craft a message
             //final String messageCounter = String.valueOf(++this.messageCounter);
 
-            EmailAddress toEmailAddress = new EmailAddress();
+            //EmailAddress toEmailAddress = new EmailAddress();
             toString = toField.getText().toString();
-            toEmailAddress.setAddress(toString);
-
-            Recipient toRecipient = new Recipient();
-            toRecipient.setEmailAddress(toEmailAddress);
-
-            ArrayList<Recipient> toRecipients = new ArrayList<Recipient>();
-            toRecipients.add(toRecipient);
+            ArrayList<EmailAddress> addresses = new ArrayList<EmailAddress>();
+            Scanner st = new Scanner(toString);
+            st.useDelimiter(" ,");
+            while(st.hasNext()){
+                EmailAddress temp = new EmailAddress();
+                temp.setAddress(st.next());
+                addresses.add(temp);
+            }
+            ArrayList<Recipient> recipients = new ArrayList<Recipient>();
+            for(EmailAddress e: addresses) {
+                Recipient toRecipient = new Recipient();
+                toRecipient.setEmailAddress(e);
+                recipients.add(toRecipient);
+            }
 
             ItemBody body = new ItemBody();
             messString = messField.getText().toString();
             body.setContent(messString);
 
             Message m = new Message();
-            m.setToRecipients(toRecipients);
+            m.setToRecipients(recipients);
             subjString = subjField.getText().toString();
             m.setSubject(subjString);
             m.setBody(body);
