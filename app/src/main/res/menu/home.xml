@@ -1,7 +1,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Home" >
+    tools:context=".Home"
+    android:id="@+id/manu">
+
     <item android:id="@+id/logout"
         android:icon="@android:drawable/arrow_down_float"
         android:title="logout"/>

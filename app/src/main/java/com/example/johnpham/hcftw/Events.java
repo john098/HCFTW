@@ -31,31 +31,27 @@ import android.widget.LinearLayout;
 import java.util.Date;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.microsoft.outlookservices.Calendar;
-import com.microsoft.outlookservices.CalendarGroup;
-import com.microsoft.outlookservices.ODataBaseEntity;
-import com.microsoft.outlookservices.Item;
-
 import com.microsoft.outlookservices.Event;
+import com.microsoft.outlookservices.odata.EventFetcher;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.services.odata.impl.DefaultDependencyResolver;
 import com.microsoft.outlookservices.BodyType;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 
 public class Events extends Activity {
 
 private ListView list;
     private PopupWindow popUp;
+    private List<Event> events=null;
+    private ArrayList<Event> arrayEvent=new ArrayList<Event>();
     private ArrayList<String> body=new ArrayList<String>();
-    private ListenableFuture<List<Event>> even;
+    private ListenableFuture<List<Event>> even=null;
     private BodyType typ=BodyType.Text;
+private  ArrayAdapter<String> myAdapter;
     private  ArrayList<String> array=new ArrayList<String>();
+   private ArrayList<String> id=new ArrayList<String>();
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
 
@@ -65,36 +61,30 @@ private ListView list;
         Button j=(Button)findViewById(R.id.newEvent);
         TextView k=(TextView)findViewById(R.id.event);
         Bundle get=getIntent().getExtras();
-        //String dat=get.getString("variable");
+        String dat=get.getString("variable");
         //Calendar cal;
         array=get.getStringArrayList("title");
         body=get.getStringArrayList("body");
 
-        //cal.getCalendarView();
-       // OutlookClient client= new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
-
         list = (ListView) findViewById(R.id.lost);
-
-
         ArrayList<Event>s=new ArrayList<Event>();
       //  Calendar v=Calendar.getCalenderView();
-
-      //  ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
-
-       /* try{
+        try{
             SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
             String date;
-           List<Event> events;
-            events = even.get();
+            final Singleton singleton=Singleton.getInstance();
+
+            events = singleton.getEvent();
             for(Event e: events)
             {
                 e.getBody().setContentType(typ);
                 if(!e.getIsAllDay()) {
                     date = sdf.format(e.getStart().getTime());
                     if (date.compareTo(dat) == 0) {
-                        String a = e.getSubject() + "\n" ;
+                        String a = e.getSubject() + "\n";
                         array.add(a);
                         body.add(e.getBody().getContent());
+                        arrayEvent.add(e);
                         break;
                     }
                 }
@@ -103,17 +93,20 @@ private ListView list;
                         String a = e.getSubject() + "\n" ;
                         array.add(a);
                         body.add(e.getBody().getContent());
+                        arrayEvent.add(e);
                     }
             }
-*/
-            ArrayAdapter<String> myAdapter=new
+
+            myAdapter=new
                     ArrayAdapter <String>(
                     this,
                     android.R.layout.simple_list_item_1,
                     array);
             list.setAdapter(myAdapter);
+            myAdapter.notifyDataSetChanged();
            list.setFocusable(false);
             list.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
             list.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,16 +115,56 @@ private ListView list;
 
                     View layout = inflater.inflate(R.layout.popup,
                             (ViewGroup) findViewById(R.id.PopLayoutID));
-                      popUp=new PopupWindow(layout,1000,1200,true);
+                    popUp=new PopupWindow(layout,1000,1200,true);
                     popUp.showAtLocation(layout,Gravity.CENTER,0,0);
                     popUp.setFocusable(true);
                     Button PopCan=(Button)layout.findViewById(R.id.PopupButton);
                     TextView tex=(TextView)layout.findViewById(R.id.popupText);
-                    tex.setText(body.get(position));
+                    Button Del=(Button)layout.findViewById(R.id.DeleteButton);
+                    ListView popList=(ListView)layout.findViewById(R.id.PopupList);
+                    ArrayList<String> showThis=new ArrayList<String>();
+                    showThis.add("Title:     "+arrayEvent.get(position).getSubject());
+                    showThis.add("Time:       "+arrayEvent.get(position).getDateTimeCreated().getTime());
+                    showThis.add("Body");
+                    ArrayAdapter<String> popUpAdapter=new ArrayAdapter<String> (
+                            Events.this,
+                            android.R.layout.simple_list_item_1,
+                            showThis);
+                    popUpAdapter.notifyDataSetChanged();
+                    popList.setAdapter(popUpAdapter);
+                    tex.setText(arrayEvent.get(position).getBodyPreview());
+
+                    final int w=position;
+                    Del.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            List<Event> remove=new ArrayList<Event>();
+                            String id=arrayEvent.get(w).getId();
+                         OutlookClient cl=  singleton.getClient();
+                            cl.getMe().getEvents().getById(id).delete();
+
+                            for(Event a: events)
+                            {
+                              if(arrayEvent.get(w).getId()==a.getId())
+                              {
+                                  remove.add(a);
+                              }
+                          }
+                            events.removeAll(remove);
+                           singleton.setEvent(events);
+                            arrayEvent.remove(w);
+                            array.remove(w);
+                            change();
+                            popUp.dismiss();
+                        }
+                    });
+                   // tex.setText(body.get(position));
+
                     try {
                         PopCan.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
                                 popUp.dismiss();
                             }
                         });
@@ -159,17 +192,25 @@ private ListView list;
                     startActivity(new Intent(getApplicationContext(), NewNotes.class));
                 }
             });
-       /* }catch(Exception e)
+        }catch(Exception e)
         {
 
         }
-*/
+
 
         //even.add((Event)client.getMe().getCalendar().getEvent(events.getId()).getCalendar().getEvents());
 
     }
 
-
+    public void change()
+    {
+        myAdapter=new
+                ArrayAdapter <String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                array);
+        list.setAdapter(myAdapter);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -97,6 +97,8 @@
                 android:layout_height="wrap_content"
                 android:text="CANCEL"
                 android:id="@+id/cancel" />
+
+    ]
         </LinearLayout>
     </LinearLayout>
 
