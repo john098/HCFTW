@@ -151,6 +151,7 @@ private  ArrayAdapter<String> myAdapter;
                               }
                           }
                             events.removeAll(remove);
+
                            singleton.setEvent(events);
                             arrayEvent.remove(w);
                             array.remove(w);

@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-
+import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,13 +22,17 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
+import java.util.ArrayList;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.Event;
+import com.microsoft.outlookservices.ItemBody;
+import com.microsoft.outlookservices.odata.OutlookClient;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class NewNotes extends Activity {
@@ -37,6 +41,8 @@ private AutoCompleteTextView text;
     private TextView b;
     private TextView d;
     private EditText note;
+    private OutlookClient out;
+    private List<Event> events=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +94,8 @@ private AutoCompleteTextView text;
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Singleton singleton=Singleton.getInstance();
+                out=singleton.getClient();
                 if(enter.getText().toString().equals(""))
                 {
                     enter.setError("Please enter title");
@@ -97,6 +104,22 @@ private AutoCompleteTextView text;
                     t.setError(("please select the time"));
                 if(d.getText().toString().equals(""))
                     t1.setError("please select the time");
+                TextView text=(TextView)findViewById(R.id.editText);
+                ArrayList<Event> temp=null;
+                Event j=new Event();
+                ItemBody item=new ItemBody();
+                item.setContent(text.getText().toString());
+                j.setBody(item);
+                j.setSubject(enter.getText().toString());
+                j.setStart(Calendar.getInstance());
+                j.setEnd(Calendar.getInstance());
+               // temp.add(j);
+                events=singleton.getEvent();
+                events.add(j);
+                singleton.setEvent(events);
+                Log.d("im here", "destroy");
+                onDestroy();
+
             }
         });
     }
@@ -112,7 +135,7 @@ public void call()
                                       int minute) {
                     String am_pm = "";
 
-                    if(hourOfDay>12) {
+                    if(hourOfDay>=12) {
                         hourOfDay = hourOfDay - 12;
                         am_pm="PM";
                     }
@@ -141,7 +164,7 @@ public void call()
                         String am_pm = "PM";
 
 
-                        if(hourOfDay>12) {
+                        if(hourOfDay>=12) {
                             am_pm="PM";
                             hourOfDay = hourOfDay - 12;
 
