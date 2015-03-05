@@ -30,23 +30,23 @@
         </activity>
         <activity
             android:name=".Volunteer_Report"
-            android:label="@string/title_activity_student__report"
+            android:label="Report"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Tutor_Report"
-            android:label="@string/title_activity_tutor__report"
+            android:label="Report"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Calender_"
-            android:label="Calender_"
+            android:label="Calendar"
             android:screenOrientation="portrait" >
 
         </activity>
         <activity
             android:name=".Email"
-            android:label="Email"
+            android:label="E-mail"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -56,11 +56,12 @@
         </activity>
         <activity
             android:name=".EmailReader"
-            android:label="Email Reader"
+            android:label="Read E-mail"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".NewNotes"
+            android:label="Create Event"
             android:screenOrientation="portrait" >
         </activity>
         <activity
