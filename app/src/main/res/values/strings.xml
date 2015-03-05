@@ -83,7 +83,49 @@
         <item>9.75</item>
         <item>10.00</item>
     </string-array>
-
+    <string-array name="Hour_Code">
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+        <item>A4</item>
+        <item>A5</item>
+        <item>A6</item>
+        <item>A7</item>
+        <item>A8</item>
+        <item>A9</item>
+        <item>A10</item>
+        <item>A11</item>
+        <item>A12</item>
+        <item>A13</item>
+        <item>A15</item>
+        <item>A16</item>
+        <item>A17</item>
+        <item>A18</item>
+        <item>A19</item>
+        <item>A20</item>
+        <item>A21</item>
+        <item>A22</item>
+        <item>A23</item>
+        <item>A24</item>
+        <item>A25</item>
+        <item>A26</item>
+        <item>A27</item>
+        <item>A28</item>
+        <item>A29</item>
+        <item>A30</item>
+        <item>A31</item>
+        <item>A32</item>
+        <item>A33</item>
+        <item>A34</item>
+        <item>A35</item>
+        <item>A36</item>
+        <item>A37</item>
+        <item>A38</item>
+        <item>A39</item>
+        <item>A40</item>
+        <item>A41</item>
+        <item>A42</item>
+    </string-array>
     <string name="title_activity_tutor__home">Tutor_Home</string>
     <string name="log_Out">logout</string>
     <string name="title_activity_calender_">Calender_</string>
