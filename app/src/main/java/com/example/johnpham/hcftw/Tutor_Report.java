@@ -22,10 +22,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import com.microsoft.directoryservices.User;
+import com.microsoft.outlookservices.odata.OutlookClient;
+import com.microsoft.services.odata.impl.DefaultDependencyResolver;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -35,9 +40,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,6 +62,7 @@ public class Tutor_Report extends Activity
     private CharSequence mTitle;
     String month, teachhr, prephr, travel;
     Spinner spin1, spin2, spin3, spin4;
+    EditText etext;
     Button send;
 
     @Override
@@ -66,7 +74,11 @@ public class Tutor_Report extends Activity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        User current = new User();
+        current.gettelephoneNumber();
+        final String currentTime = sdf.format(dt);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -76,23 +88,26 @@ public class Tutor_Report extends Activity
         spin3 = (Spinner) findViewById(R.id.spinner3);
         spin4 = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
-        final String ipAddress= getIPAddress(true);
+        etext = (EditText)findViewById(R.id.editText);
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Onclick","onclick");
-                ///ArrayList<String> list = new ArrayList<String>();
+                ArrayList<String> list = new ArrayList<String>();
                 String ip;
                 ip = getIPAddress(true);
-                //list.add(ip);
-            /*list.add(month);
-            list.add("A1");
-            list.add(teachhr);
-            list.add(prephr);
-            //list.add(travel);*/
-            String toast = ip+" , "+month + " , "+teachhr+" , "+prephr+" , "+travel;
-                //String toast = ipAddress;
+                list.add(currentTime);
+                list.add(ip);
+                list.add(month);
+                list.add("A1");
+                list.add(teachhr);
+                list.add(prephr);
+                list.add(travel);
+                String acomp = etext.getText().toString();
+                list.add(acomp);
+
+                String toast = ip+" , "+month + " , "+teachhr+" , "+prephr+" , "+travel+" , "+currentTime+" , "+acomp;
+
                 Toast.makeText(getApplicationContext(), toast,
                         Toast.LENGTH_SHORT).show();
                 //new SubmitData().execute();

@@ -381,6 +381,13 @@ public class Calender_ extends
             String theday = day_color[0];
             String themonth = day_color[2];
             String theyear = day_color[3];
+            int d=Integer.parseInt(theday);
+            int m = Integer.parseInt(themonth);
+
+            if (m-1==month) {
+                     row.setBackgroundResource(R.drawable.calendar_tile_small1);
+            }
+
             // Set the Day GridCell
             gridcell.setText(theday);
             gridcell.setTag(theday + "-" + themonth + "-" + theyear);
