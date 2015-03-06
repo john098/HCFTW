@@ -44,8 +44,6 @@ public class NewNotes extends Activity {
     private TextView b;
     private int startHour;
     private int startMin;
-    private boolean startAMPM=false;
-    private boolean endAMPM=false;
     private int endHour;
     private int endMin;
     private TextView d;
@@ -140,22 +138,10 @@ public class NewNotes extends Activity {
                     start.setTime(base);
                     Calendar end = df.getCalendar();
                     end.setTime(base);
-                    start.add(Calendar.HOUR,startHour);
+                    start.add(Calendar.HOUR_OF_DAY,startHour);
                     start.add(Calendar.MINUTE,startMin);
-                    if(!startAMPM) {
-                        start.add(Calendar.AM_PM, Calendar.AM); //0
-                    }
-                    else {
-                        start.add(Calendar.AM_PM, Calendar.PM);
-                    }
-                    end.add(Calendar.HOUR,endHour);
+                    end.add(Calendar.HOUR_OF_DAY,endHour);
                     end.add(Calendar.MINUTE,endMin);
-                if(!endAMPM) {
-                    end.add(Calendar.AM_PM, Calendar.AM); //0
-                }
-                else {
-                    end.add(Calendar.AM_PM, Calendar.PM);
-                }
                     Event e = new Event();
                     ItemBody itemBody = new ItemBody();
                     itemBody.setContent(note.getText().toString());
@@ -198,11 +184,10 @@ public class NewNotes extends Activity {
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
                         String am_pm = "";
-
+                        startHour=hourOfDay;
                         if(hourOfDay>=12) {
                             hourOfDay = hourOfDay - 12;
                             am_pm="PM";
-                            startAMPM=true;
                         }
                         else
                         {
@@ -211,7 +196,7 @@ public class NewNotes extends Activity {
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
                         b.setText(hourOfDay + ":" + String.format("%02d",minute) +  "  "+am_pm);
-                        startHour=hourOfDay;
+
                         startMin=minute;
                     }
                 }, mHour, mMinute, false);
@@ -228,12 +213,11 @@ public class NewNotes extends Activity {
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
                         String am_pm = "PM";
-
+                        endHour=hourOfDay;
 
                         if(hourOfDay>=12) {
                             am_pm="PM";
                             hourOfDay = hourOfDay - 12;
-                            endAMPM=true;
                         }
                         else
                         {
@@ -242,7 +226,7 @@ public class NewNotes extends Activity {
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
                         d.setText(hourOfDay + ":" + String.format("%02d",minute)+  "  "+am_pm);
-                        endHour=hourOfDay;
+
                         endMin=minute;
                     }
                 }, mHour, mMinute, false);

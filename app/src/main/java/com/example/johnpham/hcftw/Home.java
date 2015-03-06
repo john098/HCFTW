@@ -48,7 +48,7 @@ public class Home extends Activity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
+    private CharSequence mTitle="Home";
     private Singleton single;
     private ProgressDialog dial = null;
    // private ImageView background;
@@ -164,7 +164,7 @@ public class Home extends Activity
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        //actionBar.setTitle(mTitle);
+        actionBar.setTitle(mTitle);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -179,14 +179,9 @@ public class Home extends Activity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home, menu);
-
-
-
             restoreActionBar();
             return true;
         }
-      //  MenuItem item=(MenuItem)findViewById(R.id.name);
-      //  item.setTitle("hehee");
         return super.onCreateOptionsMenu(menu);
     }
     @Override

@@ -87,16 +87,6 @@ public class Email extends Activity
         /*
          * Listeners and functionality
          */
-        //populating with fake emails for now
-        /*
-        for(int i=1;i<=9;i++) {
-            emailList.add("meneghelloj@yahoo.com\nHello!\nHow are you doing?");
-        }
-        inbox="Inbox(" +emailList.size()+")";
-        text.setText(inbox); //updating the Inbox name
-        listAdapter = new ArrayAdapter<String>(this,R.layout.simplerow,emailList);
-        mainListView.setAdapter(listAdapter);
-        */
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message m = (Message) mainListView.getItemAtPosition(position);
@@ -131,24 +121,6 @@ public class Email extends Activity
                 startActivity(i);
             }
         });
-        /*
-        mainListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //Log.d("Success!", "Yeah! Item " + id + " worked!");
-                emailList.remove(position);
-                Toast toast = Toast.makeText(getApplicationContext(),"Deleted",Toast.LENGTH_SHORT);
-                toast.show();
-                listAdapter.notifyDataSetChanged();
-                inbox="Inbox(" +emailList.size()+")";
-                text.setText(inbox);
-                if(emailList.isEmpty()) {
-                    Toast toaster = Toast.makeText(getApplicationContext(),"No more emails!",Toast.LENGTH_SHORT);
-                    toaster.show();
-                }
-                return true;
-            }
-        });
-        */
 
         //check for compose click
         compose.setOnClickListener(new View.OnClickListener() {
