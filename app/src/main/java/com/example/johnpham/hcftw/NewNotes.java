@@ -33,7 +33,7 @@ import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.ItemBody;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.sharepointservices.OfficeClient;
-
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class NewNotes extends Activity {
@@ -94,28 +94,37 @@ private AutoCompleteTextView text;
             @Override
             public void onClick(View v) {
 
-                if(enter.getText().toString().equals(""))
-                {
+                boolean error = false;
+                if (enter.getText().toString().equals("")) {
                     enter.setError("Please enter title");
+                    error=true;
                 }
-                if(b.getText().toString().equals("")) {
-                    t.setError(("please select the time"));
+                if (b.getText().toString().equals("")) {
+                    t.setError(("Please select the time"));
+                    error=true;
                 }
-                if(d.getText().toString().equals("")) {
-                    t1.setError("please select the time");
+                if (d.getText().toString().equals("")) {
+                    t1.setError("Please select the time");
+                    error=true;
                 }
+                if(error==true){
+                    return;
+                }
+                else if(error==false){
                 Singleton singleton = Singleton.getInstance();
                 Event e = new Event();
                 ItemBody itemBody = new ItemBody();
                 itemBody.setContent(note.getText().toString());
+                UUID id = java.util.UUID.randomUUID();
+                e.setId(id.toString());
                 e.setBody(itemBody);
                 e.setSubject(enter.getText().toString());
                 e.setStart(Calendar.getInstance());
                 Calendar temp = Calendar.getInstance();
-                temp.add(Calendar.HOUR,1);
+                temp.add(Calendar.HOUR, 1);
                 e.setEnd(temp);
                 ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
-                Futures.addCallback(send,new FutureCallback<Event>() {
+                Futures.addCallback(send, new FutureCallback<Event>() {
                     @Override
                     public void onSuccess(Event result) {
                         runOnUiThread(new Runnable() {
@@ -124,6 +133,7 @@ private AutoCompleteTextView text;
                                 Toast.makeText(NewNotes.this, "Event added", Toast.LENGTH_SHORT).show();
                             }
                         });
+                        finish();
                     }
 
                     @Override
@@ -132,6 +142,7 @@ private AutoCompleteTextView text;
                     }
                 });
             }
+        }
         });
     }
 public void call()
