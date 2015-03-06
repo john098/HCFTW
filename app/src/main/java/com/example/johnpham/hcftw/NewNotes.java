@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-
+import com.google.common.util.concurrent.ListenableFuture;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,12 +22,17 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.Event;
+import com.microsoft.outlookservices.ItemBody;
+import com.microsoft.outlookservices.odata.OutlookClient;
+import com.microsoft.sharepointservices.OfficeClient;
 
 import java.util.concurrent.Callable;
 
@@ -93,10 +98,39 @@ private AutoCompleteTextView text;
                 {
                     enter.setError("Please enter title");
                 }
-                if(b.getText().toString().equals(""))
+                if(b.getText().toString().equals("")) {
                     t.setError(("please select the time"));
-                if(d.getText().toString().equals(""))
+                }
+                if(d.getText().toString().equals("")) {
                     t1.setError("please select the time");
+                }
+                Singleton singleton = Singleton.getInstance();
+                Event e = new Event();
+                ItemBody itemBody = new ItemBody();
+                itemBody.setContent(note.getText().toString());
+                e.setBody(itemBody);
+                e.setSubject(enter.getText().toString());
+                e.setStart(Calendar.getInstance());
+                Calendar temp = Calendar.getInstance();
+                temp.add(Calendar.HOUR,1);
+                e.setEnd(temp);
+                ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
+                Futures.addCallback(send,new FutureCallback<Event>() {
+                    @Override
+                    public void onSuccess(Event result) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewNotes.this, "Event added", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Controller.getInstance().handleError(NewNotes.this, t.getMessage());
+                    }
+                });
             }
         });
     }
