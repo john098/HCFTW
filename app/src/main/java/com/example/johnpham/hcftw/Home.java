@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.ItemBody;
@@ -46,6 +50,8 @@ public class Home extends Activity
      */
     private CharSequence mTitle;
     private  Singleton single;
+    private ProgressDialog dial=null;
+    private ImageView background;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +78,22 @@ public class Home extends Activity
                                 @Override
                                 public void run() {
 
-                                    Toast.makeText(
+                                /*    Toast.makeText(
                                             Home.this,
                                             "Authentication successful",
-                                            Toast.LENGTH_LONG).show();
+                                            Toast.LENGTH_LONG).show();*/
                                           single=Singleton.getInstance();
+                                    background=(ImageView)findViewById(R.id.imageView3);
+                                    background.setBackground(getResources().getDrawable(R.drawable.resizehome));
+                                    dial=ProgressDialog.show(Home.this,"Loging in","Please wait",true);
+
+                                    new Thread() {
+                                        public void run() {
+                                            SystemClock.sleep(3000);
+                                            dial.dismiss();
+
+                                        }
+                                    }.start();
 
 
 
