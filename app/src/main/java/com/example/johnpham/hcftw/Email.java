@@ -233,26 +233,26 @@ public class Email extends Activity
     }
 
     public void onSectionAttached(int number) {
-        mTitle= "Email";
+       // mTitle= "Email";
         switch (number) {
             case 1:
                 if(numb!=0) {
-                    mTitle = "Home";
+                  //  mTitle = "Home";
                     startActivity(new Intent(getApplicationContext(), Home.class));
                 }
                 numb++;
                 break;
             case 2:
-                mTitle = "Email";
+               // mTitle = "Email";
                //startActivity(new Intent(getApplicationContext(),Email.class));
                 break;
             case 3:
-                mTitle = "Calendar";
+               // mTitle = "Calendar";
                 startActivity(new Intent(getApplicationContext(), Calender_.class));
 
                 break;
             case 4:
-                mTitle = "Report";
+               // mTitle = "Report";
                 startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
 

@@ -39,7 +39,7 @@ import java.util.concurrent.Callable;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-    private static int count=0;
+    private static int count = 0;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -49,9 +49,10 @@ public class Home extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private  Singleton single;
-    private ProgressDialog dial=null;
-    private ImageView background;
+    private Singleton single;
+    private ProgressDialog dial = null;
+   // private ImageView background;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +62,11 @@ public class Home extends Activity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
-        if(count==0) {
-        SettableFuture<Void> authenticated =
-                Authentication.acquireToken(
-                        Home.this
-                );
+        if (count == 0) {
+            SettableFuture<Void> authenticated =
+                    Authentication.acquireToken(
+                            Home.this
+                    );
 
             final Context context = this;
             Futures.addCallback(authenticated, new FutureCallback<Void>() {
@@ -82,10 +83,10 @@ public class Home extends Activity
                                             Home.this,
                                             "Authentication successful",
                                             Toast.LENGTH_LONG).show();*/
-                                          single=Singleton.getInstance();
-                                    background=(ImageView)findViewById(R.id.imageView3);
-                                    background.setBackground(getResources().getDrawable(R.drawable.resizehome));
-                                    dial=ProgressDialog.show(Home.this,"Loging in","Please wait",true);
+                                    single = Singleton.getInstance();
+                                   // background = (ImageView) findViewById(R.id.imageView3);
+                                   // background.setBackground(getResources().getDrawable(R.drawable.resizehome));
+                                    dial = ProgressDialog.show(Home.this, "Logging in", "Please wait", true);
 
                                     new Thread() {
                                         public void run() {
@@ -96,14 +97,10 @@ public class Home extends Activity
                                     }.start();
 
 
-
-
-
                                     // enable scenarios
 
 
-
-                                    mTitle = getTitle();
+                                   // mTitle = getTitle();
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -115,6 +112,7 @@ public class Home extends Activity
                         }
                     });
                 }
+
                 public void onFailure(final Throwable t) {
 
                     Controller.getInstance().handleError(Home.this, t.getMessage());
@@ -125,6 +123,7 @@ public class Home extends Activity
 
         }
     }
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -137,32 +136,35 @@ public class Home extends Activity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle="Home";
-             //   startActivity(new Intent(getApplicationContext(), Home.class));
+                //mTitle = "Home";
+                //   startActivity(new Intent(getApplicationContext(), Home.class));
                 break;
             case 2:
-                mTitle = "Email";
-                startActivity(new Intent(this,Email.class));
+                //mTitle = "Email";
+                startActivity(new Intent(this, Email.class));
                 break;
             case 3:
-                mTitle = "Calendar";
+               // mTitle = "Calendar";
                 startActivity(new Intent(this, Calender_.class));
 
                 break;
             case 4:
-                mTitle = "Report";
+               // mTitle = "Report";
 
-               startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
+                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
 
         }
     }
+    @Override
+    public void onBackPressed() {
 
+    }
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        //actionBar.setTitle(mTitle);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
