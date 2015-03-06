@@ -59,6 +59,7 @@ public class Singleton {
     }
     public void setFuture(ListenableFuture<List<Event>> even)
     {
+
         this.even=even;
     }
     public ListenableFuture<List<Event>> getFuture()
