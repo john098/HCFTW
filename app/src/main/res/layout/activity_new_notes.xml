@@ -47,14 +47,13 @@
 
             <AutoCompleteTextView
                 android:layout_width="289dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:text=""
                 android:id="@+id/Date"
-                android:editable="false"
-                android:gravity="top"
+                android:editable="true"
+                android:gravity="bottom"
                 android:layout_gravity="bottom"
-                android:clickable="false"
-                android:focusable="false"/>
+                android:hint="mm/dd/yyyy" />
 
         </LinearLayout>
 

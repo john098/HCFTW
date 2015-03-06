@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import com.google.common.util.concurrent.ListenableFuture;
+import android.util.Log;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +25,7 @@ import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
+import android.content.Intent;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -40,6 +42,12 @@ public class NewNotes extends Activity {
     private AutoCompleteTextView text;
     private AutoCompleteTextView enter;
     private TextView b;
+    private int startHour;
+    private int startMin;
+    private boolean startAMPM=false;
+    private boolean endAMPM=false;
+    private int endHour;
+    private int endMin;
     private TextView d;
     private EditText note;
     @Override
@@ -50,16 +58,25 @@ public class NewNotes extends Activity {
         setContentView(R.layout.activity_new_notes);
         text=(AutoCompleteTextView)findViewById(R.id.Date);
         Calendar cal=Calendar.getInstance();
+        Intent i = getIntent();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String date = df.format(cal.getTime());
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        String Date = df.format(cal.getTime());
-
-        SimpleDateFormat sp=new SimpleDateFormat(("EEEE"));
+         SimpleDateFormat sp=new SimpleDateFormat(("MM/dd/yyyy"));
         Date dated=new Date();
-        String datename=sp.format(dated);
+        String datename = i.getStringExtra("date");
         enter=(AutoCompleteTextView)findViewById(R.id.multiAutoCompleteTextView);
-        text.setText(datename+"  " +Date);
+        if(i.hasExtra("date")) {
 
+            //text.setKeyListener(null);
+            try {
+                dated = df.parse(datename);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            text.setText(sp.format(dated));
+        }
+        final Date useThis = dated;
         Button clear=(Button)findViewById(R.id.Clear);
         note=(EditText)findViewById(R.id.editText);
         b=(TextView)findViewById(R.id.timed);
@@ -107,11 +124,38 @@ public class NewNotes extends Activity {
                     t1.setError("Please select the time");
                     error=true;
                 }
-                if(error==true){
+                if(error==true) {
                     return;
                 }
-                else if(error==false){
+                    SimpleDateFormat df=new SimpleDateFormat("MM/dd/yyyy");
+                    Date base = new Date();
+                try {
+                    base = (Date) df.parse(text.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                    df.format(base);
                     Singleton singleton = Singleton.getInstance();
+                    Calendar start = Calendar.getInstance();
+                    start.setTime(base);
+                    Calendar end = df.getCalendar();
+                    end.setTime(base);
+                    start.add(Calendar.HOUR,startHour);
+                    start.add(Calendar.MINUTE,startMin);
+                    if(!startAMPM) {
+                        start.add(Calendar.AM_PM, Calendar.AM); //0
+                    }
+                    else {
+                        start.add(Calendar.AM_PM, Calendar.PM);
+                    }
+                    end.add(Calendar.HOUR,endHour);
+                    end.add(Calendar.MINUTE,endMin);
+                if(!endAMPM) {
+                    end.add(Calendar.AM_PM, Calendar.AM); //0
+                }
+                else {
+                    end.add(Calendar.AM_PM, Calendar.PM);
+                }
                     Event e = new Event();
                     ItemBody itemBody = new ItemBody();
                     itemBody.setContent(note.getText().toString());
@@ -119,10 +163,8 @@ public class NewNotes extends Activity {
                     e.setId(id.toString());
                     e.setBody(itemBody);
                     e.setSubject(enter.getText().toString());
-                    e.setStart(Calendar.getInstance());
-                    Calendar temp = Calendar.getInstance();
-                    temp.add(Calendar.HOUR, 1);
-                    e.setEnd(temp);
+                    e.setStart(start);
+                    e.setEnd(end);
                     ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
                     Futures.addCallback(send, new FutureCallback<Event>() {
                         @Override
@@ -130,7 +172,7 @@ public class NewNotes extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(NewNotes.this, "Event added", Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(NewNotes.this, "Event added", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             finish();
@@ -141,7 +183,7 @@ public class NewNotes extends Activity {
                             Controller.getInstance().handleError(NewNotes.this, t.getMessage());
                         }
                     });
-                }
+
             }
         });
     }
@@ -157,9 +199,10 @@ public class NewNotes extends Activity {
                                           int minute) {
                         String am_pm = "";
 
-                        if(hourOfDay>12) {
+                        if(hourOfDay>=12) {
                             hourOfDay = hourOfDay - 12;
                             am_pm="PM";
+                            startAMPM=true;
                         }
                         else
                         {
@@ -168,9 +211,10 @@ public class NewNotes extends Activity {
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
                         b.setText(hourOfDay + ":" + String.format("%02d",minute) +  "  "+am_pm);
+                        startHour=hourOfDay;
+                        startMin=minute;
                     }
                 }, mHour, mMinute, false);
-
         n.show();
     }
     public void call1()
@@ -186,10 +230,10 @@ public class NewNotes extends Activity {
                         String am_pm = "PM";
 
 
-                        if(hourOfDay>12) {
+                        if(hourOfDay>=12) {
                             am_pm="PM";
                             hourOfDay = hourOfDay - 12;
-
+                            endAMPM=true;
                         }
                         else
                         {
@@ -198,7 +242,8 @@ public class NewNotes extends Activity {
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
                         d.setText(hourOfDay + ":" + String.format("%02d",minute)+  "  "+am_pm);
-
+                        endHour=hourOfDay;
+                        endMin=minute;
                     }
                 }, mHour, mMinute, false);
         n.show();
