@@ -197,7 +197,7 @@ public class NewNotes extends Activity {
                         }
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                        d.setText(hourOfDay + ":" + minute+  "  "+am_pm);
+                        d.setText(hourOfDay + ":" + String.format("%02d",minute)+  "  "+am_pm);
 
                     }
                 }, mHour, mMinute, false);
