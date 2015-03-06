@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-
+import com.google.common.util.concurrent.ListenableFuture;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,17 +22,22 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.outlookservices.EmailAddress;
-
+import com.microsoft.outlookservices.Event;
+import com.microsoft.outlookservices.ItemBody;
+import com.microsoft.outlookservices.odata.OutlookClient;
+import com.microsoft.sharepointservices.OfficeClient;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class NewNotes extends Activity {
-private AutoCompleteTextView text;
+    private AutoCompleteTextView text;
     private AutoCompleteTextView enter;
     private TextView b;
     private TextView d;
@@ -74,7 +79,7 @@ private AutoCompleteTextView text;
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            call();
+                call();
             }
         });
         final Button t1=(Button)findViewById(R.id.time1);
@@ -89,48 +94,88 @@ private AutoCompleteTextView text;
             @Override
             public void onClick(View v) {
 
-                if(enter.getText().toString().equals(""))
-                {
+                boolean error = false;
+                if (enter.getText().toString().equals("")) {
                     enter.setError("Please enter title");
+                    error=true;
                 }
-                if(b.getText().toString().equals(""))
-                    t.setError(("please select the time"));
-                if(d.getText().toString().equals(""))
-                    t1.setError("please select the time");
+                if (b.getText().toString().equals("")) {
+                    t.setError(("Please select the time"));
+                    error=true;
+                }
+                if (d.getText().toString().equals("")) {
+                    t1.setError("Please select the time");
+                    error=true;
+                }
+                if(error==true){
+                    return;
+                }
+                else if(error==false){
+                    Singleton singleton = Singleton.getInstance();
+                    Event e = new Event();
+                    ItemBody itemBody = new ItemBody();
+                    itemBody.setContent(note.getText().toString());
+                    UUID id = java.util.UUID.randomUUID();
+                    e.setId(id.toString());
+                    e.setBody(itemBody);
+                    e.setSubject(enter.getText().toString());
+                    e.setStart(Calendar.getInstance());
+                    Calendar temp = Calendar.getInstance();
+                    temp.add(Calendar.HOUR, 1);
+                    e.setEnd(temp);
+                    ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
+                    Futures.addCallback(send, new FutureCallback<Event>() {
+                        @Override
+                        public void onSuccess(Event result) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(NewNotes.this, "Event added", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Controller.getInstance().handleError(NewNotes.this, t.getMessage());
+                        }
+                    });
+                }
             }
         });
     }
-public void call()
-{
-    final Calendar c = Calendar.getInstance();
-    int mHour = c.get(Calendar.HOUR_OF_DAY);
-    int mMinute = c.get(Calendar.MINUTE);
-    TimePickerDialog n = new TimePickerDialog(this,
-            new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay,
-                                      int minute) {
-                    String am_pm = "";
+    public void call()
+    {
+        final Calendar c = Calendar.getInstance();
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
+        int mMinute = c.get(Calendar.MINUTE);
+        TimePickerDialog n = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        String am_pm = "";
 
-                    if(hourOfDay>12) {
-                        hourOfDay = hourOfDay - 12;
-                        am_pm="PM";
-                    }
-                    else
-                    {
-                        am_pm="AM";
-                    }
-                    if(hourOfDay==0)
+                        if(hourOfDay>12) {
+                            hourOfDay = hourOfDay - 12;
+                            am_pm="PM";
+                        }
+                        else
+                        {
+                            am_pm="AM";
+                        }
+                        if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                    b.setText(hourOfDay + ":" + String.format("%02d",minute) +  "  "+am_pm);
-                }
-            }, mHour, mMinute, false);
+                        b.setText(hourOfDay + ":" + String.format("%02d",minute) +  "  "+am_pm);
+                    }
+                }, mHour, mMinute, false);
 
-    n.show();
-}
+        n.show();
+    }
     public void call1()
     {
-       final  Calendar c = Calendar.getInstance();
+        final  Calendar c = Calendar.getInstance();
         int mHour = c.get(Calendar.HOUR_OF_DAY);
         int mMinute = c.get(Calendar.MINUTE);
         TimePickerDialog n = new TimePickerDialog(this,
@@ -152,7 +197,7 @@ public void call()
                         }
                         if(hourOfDay==0)
                             hourOfDay=hourOfDay+12;
-                         d.setText(hourOfDay + ":" + minute+  "  "+am_pm);
+                        d.setText(hourOfDay + ":" + minute+  "  "+am_pm);
 
                     }
                 }, mHour, mMinute, false);
