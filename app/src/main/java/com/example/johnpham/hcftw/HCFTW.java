@@ -34,6 +34,7 @@ public class HCFTW extends Activity {
             @Override
             public void run() {
                 startActivity(new Intent(getApplicationContext(), Home.class));
+                finish();
             }
         },1000);
     }

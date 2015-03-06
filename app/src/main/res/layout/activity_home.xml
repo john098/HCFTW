@@ -12,11 +12,14 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:focusable="false">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:id="@+id/imageView3"
+            android:background="@drawable/resizehome" />
     </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat

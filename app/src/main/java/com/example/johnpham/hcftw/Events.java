@@ -61,7 +61,7 @@ private  ArrayAdapter<String> myAdapter;
         Button j=(Button)findViewById(R.id.newEvent);
         TextView k=(TextView)findViewById(R.id.event);
         Bundle get=getIntent().getExtras();
-        String dat=get.getString("variable");
+        final String dat=get.getString("variable");
         //Calendar cal;
         array=get.getStringArrayList("title");
         body=get.getStringArrayList("body");
@@ -85,7 +85,7 @@ private  ArrayAdapter<String> myAdapter;
                         array.add(a);
                         body.add(e.getBody().getContent());
                         arrayEvent.add(e);
-                        break;
+                        continue;
                     }
                 }
                     date = sdf.format(e.getEnd().getTime());
@@ -112,7 +112,7 @@ private  ArrayAdapter<String> myAdapter;
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // if(position==1)
                     LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+                    SimpleDateFormat happy = new SimpleDateFormat("MM/dd/yyyy hh:mm");
                     View layout = inflater.inflate(R.layout.popup,
                             (ViewGroup) findViewById(R.id.PopLayoutID));
                     popUp=new PopupWindow(layout,1000,1200,true);
@@ -124,7 +124,8 @@ private  ArrayAdapter<String> myAdapter;
                     ListView popList=(ListView)layout.findViewById(R.id.PopupList);
                     ArrayList<String> showThis=new ArrayList<String>();
                     showThis.add("Title:     "+arrayEvent.get(position).getSubject());
-                    showThis.add("Time:       "+arrayEvent.get(position).getDateTimeCreated().getTime());
+                    showThis.add("Time:       "+happy.format(arrayEvent.get(position).getStart().getTime())
+                            +" - "+happy.format(arrayEvent.get(position).getEnd().getTime()));
                     showThis.add("Body");
                     ArrayAdapter<String> popUpAdapter=new ArrayAdapter<String> (
                             Events.this,
@@ -151,6 +152,7 @@ private  ArrayAdapter<String> myAdapter;
                               }
                           }
                             events.removeAll(remove);
+
                            singleton.setEvent(events);
                             arrayEvent.remove(w);
                             array.remove(w);
@@ -189,7 +191,9 @@ private  ArrayAdapter<String> myAdapter;
                 @Override
                 public void onClick(View view)
                 {
-                    startActivity(new Intent(getApplicationContext(), NewNotes.class));
+                    Intent i = new Intent(getApplicationContext(),NewNotes.class);
+                    i.putExtra("date", dat);
+                    startActivity(i);
                 }
             });
         }catch(Exception e)

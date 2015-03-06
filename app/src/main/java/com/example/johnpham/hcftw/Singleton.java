@@ -59,6 +59,7 @@ public class Singleton {
     }
     public void setFuture(ListenableFuture<List<Event>> even)
     {
+
         this.even=even;
     }
     public ListenableFuture<List<Event>> getFuture()
@@ -70,8 +71,8 @@ public class Singleton {
             @Override
             public void run() {
                 while(true) {
-                    even=client.getMe().getCalendar().getEvents().read();
                     try {
+                        even=client.getMe().getCalendar().getEvents().read();
                         event = even.get();
                         setEvent(event);
 

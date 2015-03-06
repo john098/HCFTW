@@ -186,4 +186,5 @@
         android:name="com.example.johnpham.hcftw.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer6" />
 
+
 </android.support.v4.widget.DrawerLayout>

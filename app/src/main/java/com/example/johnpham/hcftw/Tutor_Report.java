@@ -128,7 +128,7 @@ public class Tutor_Report extends Activity
     }
 
     public void onSectionAttached(int number) {
-        mTitle="Report";
+       // mTitle="Report";
         switch (number) {
             case 1:
                 if(numb!=0) {
@@ -137,15 +137,15 @@ public class Tutor_Report extends Activity
                 numb++;
                 break;
             case 2:
-                mTitle = "Email";
+              //  mTitle = "Email";
                 startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
-                mTitle = "Calendar";
+              //  mTitle = "Calendar";
                 startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
            case 4:
-                mTitle="Report";
+              //  mTitle="Report";
                 startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
         }
