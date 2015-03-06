@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +21,23 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import org.apache.http.conn.util.InetAddressUtils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -41,6 +53,9 @@ public class Tutor_Report extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    String month, teachhr, prephr, travel;
+    Spinner spin1, spin2, spin3, spin4;
+    Button send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +63,6 @@ public class Tutor_Report extends Activity
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         setContentView(R.layout.activity_tutor__report);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -57,6 +71,33 @@ public class Tutor_Report extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        spin1 = (Spinner) findViewById(R.id.spinner);
+        spin2 = (Spinner) findViewById(R.id.spinner2);
+        spin3 = (Spinner) findViewById(R.id.spinner3);
+        spin4 = (Spinner) findViewById(R.id.spinner4);
+        setSpinerslisteners();
+        final String ipAddress= getIPAddress(true);
+        send = (Button) findViewById(R.id.sendData);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Onclick","onclick");
+                ///ArrayList<String> list = new ArrayList<String>();
+                String ip;
+                ip = getIPAddress(true);
+                //list.add(ip);
+            /*list.add(month);
+            list.add("A1");
+            list.add(teachhr);
+            list.add(prephr);
+            //list.add(travel);*/
+            String toast = ip+" , "+month + " , "+teachhr+" , "+prephr+" , "+travel;
+                //String toast = ipAddress;
+                Toast.makeText(getApplicationContext(), toast,
+                        Toast.LENGTH_SHORT).show();
+                //new SubmitData().execute();
+            }
+        });
 
 
 
@@ -132,7 +173,155 @@ public class Tutor_Report extends Activity
         }
         return super.onOptionsItemSelected(item);
     }
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress().toUpperCase();
+                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
+                                return delim<0 ? sAddr : sAddr.substring(0, delim);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "";
+    }
+    public void setSpinerslisteners(){
+            spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    month=getResources().getStringArray(R.array.Month)[position];
+                }
+                public void onNothingSelected(AdapterView<?> parent){}
+            });
+            month = getResources().getStringArray(R.array.Month)[spin1.getSelectedItemPosition()];
+            spin2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    teachhr = getResources().getStringArray(R.array.Hour_Code)[position];
+                }
+                public void onNothingSelected(AdapterView<?> parent){}
+            });
+            teachhr = getResources().getStringArray(R.array.Hour_Code)[spin2.getSelectedItemPosition()];
+            spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    prephr =getResources().getStringArray(R.array.Hour_Code)[position];
+                }
+                public void onNothingSelected(AdapterView<?> parent){}
+            });
+            prephr = getResources().getStringArray(R.array.Hour_Code)[spin3.getSelectedItemPosition()];
+            spin4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    travel =getResources().getStringArray(R.array.Hour_Code)[position];
+                }
+                public void onNothingSelected(AdapterView<?> parent){}
+            });
+            travel = getResources().getStringArray(R.array.Hour_Code)[spin3.getSelectedItemPosition()];
+    }
+    private static String convertStreamToString(InputStream is) {
 
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+    /*private class SubmitData extends
+            AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(Tutor_Report.this);
+            dialog.setTitle("Submitting...");
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        protected String doInBackground(String... input) {
+
+
+            try {
+                String path = "http://fortwayne.education/mobileapp.php";
+
+                HttpClient client = new DefaultHttpClient();
+                HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
+                // Limit
+                HttpResponse response;
+                JSONObject json = new JSONObject();
+                String name;
+                String test;
+                ;
+                if(input[0]=="A1"){
+                    name="Rick";
+                }else{
+                    name="Tom";
+                }
+
+                try {
+                    HttpPost post = new HttpPost(path);
+                    json.put("IP", name);
+                    json.put("prephr", 45);
+                    Log.i("jason Object", json.toString());
+                    post.setHeader("json", json.toString());
+                    StringEntity se = new StringEntity(json.toString());
+                    se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
+                            "application/json"));
+                    post.setEntity(se);
+                    response = client.execute(post);
+        // Checking response
+                    if (response != null) {
+                        InputStream in = response.getEntity().getContent(); // Get the
+                        // data in
+                        // the
+                        // entity
+                        String a = convertStreamToString(in);
+                        Log.i("Read from Server", a);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (Throwable t) {
+
+
+            }
+            return "s";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (result == null)
+                Toast.makeText(Tutor_Report.this, "error", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(Tutor_Report.this, "success", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        }
+
+    }*/
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -160,7 +349,7 @@ public class Tutor_Report extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tutor__report, container, false);
             return rootView;
         }
@@ -172,5 +361,4 @@ public class Tutor_Report extends Activity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }
