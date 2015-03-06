@@ -85,7 +85,7 @@ private  ArrayAdapter<String> myAdapter;
                         array.add(a);
                         body.add(e.getBody().getContent());
                         arrayEvent.add(e);
-                        continue; //this used to be a break. :DDDDD
+                        continue;
                     }
                 }
                     date = sdf.format(e.getEnd().getTime());
