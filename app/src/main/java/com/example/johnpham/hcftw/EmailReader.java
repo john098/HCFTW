@@ -21,11 +21,13 @@ import java.util.StringTokenizer;
 public class EmailReader extends Activity {
     //String email;
     String inbox;
+    String toString;
     String fromString;
     String subjString;
     String message;
     String dater;
     String emailAddress;
+    TextView to;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -38,16 +40,17 @@ public class EmailReader extends Activity {
         i.getStringArrayListExtra("List");
         dater = i.getStringExtra("Date");
         emailAddress = i.getStringExtra("Email");
-        //email = i.getStringExtra("Email");
+        toString = i.getStringExtra("Email");
         fromString = i.getStringExtra("From");
         if(fromString.equals("Unknown")) {
         fromString = emailAddress;
         }
         subjString = i.getStringExtra("Subject");
         message = i.getStringExtra("Body");
-
+        //toString = i.getStringExtra("to");
         //StringTokenizer test = new StringTokenizer(email,"\n");
         //inbox = i.getStringExtra("Inbox");
+        to = (TextView) findViewById(R.id.toName);
         TextView inboxView = (TextView) findViewById(R.id.inboxReader);
         TextView date = (TextView) findViewById(R.id.dateText);
         Button reply = (Button) findViewById(R.id.replyButton);
@@ -58,6 +61,7 @@ public class EmailReader extends Activity {
         TextView mess = (TextView) findViewById(R.id.messageText);
         //setting the values
         inboxView.setText(inbox);
+        to.setText(toString);
         date.setText(dater);
         from.setText(fromString);
         subj.setText(subjString);

@@ -94,7 +94,6 @@ public class Email extends Activity
                 //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 String subject,date,body,from;
                 List<Recipient> to;
-                int j=0;
                 subject = m.getSubject();
                 body = m.getBody().getContent();
                 SimpleDateFormat sdf =  new SimpleDateFormat("MM/dd/yyyy");
@@ -115,9 +114,11 @@ public class Email extends Activity
                 i.putExtra("Date",date);
                 i.putExtra("Subject",subject);
                 i.putExtra("Body",body);
+                ArrayList<String> recipients = new ArrayList<String>();
                 for(Recipient r : to) {
-                    i.putExtra("To " + j, r.getEmailAddress().getAddress());
+                    recipients.add(r.getEmailAddress().getAddress());
                 }
+                i.putStringArrayListExtra("recipients", recipients);
                 startActivity(i);
             }
         });
@@ -157,7 +158,7 @@ public class Email extends Activity
     private Void retrieveMails() {
 
         //create a client object
-        OutlookClient client = new OutlookClient(ServiceConstants.ENDPOINT_ID, (DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
+        OutlookClient client = Singleton.getInstance().getClient();
 
         // retrieve Inbox folder content asynchronously
         ListenableFuture<List<Message>> messages = client   .getMe()
