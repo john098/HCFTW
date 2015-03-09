@@ -100,9 +100,11 @@ public class Email extends Activity
                 date = sdf.format(m.getDateTimeSent().getTime());
                 to = m.getToRecipients();
                 //from = m.getFrom().getEmailAddress().getAddress();
-
+                List<Recipient> cc = m.getCcRecipients();
+                List<Recipient> bcc = m.getBccRecipients();
                 String name = "Unknown";
                 Recipient recipient = m.getFrom();
+
                 if (recipient != null) {
                     EmailAddress address = recipient.getEmailAddress();
                     if (address != null) {
@@ -116,7 +118,28 @@ public class Email extends Activity
                 i.putExtra("Body",body);
                 ArrayList<String> recipients = new ArrayList<String>();
                 for(Recipient r : to) {
-                    recipients.add(r.getEmailAddress().getAddress());
+                    if(r.getEmailAddress().getName()!="Unknown") {
+                        recipients.add(r.getEmailAddress().getName());
+                    }
+                    else{
+                        recipients.add(r.getEmailAddress().getAddress());
+                    }
+                }
+                for(Recipient r : cc) {
+                    if(r.getEmailAddress().getName()!="Unknown") {
+                        recipients.add(r.getEmailAddress().getName());
+                    }
+                    else{
+                        recipients.add(r.getEmailAddress().getAddress());
+                    }
+                }
+                for(Recipient r : bcc) {
+                    if(r.getEmailAddress().getName()!="Unknown") {
+                        recipients.add(r.getEmailAddress().getName());
+                    }
+                    else{
+                        recipients.add(r.getEmailAddress().getAddress());
+                    }
                 }
                 i.putStringArrayListExtra("recipients", recipients);
                 startActivity(i);
