@@ -385,7 +385,7 @@ public class Calender_ extends
             int m = Integer.parseInt(themonth);
 
             if (m-1==month) {
-                     row.setBackgroundResource(R.drawable.calendar_tile_small1);
+                     gridcell.setBackgroundResource(R.drawable.calendar_tile_small1);
             }
 
             // Set the Day GridCell
@@ -498,7 +498,6 @@ public class Calender_ extends
             }
             String date_month_year = (String) view.getTag();
 
-            Second.setBackgroundColor(Color.GRAY);
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first=Second;
 

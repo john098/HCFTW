@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/calendar_button_selector">
+    >
 
     <Button
         android:id="@+id/calendar_day_gridcell"
@@ -12,7 +12,8 @@
         android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/calendar_button_selector">
     </Button>
 
     <TextView
