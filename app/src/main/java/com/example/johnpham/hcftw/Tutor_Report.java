@@ -74,11 +74,9 @@ public class Tutor_Report extends Activity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        Date dt = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final Report submit = new Report();
         User current = new User();
         current.gettelephoneNumber();
-        final String currentTime = sdf.format(dt);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -94,19 +92,17 @@ public class Tutor_Report extends Activity
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<String>();
-                String ip;
-                ip = getIPAddress(true);
-                list.add(currentTime);
-                list.add(ip);
-                list.add(month);
-                list.add("A1");
-                list.add(teachhr);
-                list.add(prephr);
-                list.add(travel);
+                submit.setMonth(month);
+                submit.setRole("A1");
+                submit.setTeachhr(teachhr);
+                submit.setPrephr(prephr);
+                submit.setTravel(travel);
+                submit.setServhr("A0");
+                submit.setAcomp(etext.getText().toString());
                 String acomp = etext.getText().toString();
                 list.add(acomp);
 
-                String toast = ip+" , "+month + " , "+teachhr+" , "+prephr+" , "+travel+" , "+currentTime+" , "+acomp;
+                String toast =submit.getMonth();
 
                 Toast.makeText(getApplicationContext(), toast,
                         Toast.LENGTH_SHORT).show();
@@ -187,30 +183,6 @@ public class Tutor_Report extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    public static String getIPAddress(boolean useIPv4) {
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        String sAddr = addr.getHostAddress().toUpperCase();
-                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
-                        if (useIPv4) {
-                            if (isIPv4)
-                                return sAddr;
-                        } else {
-                            if (!isIPv4) {
-                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
-                                return delim<0 ? sAddr : sAddr.substring(0, delim);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) { } // for now eat exceptions
-        return "";
     }
     public void setSpinerslisteners(){
             spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
