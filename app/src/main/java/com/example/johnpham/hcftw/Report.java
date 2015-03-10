@@ -34,7 +34,13 @@ public class Report {
         ip=getIPAddress(true);
         name=" ";
         phone = 555555555;
-        month ="Select";
+        month ="Not Selected";
+        role="A0";
+        teachhr="A0";
+        prephr="A0";
+        travel="A0";
+        servhr="A0";
+        acomp="empty";
     }
 
     public void setStartdate(String sd){
