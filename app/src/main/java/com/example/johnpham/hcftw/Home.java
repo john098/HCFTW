@@ -3,11 +3,13 @@ package com.example.johnpham.hcftw;
 import android.app.Activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +27,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.ItemBody;
 import com.microsoft.outlookservices.Message;
@@ -34,12 +38,14 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.odata.OutlookClient;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-    private static int count = 0;
+    private static int count=0;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -48,11 +54,10 @@ public class Home extends Activity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle="Home";
-    private Singleton single;
-    private ProgressDialog dial = null;
-   // private ImageView background;
-
+    private CharSequence mTitle;
+    private  Singleton single;
+    private ProgressDialog dial=null;
+    private ImageView background;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +67,11 @@ public class Home extends Activity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
-        if (count == 0) {
-            SettableFuture<Void> authenticated =
-                    Authentication.acquireToken(
-                            Home.this
-                    );
+        if(count==0) {
+        SettableFuture<Void> authenticated =
+                Authentication.acquireToken(
+                        Home.this
+                );
 
             final Context context = this;
             Futures.addCallback(authenticated, new FutureCallback<Void>() {
@@ -83,10 +88,10 @@ public class Home extends Activity
                                             Home.this,
                                             "Authentication successful",
                                             Toast.LENGTH_LONG).show();*/
-                                    single = Singleton.getInstance();
-                                   // background = (ImageView) findViewById(R.id.imageView3);
-                                   // background.setBackground(getResources().getDrawable(R.drawable.resizehome));
-                                    dial = ProgressDialog.show(Home.this, "Logging in", "Please wait", true);
+                                          single=Singleton.getInstance();
+                                    background=(ImageView)findViewById(R.id.imageView3);
+                                    background.setBackground(getResources().getDrawable(R.drawable.resizehome));
+                                    dial=ProgressDialog.show(Home.this,"Loging in","Please wait",true);
 
                                     new Thread() {
                                         public void run() {
@@ -97,10 +102,10 @@ public class Home extends Activity
                                     }.start();
 
 
+
                                     // enable scenarios
 
-
-                                   // mTitle = getTitle();
+                                    mTitle = getTitle();
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -112,18 +117,28 @@ public class Home extends Activity
                         }
                     });
                 }
-
                 public void onFailure(final Throwable t) {
 
                     Controller.getInstance().handleError(Home.this, t.getMessage());
-
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                    builder.setIcon(getResources().getDrawable(R.drawable.x));
+                    builder.setMessage("Oops Something is wrong\n"+"Please try again later.")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //do things
+                                    onDestroy();
+                                    finish();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             });
             count++;
 
         }
     }
-
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -136,30 +151,27 @@ public class Home extends Activity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                //mTitle = "Home";
-                //   startActivity(new Intent(getApplicationContext(), Home.class));
+                mTitle="Home";
+             //   startActivity(new Intent(getApplicationContext(), Home.class));
                 break;
             case 2:
-                //mTitle = "Email";
-                startActivity(new Intent(this, Email.class));
+                mTitle = "Email";
+                startActivity(new Intent(this,Email.class));
                 break;
             case 3:
-               // mTitle = "Calendar";
+                mTitle = "Calendar";
                 startActivity(new Intent(this, Calender_.class));
 
                 break;
             case 4:
-               // mTitle = "Report";
+                mTitle = "Report";
 
-                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
+               startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
 
         }
     }
-    @Override
-    public void onBackPressed() {
 
-    }
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -179,9 +191,14 @@ public class Home extends Activity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home, menu);
+
+
+
             restoreActionBar();
             return true;
         }
+      //  MenuItem item=(MenuItem)findViewById(R.id.name);
+      //  item.setTitle("hehee");
         return super.onCreateOptionsMenu(menu);
     }
     @Override
