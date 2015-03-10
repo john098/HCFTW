@@ -52,6 +52,7 @@ private ListView list;
 private  ArrayAdapter<String> myAdapter;
     private  ArrayList<String> array=new ArrayList<String>();
    private ArrayList<String> id=new ArrayList<String>();
+    private Singleton singleton=Singleton.getInstance();
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
 
@@ -61,19 +62,12 @@ private  ArrayAdapter<String> myAdapter;
         Button j=(Button)findViewById(R.id.newEvent);
         TextView k=(TextView)findViewById(R.id.event);
         Bundle get=getIntent().getExtras();
-        final String dat=get.getString("variable");
-        //Calendar cal;
-        array=get.getStringArrayList("title");
-        body=get.getStringArrayList("body");
-
+//        final String dat=get.getString("variable");
         list = (ListView) findViewById(R.id.lost);
-        ArrayList<Event>s=new ArrayList<Event>();
-      //  Calendar v=Calendar.getCalenderView();
         try{
             SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
             String date;
-            final Singleton singleton=Singleton.getInstance();
-
+            String dat=singleton.getTodayDate();
             events = singleton.getEvent();
             for(Event e: events)
             {
@@ -192,7 +186,7 @@ private  ArrayAdapter<String> myAdapter;
                 public void onClick(View view)
                 {
                     Intent i = new Intent(getApplicationContext(),NewNotes.class);
-                    i.putExtra("date", dat);
+                    i.putExtra("date", singleton.getTodayDate());
                     startActivity(i);
                 }
             });
@@ -233,4 +227,5 @@ private  ArrayAdapter<String> myAdapter;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -53,7 +53,8 @@
                 android:editable="true"
                 android:gravity="bottom"
                 android:layout_gravity="bottom"
-                android:hint="mm/dd/yyyy" />
+                android:hint="mm/dd/yyyy"
+                android:inputType="date" />
 
         </LinearLayout>
 

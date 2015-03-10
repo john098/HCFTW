@@ -35,6 +35,8 @@ import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.ItemBody;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.sharepointservices.OfficeClient;
+
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -48,6 +50,7 @@ public class NewNotes extends Activity {
     private int endMin;
     private TextView d;
     private EditText note;
+    private Singleton singleton=Singleton.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,7 @@ public class NewNotes extends Activity {
 
          SimpleDateFormat sp=new SimpleDateFormat(("MM/dd/yyyy"));
         Date dated=new Date();
-        String datename = i.getStringExtra("date");
+        String datename = singleton.getTodayDate();
         enter=(AutoCompleteTextView)findViewById(R.id.multiAutoCompleteTextView);
         if(i.hasExtra("date")) {
 
@@ -133,7 +136,7 @@ public class NewNotes extends Activity {
                     e.printStackTrace();
                 }
                     df.format(base);
-                    Singleton singleton = Singleton.getInstance();
+                    final Singleton singleton = Singleton.getInstance();
                     Calendar start = Calendar.getInstance();
                     start.setTime(base);
                     Calendar end = df.getCalendar();
@@ -151,6 +154,9 @@ public class NewNotes extends Activity {
                     e.setSubject(enter.getText().toString());
                     e.setStart(start);
                     e.setEnd(end);
+                List<Event>n=singleton.getEvent();
+                n.add(e);
+                singleton.setEvent(n);
                     ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
                     Futures.addCallback(send, new FutureCallback<Event>() {
                         @Override
@@ -158,10 +164,11 @@ public class NewNotes extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                   // Toast.makeText(NewNotes.this, "Event added", Toast.LENGTH_SHORT).show();
+
                                 }
                             });
                             finish();
+
                         }
 
                         @Override
@@ -249,5 +256,11 @@ public class NewNotes extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+
+        // Activity being restarted from stopped state
     }
 }
