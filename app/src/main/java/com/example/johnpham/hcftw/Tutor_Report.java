@@ -104,6 +104,9 @@ public class Tutor_Report extends Activity
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<String>();
+                String name;
+                name=Singleton.getInstance().getName();
+                submit.setName(name);
                 submit.setMonth(month);
                 submit.setRole("A1");
                 submit.setTeachhr(teachhr);
@@ -281,6 +284,7 @@ public class Tutor_Report extends Activity
                     json.put("lang", "en");
                     json.put("ip", input[0].getIp());
                     Log.d("ip = ", input[0].getIp());
+                    json.put("name", input[0].getName());
                     json.put("month", input[0].getMonth());
                     json.put("role",input[0].getRole());
                     json.put("teachhr", input[0].getTeachhr());
