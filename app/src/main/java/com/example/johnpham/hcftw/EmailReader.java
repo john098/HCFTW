@@ -15,17 +15,19 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.Date;
-import java.util.StringTokenizer;
+import java.util.List;
 
 
 public class EmailReader extends Activity {
     //String email;
     String inbox;
+    List<String> toString;
     String fromString;
     String subjString;
     String message;
     String dater;
     String emailAddress;
+    TextView to;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -38,16 +40,14 @@ public class EmailReader extends Activity {
         i.getStringArrayListExtra("List");
         dater = i.getStringExtra("Date");
         emailAddress = i.getStringExtra("Email");
-        //email = i.getStringExtra("Email");
+        toString = i.getStringArrayListExtra("recipients");
         fromString = i.getStringExtra("From");
         if(fromString.equals("Unknown")) {
         fromString = emailAddress;
         }
         subjString = i.getStringExtra("Subject");
         message = i.getStringExtra("Body");
-
-        //StringTokenizer test = new StringTokenizer(email,"\n");
-        //inbox = i.getStringExtra("Inbox");
+        to = (TextView) findViewById(R.id.toName);
         TextView inboxView = (TextView) findViewById(R.id.inboxReader);
         TextView date = (TextView) findViewById(R.id.dateText);
         Button reply = (Button) findViewById(R.id.replyButton);
@@ -58,6 +58,15 @@ public class EmailReader extends Activity {
         TextView mess = (TextView) findViewById(R.id.messageText);
         //setting the values
         inboxView.setText(inbox);
+        StringBuilder names = new StringBuilder();
+        for(int j=0;j<toString.size();j++){
+            if(j<toString.size()-1) {
+                names.append(toString.get(j) + ",");
+            }else {
+                names.append(toString.get(j));
+            }
+        }
+        to.setText(names);
         date.setText(dater);
         from.setText(fromString);
         subj.setText(subjString);

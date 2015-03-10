@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.util.Log;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -104,11 +104,7 @@ public class Compose extends Activity {
         try {
 
             // create a client object
-            OutlookClient client =
-                    new OutlookClient(
-                            ServiceConstants.ENDPOINT_ID,
-                            (DefaultDependencyResolver) Controller.getInstance().getDependencyResolver()
-                    );
+            OutlookClient client = Singleton.getInstance().getClient();
 
             // craft a message
             //final String messageCounter = String.valueOf(++this.messageCounter);
@@ -136,7 +132,7 @@ public class Compose extends Activity {
             st.useDelimiter(" ,");
             while(st2.hasNext()){
                 EmailAddress temp = new EmailAddress();
-                temp.setAddress(st.next());
+                temp.setAddress(st2.next());
                 ccAddr.add(temp);
             }
             ArrayList<Recipient> ccRecipients = new ArrayList<Recipient>();
@@ -152,7 +148,7 @@ public class Compose extends Activity {
             st.useDelimiter(" ,");
             while(st3.hasNext()){
                 EmailAddress temp = new EmailAddress();
-                temp.setAddress(st.next());
+                temp.setAddress(st3.next());
                 bccAddresses.add(temp);
             }
             ArrayList<Recipient> bccRecipients = new ArrayList<Recipient>();
@@ -205,8 +201,10 @@ public class Compose extends Activity {
                 }
             });
 
-        } catch (final Throwable t) {
-            Controller.getInstance().handleError(Compose.this, t.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("poopy",""+e.toString());
+            Controller.getInstance().handleError(Compose.this, "eus");
         }
 
         return null;
