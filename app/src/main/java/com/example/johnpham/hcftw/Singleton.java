@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.outlookservices.Event;
+import com.microsoft.outlookservices.User;
 import com.microsoft.outlookservices.odata.EventFetcher;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.services.odata.impl.DefaultDependencyResolver;
@@ -49,13 +50,23 @@ public class Singleton {
     private List<Event> event;
     private OutlookClient client =new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
     private ListenableFuture<List<Event>> even;
-
-
+    private String name;
+    private String todayDate;
+    private ListenableFuture<User> user=client.getMe().read();
+    private User userName;
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
         }
         return singleton;
+    }
+    public void setName(String name)
+    {
+        this.name=name;
+    }
+    public String getName()
+    {
+        return name;
     }
     public void setFuture(ListenableFuture<List<Event>> even)
     {
@@ -64,9 +75,18 @@ public class Singleton {
     }
     public ListenableFuture<List<Event>> getFuture()
     {
+
         return even;
     }
     public Singleton() {
+        try {
+            userName = user.get();
+            setName(userName.toString());
+        }
+        catch (Exception e)
+        {
+
+        }
        Runnable runnable=new Runnable() {
             @Override
             public void run() {
@@ -99,5 +119,14 @@ public class Singleton {
     {
 
         return event;
+    }
+    public void setTodayDate(String todayDate)
+    {
+        this.todayDate=todayDate;
+
+    }
+    public String getTodayDate()
+    {
+        return todayDate;
     }
 }

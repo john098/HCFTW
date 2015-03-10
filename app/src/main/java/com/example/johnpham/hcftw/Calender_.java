@@ -282,7 +282,7 @@ public class Calender_ extends
     }
 
    public class GridCellAdapter extends BaseAdapter implements OnClickListener{
-       private ListenableFuture<List<Event>> even;//=client.getMe().getCalendar().getEvents().read();
+       private ListenableFuture<List<Event>> even;
        private PopupWindow popUp;
         private static final String tag = "GridCellAdapter";
         private final Context _context;
@@ -300,7 +300,8 @@ public class Calender_ extends
         private int currentWeekDay;
         private Button gridcell;
         private TextView num_events_per_day;
-      private       SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+        private SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+       private Singleton singleton=Singleton.getInstance();
        private String date;
         //private final HashMap eventsPerMonthMap;
         private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
@@ -308,30 +309,7 @@ public class Calender_ extends
         public GridCellAdapter(Context context, int textViewResourceId, int month, int year)
         {
             super();
-           final Singleton singleton=Singleton.getInstance();
 
-         /*   Runnable runnable=new Runnable() {
-                @Override
-                public void run() {
-
-                    try {
-                        while(true) {
-
-                            events = singleton.getEvent();
-
-
-                        }
-
-                    }
-                    catch(Exception e)
-                    {
-
-                    }
-
-                }
-            };
-            Thread thread=new Thread(runnable);
-            thread.start();*/
             this._context = context;
             this.list = new ArrayList<String>();
             this.month = month;
@@ -383,9 +361,37 @@ public class Calender_ extends
             String theyear = day_color[3];
             int d=Integer.parseInt(theday);
             int m = Integer.parseInt(themonth);
+            gridcell.setText(theday);
+            gridcell.setTag(theday + "-" + themonth + "-" + theyear);
 
             if (m-1==month) {
                      gridcell.setBackgroundResource(R.drawable.calendar_tile_small1);
+                try {
+                    events = singleton.getEvent();
+                    SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+                    for (Event e : events) {
+                        if (!e.getIsAllDay()) {
+                            date = sdf.format(e.getStart().getTime());
+                            if (date.compareTo(gridcell.getTag().toString()) == 0) {
+                                gridcell.setTextColor(Color.RED);
+                                continue;
+                            }
+                        }
+                        date = sdf.format(e.getEnd().getTime());
+                        if (date.compareTo(gridcell.getTag().toString()) == 0) {
+                            gridcell.setTextColor(Color.RED);
+
+                        }
+                        Log.d("im getting the day", e.getStart().getTime() + "\n");
+                    }
+                    Log.d("this is the day", theday + "\n");
+                    Log.d("this is the month", themonth + "\n");
+                    Log.d("this is the year", theyear + "\n");
+                }
+                catch (Exception e)
+                {
+                    Log.d("the error is",e+"\n");
+                }
             }
 
             // Set the Day GridCell
@@ -502,11 +508,10 @@ public class Calender_ extends
             first=Second;
 
                 Intent i = new Intent(getApplicationContext(), Events.class);
-                i.putExtra("body", body);
+            /*    i.putExtra("body", body);
                 i.putExtra("title", title);
-
-                  i.putExtra("variable",date_month_year);
-
+                  i.putExtra("variable",date_month_year);*/
+                singleton.setTodayDate(date_month_year);
                 startActivity(i);
 
         }
@@ -525,10 +530,12 @@ public class Calender_ extends
         }
         public void setCurrentWeekDay(int currentWeekDay)
         {
+
             this.currentWeekDay = currentWeekDay;
         }
         public int getCurrentWeekDay()
         {
+
             return currentWeekDay;
         }
     }
