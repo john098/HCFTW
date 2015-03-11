@@ -53,8 +53,9 @@ public class Email extends Activity
     private String inbox;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
+    private boolean disabled=false;
     MessagesAdapter adapter;
-    int messageCounter = 0;
+    private int messageCounter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +66,7 @@ public class Email extends Activity
         mainListView = (ListView) findViewById(R.id.mainListView);
         text = (TextView) findViewById(R.id.newMess);
         compose = (Button) findViewById(R.id.sendButton);
-        select = (Button) findViewById(R.id.selectButton); //actually is update button
-        //final ArrayList<String> emailList = new ArrayList<String>();
-       // MessagesAdapter  adapter = new MessagesAdapter(this, new ArrayList<Message>());
+        select = (Button) findViewById(R.id.selectButton);
         adapter = new MessagesAdapter(this, new ArrayList<Message>());
         mainListView.setAdapter(adapter);
         mainListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -93,66 +92,64 @@ public class Email extends Activity
          */
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Message m = (Message) mainListView.getItemAtPosition(position);
-                Intent i = new Intent(getApplicationContext(),EmailReader.class);
-                //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                String subject,date,body,from;
-                List<Recipient> to;
-                subject = m.getSubject();
-                body = m.getBody().getContent();
-                SimpleDateFormat sdf =  new SimpleDateFormat("MM/dd/yyyy");
-                date = sdf.format(m.getDateTimeSent().getTime());
-                to = m.getToRecipients();
-                //from = m.getFrom().getEmailAddress().getAddress();
-                List<Recipient> cc = m.getCcRecipients();
-                List<Recipient> bcc = m.getBccRecipients();
-                String name = "Unknown";
-                Recipient recipient = m.getFrom();
+                if (disabled == false) {
+                    Message m = (Message) mainListView.getItemAtPosition(position);
+                    Intent i = new Intent(getApplicationContext(), EmailReader.class);
+                    String subject, date, body, from;
+                    List<Recipient> to;
+                    subject = m.getSubject();
+                    body = m.getBody().getContent();
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                    date = sdf.format(m.getDateTimeSent().getTime());
+                    to = m.getToRecipients();
+                    //from = m.getFrom().getEmailAddress().getAddress();
+                    List<Recipient> cc = m.getCcRecipients();
+                    List<Recipient> bcc = m.getBccRecipients();
+                    String name = "Unknown";
+                    Recipient recipient = m.getFrom();
 
-                if (recipient != null) {
-                    EmailAddress address = recipient.getEmailAddress();
-                    if (address != null) {
-                        name = address.getName();
+                    if (recipient != null) {
+                        EmailAddress address = recipient.getEmailAddress();
+                        if (address != null) {
+                            name = address.getName();
+                        }
                     }
+                    i.putExtra("From", name);
+                    i.putExtra("Email", recipient.getEmailAddress().getAddress());
+                    i.putExtra("Date", date);
+                    i.putExtra("Subject", subject);
+                    i.putExtra("Body", body);
+                    ArrayList<String> recipients = new ArrayList<String>();
+                    for (Recipient r : to) {
+                        if (r.getEmailAddress().getName() != "Unknown") {
+                            recipients.add(r.getEmailAddress().getName());
+                        } else {
+                            recipients.add(r.getEmailAddress().getAddress());
+                        }
+                    }
+                    for (Recipient r : cc) {
+                        if (r.getEmailAddress().getName() != "Unknown") {
+                            recipients.add(r.getEmailAddress().getName());
+                        } else {
+                            recipients.add(r.getEmailAddress().getAddress());
+                        }
+                    }
+                    for (Recipient r : bcc) {
+                        if (r.getEmailAddress().getName() != "Unknown") {
+                            recipients.add(r.getEmailAddress().getName());
+                        } else {
+                            recipients.add(r.getEmailAddress().getAddress());
+                        }
+                    }
+                    i.putStringArrayListExtra("recipients", recipients);
+                    startActivity(i);
                 }
-                i.putExtra("From",name);
-                i.putExtra("Email",recipient.getEmailAddress().getAddress());
-                i.putExtra("Date",date);
-                i.putExtra("Subject",subject);
-                i.putExtra("Body",body);
-                ArrayList<String> recipients = new ArrayList<String>();
-                for(Recipient r : to) {
-                    if(r.getEmailAddress().getName()!="Unknown") {
-                        recipients.add(r.getEmailAddress().getName());
-                    }
-                    else{
-                        recipients.add(r.getEmailAddress().getAddress());
-                    }
-                }
-                for(Recipient r : cc) {
-                    if(r.getEmailAddress().getName()!="Unknown") {
-                        recipients.add(r.getEmailAddress().getName());
-                    }
-                    else{
-                        recipients.add(r.getEmailAddress().getAddress());
-                    }
-                }
-                for(Recipient r : bcc) {
-                    if(r.getEmailAddress().getName()!="Unknown") {
-                        recipients.add(r.getEmailAddress().getName());
-                    }
-                    else{
-                        recipients.add(r.getEmailAddress().getAddress());
-                    }
-                }
-                i.putStringArrayListExtra("recipients", recipients);
-                startActivity(i);
             }
         });
-
         mainListView.setOnItemLongClickListener(
                 new ListView.OnItemLongClickListener() {
                     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                        disabled=true;
                         new AlertDialog.Builder(Email.this)
                                 .setTitle("Delete?")
                                 .setMessage("Do you really want to delete this message?")
@@ -165,8 +162,13 @@ public class Email extends Activity
                                         adapter.remove(m);
                                         adapter.notifyDataSetChanged();
                                         Singleton.getInstance().getClient().getMe().getMessage(m.getId()).delete();
+                                        disabled=false;
                                     }})
-                                .setNegativeButton(android.R.string.no, null).show();
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        disabled=false;
+                                    }}).show();
                         return false;
                     }
                 }
@@ -225,11 +227,13 @@ public class Email extends Activity
 
             @Override
             public void onSuccess(final List<Message> result) {
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(Email.this, String.valueOf(result.size()) + " messages received", Toast.LENGTH_SHORT).show();
+                        if(result.size()!=messageCounter) {
+                            Toast.makeText(Email.this, String.valueOf(result.size()) + " messages received", Toast.LENGTH_SHORT).show();
+                        }
+                        messageCounter=result.size();
                         adapter.clear();
                         adapter.addAll(result);
                     }
@@ -256,7 +260,11 @@ public class Email extends Activity
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        retrieveMails();
+    }
     public void onSectionAttached(int number) {
        // mTitle= "Email";
         switch (number) {
