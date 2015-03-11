@@ -71,7 +71,6 @@ public class Email extends Activity
         adapter = new MessagesAdapter(this, new ArrayList<Message>());
         mainListView.setAdapter(adapter);
         mainListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        this.adapter = adapter;
         /*
          * Drawer initialization
          */
@@ -85,6 +84,7 @@ public class Email extends Activity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         /*
+         * End drawer initialization
          * End drawer initialization
          */
         retrieveMails();
@@ -149,6 +149,7 @@ public class Email extends Activity
                 startActivity(i);
             }
         });
+
         mainListView.setOnItemLongClickListener(
                 new ListView.OnItemLongClickListener() {
                     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -170,6 +171,13 @@ public class Email extends Activity
                     }
                 }
         );
+        compose.setOnClickListener(new View.OnClickListener()
+
+                                  {
+                                      public void onClick (View v){
+                                          startActivity(new Intent(getApplicationContext(),Compose.class));
+                                              }
+                                          });
 
             select.setOnClickListener(new View.OnClickListener()
 
