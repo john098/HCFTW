@@ -53,7 +53,6 @@ public class Singleton {
     private String name;
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
-    private User userName;
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
@@ -80,8 +79,8 @@ public class Singleton {
     }
     public Singleton() {
         try {
-            userName = user.get();
-            setName(userName.toString());
+
+            setName(user.get().getDisplayName());
         }
         catch (Exception e)
         {
