@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,11 +30,21 @@ import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.directoryservices.User;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.services.odata.impl.DefaultDependencyResolver;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.util.InetAddressUtils;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -108,6 +120,9 @@ public class Tutor_Report extends Activity
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<String>();
+                String name;
+                name=Singleton.getInstance().getName();
+                submit.setName(name);
                 submit.setMonth(month);
                 submit.setRole("A1");
                 submit.setTeachhr(teachhr);
@@ -120,9 +135,9 @@ public class Tutor_Report extends Activity
 
                 String toast =submit.getMonth();
 
-                Toast.makeText(getApplicationContext(), toast,
+                Toast.makeText(getApplicationContext(), submit.getIp(),
                         Toast.LENGTH_SHORT).show();
-                //new SubmitData().execute();
+                new SubmitData().execute(submit);
             }
         });
 
@@ -251,8 +266,8 @@ public class Tutor_Report extends Activity
         }
         return sb.toString();
     }
-    /*private class SubmitData extends
-            AsyncTask<String, Void, String> {
+    private class SubmitData extends
+            AsyncTask<Report, Void, String> {
         ProgressDialog dialog;
 
         @Override
@@ -264,7 +279,7 @@ public class Tutor_Report extends Activity
             dialog.show();
         }
 
-        protected String doInBackground(String... input) {
+        protected String doInBackground(Report... input) {
 
 
             try {
@@ -278,18 +293,24 @@ public class Tutor_Report extends Activity
                 String name;
                 String test;
                 ;
-                if(input[0]=="A1"){
-                    name="Rick";
-                }else{
-                    name="Tom";
-                }
+
 
                 try {
                     HttpPost post = new HttpPost(path);
-                    json.put("IP", name);
-                    json.put("prephr", 45);
+                    json.put("lang", "en");
+                    json.put("ip", input[0].getIp());
+                    Log.d("ip = ", input[0].getIp());
+                    json.put("name", input[0].getName());
+                    json.put("month", input[0].getMonth());
+                    json.put("role",input[0].getRole());
+                    json.put("teachhr", input[0].getTeachhr());
+                    json.put("prephr", input[0].getPrephr());
+                    json.put("travel", input[0].getTravel());
+                    json.put("servhr", input[0].getServhr());
+                    json.put("acomp", input[0].getAcomp());
                     Log.i("jason Object", json.toString());
                     post.setHeader("json", json.toString());
+                    Log.d("message sent", json.toString());
                     StringEntity se = new StringEntity(json.toString());
                     se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
                             "application/json"));
@@ -320,11 +341,12 @@ public class Tutor_Report extends Activity
             if (result == null)
                 Toast.makeText(Tutor_Report.this, "error", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(Tutor_Report.this, "success", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(Tutor_Report.this, result , Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
 
-    }*/
+    }
     /**
      * A placeholder fragment containing a simple view.
      */

@@ -23,10 +23,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.DialogInterface;
+import android.app.AlertDialog;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.directoryservices.User;
 import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.Message;
 import com.microsoft.outlookservices.Recipient;
@@ -64,7 +67,8 @@ public class Email extends Activity
         compose = (Button) findViewById(R.id.sendButton);
         select = (Button) findViewById(R.id.selectButton); //actually is update button
         //final ArrayList<String> emailList = new ArrayList<String>();
-        MessagesAdapter  adapter = new MessagesAdapter(this, new ArrayList<Message>());
+       // MessagesAdapter  adapter = new MessagesAdapter(this, new ArrayList<Message>());
+        adapter = new MessagesAdapter(this, new ArrayList<Message>());
         mainListView.setAdapter(adapter);
         mainListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         this.adapter = adapter;
@@ -83,7 +87,7 @@ public class Email extends Activity
         /*
          * End drawer initialization
          */
-
+        retrieveMails();
         /*
          * Listeners and functionality
          */
@@ -145,18 +149,32 @@ public class Email extends Activity
                 startActivity(i);
             }
         });
+        mainListView.setOnItemLongClickListener(
+                new ListView.OnItemLongClickListener() {
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                        new AlertDialog.Builder(Email.this)
+                                .setTitle("Delete?")
+                                .setMessage("Do you really want to delete this message?")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-        //check for compose click
-        compose.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),Compose.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-            }
-        });
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        Toast.makeText(Email.this, "Deleted", Toast.LENGTH_SHORT).show();
+                                        Message m = (Message) mainListView.getItemAtPosition(position);
+                                        adapter.remove(m);
+                                        adapter.notifyDataSetChanged();
+                                        Singleton.getInstance().getClient().getMe().getMessage(m.getId()).delete();
+                                    }})
+                                .setNegativeButton(android.R.string.no, null).show();
+                        return false;
+                    }
+                }
+        );
 
-        select.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            select.setOnClickListener(new View.OnClickListener()
+
+            {
+                public void onClick (View v){
                 //Select things
                 Controller.getInstance().postASyncTask(new Callable<Void>() {
                     @Override
@@ -165,19 +183,22 @@ public class Email extends Activity
                     }
                 });
             }
-        });
+            }
+
+            );
         /*
          * End Listeners and functionality
          */
-    }
+        }
     /*
     * Email methods
     *
     */
-    /**
-     * retrieves Inbox folder contents
-     * @return nothing
-     */
+                /**
+                 * retrieves Inbox folder contents
+                 * @return nothing
+                 */
+
     private Void retrieveMails() {
 
         //create a client object
