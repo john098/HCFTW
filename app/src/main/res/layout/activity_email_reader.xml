@@ -55,8 +55,9 @@
         android:id="@+id/toName"
         android:layout_below="@+id/fromText"
         android:layout_toEndOf="@+id/toText"
-        android:maxLines="2"
-        android:layout_alignEnd="@+id/linearLayout" />
+        android:maxLines="1"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:singleLine="true" />
 
     <LinearLayout
         android:orientation="vertical"
