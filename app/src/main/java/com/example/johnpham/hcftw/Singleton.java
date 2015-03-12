@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import android.widget.PopupWindow;
 import android.widget.LinearLayout;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.outlookservices.Contact;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by johnpham on 2/26/15.
@@ -49,99 +51,92 @@ public class Singleton {
 
     private static Singleton singleton = null;
     private List<Event> event;
-    private OutlookClient client = new OutlookClient(ServiceConstants.ENDPOINT_ID, (DefaultDependencyResolver) Controller.getInstance().getDependencyResolver());
+    private OutlookClient client =new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
     private ListenableFuture<List<Event>> even;
     private String name;
     private String todayDate;
-    private ListenableFuture<User> user = client.getMe().read();
-    private ListenableFuture<List<Contact>> contacts = client.getMe().getContacts().read();
+    private ListenableFuture<User> user=client.getMe().read();
+    private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
     private User userName;
-    private List<Contact> listcontact;
-    private String address;
-
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
         }
         return singleton;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name)
+    {
+        this.name=name;
     }
-
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
+    public void setFuture(ListenableFuture<List<Event>> even)
+    {
 
-    public void setFuture(ListenableFuture<List<Event>> even) {
-
-        this.even = even;
+        this.even=even;
     }
-
-    public ListenableFuture<List<Event>> getFuture() {
+    public ListenableFuture<List<Event>> getFuture()
+    {
 
         return even;
     }
+    public String getAddress(){
+        String add;
 
+        //iter = contact;
+        add="";
+        return add;
+    }
     public Singleton() {
-
-
         try {
             setName(user.get().getDisplayName());
-            setAddress(user.get().getAlias());
-          //  Log.d("hi there",user.get().getMailboxGuid().toString()+"\n");
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
-        Runnable runnable = new Runnable() {
+       Runnable runnable=new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while(true) {
                     try {
-                        even = client.getMe().getCalendar().getEvents().read();
+                        even=client.getMe().getCalendar().getEvents().read();
                         event = even.get();
                         setEvent(event);
 
-                    } catch (Exception e) {
+                    }
+                    catch(Exception e)
+                    {
 
                     }
                 }
             }
         };
-        Thread thread = new Thread(runnable);
+        Thread thread=new Thread(runnable);
         thread.start();
     }
-
-    public OutlookClient getClient() {
+    public OutlookClient getClient()
+    {
         return client;
     }
-
     public void setEvent(List<Event> event) {
 
-        this.event = event;
+         this.event=event;
     }
-
-    public List<Event> getEvent() {
+    public List<Event> getEvent()
+    {
 
         return event;
     }
-
-    public void setTodayDate(String todayDate) {
-        this.todayDate = todayDate;
+    public void setTodayDate(String todayDate)
+    {
+        this.todayDate=todayDate;
 
     }
-
-    public String getTodayDate() {
+    public String getTodayDate()
+    {
         return todayDate;
-    }
-
-    public void setAddress(String address)
-    {
-        this.address=address;
-    }
-    public String getAddress()
-    {
-        return address;
     }
 }
