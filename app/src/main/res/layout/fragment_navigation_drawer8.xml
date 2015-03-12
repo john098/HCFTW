@@ -8,4 +8,4 @@
     android:background="#cccc"
 
     tools:context="com.example.johnpham.hcftw.NavigationDrawerFragment"
-    android:fastScrollAlwaysVisible="true" />
+    android:fastScrollAlwaysVisible="false" />
