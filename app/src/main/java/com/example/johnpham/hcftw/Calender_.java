@@ -359,39 +359,42 @@ public class Calender_ extends
             String theday = day_color[0];
             String themonth = day_color[2];
             String theyear = day_color[3];
-            int d=Integer.parseInt(theday);
-            int m = Integer.parseInt(themonth);
-            gridcell.setText(theday);
-            gridcell.setTag(theday + "-" + themonth + "-" + theyear);
 
-            if (m-1==month) {
-                     gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
-                try {
-                    events = singleton.getEvent();
-                    SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
-                    for (Event e : events) {
-                        if (!e.getIsAllDay()) {
-                            date = sdf.format(e.getStart().getTime());
+
+
+                int m = Integer.parseInt(themonth);
+                gridcell.setText(theday);
+                gridcell.setTag(theday + "-" + themonth + "-" + theyear);
+
+                if (m-1==month) {
+                         gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
+                    try {
+                        events = singleton.getEvent();
+                        SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+                        for (Event e : events) {
+                            if (!e.getIsAllDay()) {
+                                date = sdf.format(e.getStart().getTime());
+                                if (date.compareTo(gridcell.getTag().toString()) == 0) {
+                                    gridcell.setTextColor(Color.RED);
+                                    continue;
+                                }
+                            }
+                            date = sdf.format(e.getEnd().getTime());
                             if (date.compareTo(gridcell.getTag().toString()) == 0) {
                                 gridcell.setTextColor(Color.RED);
-                                continue;
-                            }
-                        }
-                        date = sdf.format(e.getEnd().getTime());
-                        if (date.compareTo(gridcell.getTag().toString()) == 0) {
-                            gridcell.setTextColor(Color.RED);
 
+                            }
+                            Log.d("im getting the day", e.getStart().getTime() + "\n");
                         }
-                        Log.d("im getting the day", e.getStart().getTime() + "\n");
+                        Log.d("this is the day", theday + "\n");
+                        Log.d("this is the month", themonth + "\n");
+                        Log.d("this is the year", theyear + "\n");
                     }
-                    Log.d("this is the day", theday + "\n");
-                    Log.d("this is the month", themonth + "\n");
-                    Log.d("this is the year", theyear + "\n");
-                }
-                catch (Exception e)
-                {
-                    Log.d("the error is",e+"\n");
-                }
+                    catch (Exception e)
+                    {
+                        Log.d("the error is",e+"\n");
+                    }
+
             }
 
             // Set the Day GridCell
