@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,8 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -99,16 +103,19 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
+      /*  ArrayList<ImageView> obje=new ArrayList<ImageView>();
+        obje.add((ImageView)getResources().getDrawable(
+                android.R.drawable.editbox_dropdown_dark_frame));*/
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
-                        "Home",
-                       "Email",
-                        "Calendar",
-                        "Report",
-                }));
+            "Home",
+                    "Email",
+                    "Calendar",
+                    "Report",
+        }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         mDrawerListView.setBackgroundColor(Color.parseColor("#0c2f51"));
         return mDrawerListView;
