@@ -216,7 +216,7 @@ public class Home extends Activity
           onDestroy();
 
             finish();
-           // System.exit(0);
+            System.exit(0);
 
             return true;
         }

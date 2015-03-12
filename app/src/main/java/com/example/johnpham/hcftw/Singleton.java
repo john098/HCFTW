@@ -53,7 +53,7 @@ public class Singleton {
     private String name;
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
-    private ArrayList<String> rightNow;
+    private User userName;
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
@@ -80,7 +80,6 @@ public class Singleton {
     }
     public Singleton() {
         try {
-
             setName(user.get().getDisplayName());
         }
         catch (Exception e)
@@ -127,15 +126,6 @@ public class Singleton {
     }
     public String getTodayDate()
     {
-
         return todayDate;
-    }
-    public void setRigthNow(ArrayList<String> rightNow)
-    {
-        this.rightNow=rightNow;
-    }
-    public ArrayList<String> getRightNow()
-    {
-        return rightNow;
     }
 }

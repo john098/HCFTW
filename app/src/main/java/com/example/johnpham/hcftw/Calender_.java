@@ -365,7 +365,7 @@ public class Calender_ extends
             gridcell.setTag(theday + "-" + themonth + "-" + theyear);
 
             if (m-1==month) {
-                     gridcell.setBackgroundResource(R.drawable.calendar_tile_small1);
+                     gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
                 try {
                     events = singleton.getEvent();
                     SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
