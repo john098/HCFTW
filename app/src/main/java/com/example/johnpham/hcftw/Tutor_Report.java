@@ -125,6 +125,9 @@ public class Tutor_Report extends Activity
                 ArrayList<String> list = new ArrayList<String>();
                 String name;
                 name=Singleton.getInstance().getName();
+                String address;
+                address=Singleton.getInstance().getAddress();
+                Log.d("my address is ", address+"\n");
                 submit.setName(name);
                 submit.setMonth(month);
                 submit.setRole("A1");

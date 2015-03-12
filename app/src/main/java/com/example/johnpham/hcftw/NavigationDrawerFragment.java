@@ -103,15 +103,13 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-      /*  ArrayList<ImageView> obje=new ArrayList<ImageView>();
-        obje.add((ImageView)getResources().getDrawable(
-                android.R.drawable.editbox_dropdown_dark_frame));*/
+
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
-            "Home",
+                     "Home",
                     "Email",
                     "Calendar",
                     "Report",

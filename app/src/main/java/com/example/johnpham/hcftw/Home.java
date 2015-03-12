@@ -81,6 +81,7 @@ public class Home extends Activity
             Futures.addCallback(authenticated, new FutureCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
+
                     Controller.getInstance().postASyncTask(new Callable<Void>() {
                         @Override
                         public Void call() throws Exception {
@@ -95,7 +96,7 @@ public class Home extends Activity
                                           single=Singleton.getInstance();
                                     background=(ImageView)findViewById(R.id.imageView3);
                                     background.setBackground(getResources().getDrawable(R.drawable.resizehome));
-                                    dial=ProgressDialog.show(Home.this,"Loging in","Please wait",true);
+                                    dial=ProgressDialog.show(Home.this,"Logging in","Please wait",true);
 
                                     new Thread() {
                                         public void run() {
