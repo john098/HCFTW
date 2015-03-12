@@ -28,8 +28,10 @@ import java.text.SimpleDateFormat;
 import android.widget.PopupWindow;
 import android.widget.LinearLayout;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.outlookservices.Contact;
 import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.User;
 import com.microsoft.outlookservices.odata.EventFetcher;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by johnpham on 2/26/15.
@@ -53,6 +56,7 @@ public class Singleton {
     private String name;
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
+    private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
     private User userName;
     public static Singleton getInstance() {
         if (singleton == null) {
@@ -77,6 +81,13 @@ public class Singleton {
     {
 
         return even;
+    }
+    public String getAddress(){
+        String add;
+
+        //iter = contact;
+        add="";
+        return add;
     }
     public Singleton() {
         try {

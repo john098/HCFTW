@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -89,6 +90,8 @@ public class Tutor_Report extends Activity
         final Report submit = new Report();
         User current = new User();
         current.gettelephoneNumber();
+        TabWidget widget;
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
