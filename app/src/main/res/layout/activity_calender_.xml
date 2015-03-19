@@ -104,6 +104,7 @@
                 android:text="Mon"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
+                android:textColor="#FFFFFF"
                 android:layout_columnSpan="1" />
             <Button
                 android:layout_column="2"
@@ -111,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Tue"
                 android:text="Tue"
+                android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -120,6 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="Wed"
                 android:id="@+id/Wed"
+                android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -129,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Thu"
                 android:text="Thu"
+                android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -138,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Fri"
                 android:text="Fri"
+                android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -147,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Sat"
                 android:text="Sat"
+                android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -156,6 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sun"
+                android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />

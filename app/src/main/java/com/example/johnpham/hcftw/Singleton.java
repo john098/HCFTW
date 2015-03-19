@@ -58,6 +58,7 @@ public class Singleton {
     private ListenableFuture<User> user=client.getMe().read();
     private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
     private User userName;
+    private String add;
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
@@ -82,16 +83,19 @@ public class Singleton {
 
         return even;
     }
+    public void setAddress(String add)
+    {
+        this.add=add;
+    }
     public String getAddress(){
-        String add;
 
-        //iter = contact;
-        add="";
         return add;
     }
     public Singleton() {
         try {
             setName(user.get().getDisplayName());
+            setAddress(user.get().getAlias());
+
         }
         catch (Exception e)
         {

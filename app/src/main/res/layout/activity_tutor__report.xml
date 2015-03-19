@@ -65,6 +65,24 @@
 
                             />
                     </LinearLayout>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText4"
+                        android:text="Enter Your Phone Number"
+                        android:editable="false"
+                        android:focusable="false"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:ems="10"
+                        android:id="@+id/editText2"
+                        android:autoLink="phone" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
