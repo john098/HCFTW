@@ -133,8 +133,10 @@ public class NewNotes extends Activity {
                 try {
                     base = (Date) df.parse(text.getText().toString());
                 } catch (ParseException e) {
+                     text.setError("please enter correct MM/DD/YYY");
                     e.printStackTrace();
                 }
+                finish();
                     df.format(base);
                     final Singleton singleton = Singleton.getInstance();
                     Calendar start = Calendar.getInstance();
@@ -167,6 +169,10 @@ public class NewNotes extends Activity {
 
                                 }
                             });
+                            Intent i = new Intent(getApplicationContext(), Calender_.class);
+
+
+                            startActivity(i);
                             finish();
 
                         }
@@ -183,8 +189,8 @@ public class NewNotes extends Activity {
     public void call()
     {
         final Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
+        int mHour = 0;
+        int mMinute =0;
         TimePickerDialog n = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -212,8 +218,8 @@ public class NewNotes extends Activity {
     public void call1()
     {
         final  Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
+        int mHour = 0;
+        int mMinute = 0;
         TimePickerDialog n = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -256,11 +262,5 @@ public class NewNotes extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    protected void onRestart() {
-        super.onRestart();  // Always call the superclass method first
-
-        // Activity being restarted from stopped state
     }
 }

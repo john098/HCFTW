@@ -100,6 +100,7 @@
                 android:layout_column="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/Mon"
                 android:text="Mon"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
@@ -109,6 +110,7 @@
                 android:layout_column="2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/Tue"
                 android:text="Tue"
                 android:textColor="#FFFFFF"
                 android:clickable="false"
@@ -119,6 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Wed"
+                android:id="@+id/Wed"
                 android:textColor="#FFFFFF"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
@@ -127,6 +130,7 @@
                 android:layout_column="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/Thu"
                 android:text="Thu"
                 android:textColor="#FFFFFF"
                 android:clickable="false"
@@ -136,6 +140,7 @@
                 android:layout_column="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/Fri"
                 android:text="Fri"
                 android:textColor="#FFFFFF"
                 android:clickable="false"
@@ -145,6 +150,7 @@
                 android:layout_column="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/Sat"
                 android:text="Sat"
                 android:textColor="#FFFFFF"
                 android:clickable="false"
@@ -152,6 +158,7 @@
                 />
             <Button
                 android:layout_column="0"
+                android:id="@+id/Sun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sun"
@@ -164,8 +171,13 @@
             android:id="@+id/calendar"
             android:numColumns="7"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:longClickable="true">
         </GridView>
+
+
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -186,9 +198,8 @@
                 android:text="CANCEL"
                 android:id="@+id/cancel" />
 
-
+    ]
         </LinearLayout>
-
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

@@ -28,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import android.widget.PopupWindow;
 import android.widget.LinearLayout;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -59,6 +61,9 @@ private  ArrayAdapter<String> myAdapter;
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         setContentView(R.layout.activity_events);
+        Calendar cal=Calendar.getInstance();
+
+        bar.setTitle("Events   " + singleton.getTodayDate());
         Button j=(Button)findViewById(R.id.newEvent);
         TextView k=(TextView)findViewById(R.id.event);
         Bundle get=getIntent().getExtras();
@@ -223,5 +228,11 @@ private  ArrayAdapter<String> myAdapter;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed()
+    {
+        Intent i = new Intent(getApplicationContext(),Calender_.class);
+        startActivity(i);
+        finish();
+    }
 }
