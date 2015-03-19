@@ -28,7 +28,7 @@ import com.microsoft.services.odata.impl.DefaultDependencyResolver;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
-
+import android.view.Display;
 
 public class Compose extends Activity {
     Button send;
@@ -51,11 +51,19 @@ public class Compose extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent i = getIntent();
+        Display dis = getWindowManager().getDefaultDisplay();
+        int widthSize = dis.getWidth();
         toField = (EditText) findViewById(R.id.toTextBox);
+        toField.getLayoutParams().width=widthSize;
         ccField = (EditText) findViewById(R.id.ccTextBox);
+        ccField.getLayoutParams().width=widthSize;
         bccField = (EditText) findViewById(R.id.bccTextBox);
+        bccField.getLayoutParams().width=widthSize;
         subjField = (EditText) findViewById(R.id.subjTextBox);
+        subjField.getLayoutParams().width=widthSize;
+
         messField = (EditText) findViewById(R.id.emailTextBox);
+        messField.getLayoutParams().width=widthSize;
         if(i.hasExtra("Name")) {
             toString = i.getStringExtra("Name");
             toField.setText(toString);
