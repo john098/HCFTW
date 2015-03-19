@@ -44,8 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-
-
+import android.view.Display;
 public class Email extends Activity
             implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private int numb=0;

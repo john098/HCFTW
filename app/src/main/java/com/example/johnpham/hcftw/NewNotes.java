@@ -263,4 +263,11 @@ public class NewNotes extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed()
+    {
+        Intent i = new Intent(getApplicationContext(),Calender_.class);
+        startActivity(i);
+        finish();
+    }
 }
