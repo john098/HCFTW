@@ -56,6 +56,7 @@ public class Email extends Activity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     private boolean disabled=false;
+    private boolean htmlOrText;
     MessagesAdapter adapter;
     private int messageCounter=0;
     @Override
@@ -102,11 +103,12 @@ public class Email extends Activity
                     subject = m.getSubject();
                     ItemBody text = m.getBody();
                     if(text.getContentType()==BodyType.HTML) {
-                        body = Html.fromHtml((text.getContent())).toString();
+                        htmlOrText=true;
                     }
                     else{
-                        body=text.getContent();
+                        htmlOrText=false;
                     }
+                    body=text.getContent();
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                     date = sdf.format(m.getDateTimeSent().getTime());
                     to = m.getToRecipients();
@@ -127,6 +129,7 @@ public class Email extends Activity
                     i.putExtra("Date", date);
                     i.putExtra("Subject", subject);
                     i.putExtra("Body", body);
+                    i.putExtra("Html",htmlOrText);
                     ArrayList<String> recipients = new ArrayList<String>();
                     for (Recipient r : to) {
                         if (r.getEmailAddress().getName() != "Unknown") {
