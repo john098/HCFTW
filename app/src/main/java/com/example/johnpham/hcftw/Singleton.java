@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.outlookservices.Contact;
+import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.User;
 import com.microsoft.outlookservices.odata.EventFetcher;
@@ -54,6 +55,7 @@ public class Singleton {
     private OutlookClient client =new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
     private ListenableFuture<List<Event>> even;
     private String name;
+    private String email;
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
     private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
@@ -77,21 +79,21 @@ public class Singleton {
 
         this.even=even;
     }
+    public void setEmail(String alias){
+        this.email=alias+"@fortwayne.education";
+    }
+    public String getEmail(){
+        return email;
+    }
     public ListenableFuture<List<Event>> getFuture()
     {
 
         return even;
     }
-    public String getAddress(){
-        String add;
-
-        //iter = contact;
-        add="";
-        return add;
-    }
     public Singleton() {
         try {
             setName(user.get().getDisplayName());
+            setEmail(user.get().getAlias());
         }
         catch (Exception e)
         {

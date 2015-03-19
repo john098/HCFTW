@@ -91,6 +91,9 @@ public class Report {
     }
 
     public String getDatetime() {
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        datetime = sdf.format(dt);
         return datetime;
     }
 
