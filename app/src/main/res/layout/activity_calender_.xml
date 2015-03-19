@@ -97,26 +97,20 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
-                android:layout_column="0"
+                android:layout_column="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/Mon"
                 android:text="Mon"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 android:layout_columnSpan="1" />
             <Button
-                android:layout_column="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tue"
-                android:clickable="false"
-                android:background="@drawable/calendar_tile_small1"
-                />
-            <Button
                 android:layout_column="2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wed"
+                android:id="@+id/Tue"
+                android:text="Tue"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -124,7 +118,8 @@
                 android:layout_column="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thu"
+                android:text="Wed"
+                android:id="@+id/Wed"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -132,7 +127,8 @@
                 android:layout_column="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fri"
+                android:id="@+id/Thu"
+                android:text="Thu"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
@@ -140,12 +136,23 @@
                 android:layout_column="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sat"
+                android:id="@+id/Fri"
+                android:text="Fri"
                 android:clickable="false"
                 android:background="@drawable/calendar_tile_small1"
                 />
             <Button
                 android:layout_column="6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Sat"
+                android:text="Sat"
+                android:clickable="false"
+                android:background="@drawable/calendar_tile_small1"
+                />
+            <Button
+                android:layout_column="0"
+                android:id="@+id/Sun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sun"
@@ -157,8 +164,13 @@
             android:id="@+id/calendar"
             android:numColumns="7"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:longClickable="true">
         </GridView>
+
+
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"

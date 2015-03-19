@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.io.Serializable;
 import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -33,13 +34,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
 import android.text.format.DateFormat;
 import android.widget.Toast;
+
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -58,9 +62,11 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Handler;
 
+import android.view.Display;
+
 
 public class Calender_ extends
-        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener{
+        Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
     private static final String tag = "Main";
     private Button curMonth;
     private ImageView prevMonth;
@@ -72,7 +78,7 @@ public class Calender_ extends
     private int month, year;
     private final DateFormat date = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
-    protected OutlookClient client= new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
+    protected OutlookClient client = new OutlookClient(ServiceConstants.ENDPOINT_ID, (DefaultDependencyResolver) Controller.getInstance().getDependencyResolver());
 
 
     /**
@@ -95,45 +101,60 @@ public class Calender_ extends
         //ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
         //List<Event> events;
         //try {
-          //  events = even.get();
+        //  events = even.get();
       /*  mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 */
-            // Set up the drawer.
-            // mNavigationDrawerFragment.setUp(
-            //       R.id.navigation_drawer,
-            //     (DrawerLayout) findViewById(R.id.drawer_layout));
+        // Set up the drawer.
+        // mNavigationDrawerFragment.setUp(
+        //       R.id.navigation_drawer,
+        //     (DrawerLayout) findViewById(R.id.drawer_layout));
+        Display dis = getWindowManager().getDefaultDisplay();
+        int widthSize = dis.getWidth();
+        int eachSize = widthSize / 7;
+        Button Sun = (Button) findViewById(R.id.Sun);
+        Button Mon = (Button) findViewById(R.id.Mon);
+        Button Tue = (Button) findViewById(R.id.Tue);
+        Button Wed = (Button) findViewById(R.id.Wed);
+        Button Thu = (Button) findViewById(R.id.Thu);
+        Button Fri = (Button) findViewById(R.id.Fri);
+        Button Sat = (Button) findViewById(R.id.Sat);
 
+        Sun.getLayoutParams().width = eachSize;
+        Mon.getLayoutParams().width = eachSize;
+        Tue.getLayoutParams().width = eachSize;
+        Wed.getLayoutParams().width = eachSize;
+        Thu.getLayoutParams().width = eachSize;
+        Fri.getLayoutParams().width = eachSize;
+        Sat.getLayoutParams().width = eachSize;
+        _calendar = Calendar.getInstance(Locale.getDefault());
+        month = _calendar.get(Calendar.MONTH);
+        year = _calendar.get(Calendar.YEAR);
 
-            _calendar = Calendar.getInstance(Locale.getDefault());
-            month = _calendar.get(Calendar.MONTH);
-            year = _calendar.get(Calendar.YEAR);
-            Log.d(Integer.toString(month), "yes");
-            prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
-            prevMonth.setOnClickListener(this);
+        prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
+        prevMonth.setOnClickListener(this);
 
-            curMonth = (Button) this.findViewById(R.id.curMonth);
-            curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
+        curMonth = (Button) this.findViewById(R.id.curMonth);
+        curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
 
-            nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
-            nextMonth.setOnClickListener(this);
+        nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
+        nextMonth.setOnClickListener(this);
 
-            calendarView = (GridView) this.findViewById(R.id.calendar);
-
-            // Initialised
-            adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
-            adapter.notifyDataSetChanged();
-            calendarView.setAdapter(adapter);
-            Button add = (Button) findViewById(R.id.AddButton);
-            add.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getApplicationContext(), NewNotes.class));
-                }
-            });
-    //    }
-      //  catch(Exception e)
+        calendarView = (GridView) this.findViewById(R.id.calendar);
+        // Initialised
+        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+        adapter.notifyDataSetChanged();
+        calendarView.setAdapter(adapter);
+        Button add = (Button) findViewById(R.id.AddButton);
+        add.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NewNotes.class));
+            }
+        });
+        //    }
+        //  catch(Exception e)
         //{
 
 //        }
@@ -175,7 +196,7 @@ public class Calender_ extends
     }
 
 
-   // @Override
+    // @Override
    /* public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
@@ -200,9 +221,8 @@ public class Calender_ extends
         return super.onOptionsItemSelected(item);
     }
 */
-    private void setGridCellAdapterToDate(int month, int year)
-    {
-       adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+    private void setGridCellAdapterToDate(int month, int year) {
+        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
         _calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
         curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
         adapter.notifyDataSetChanged();
@@ -212,28 +232,20 @@ public class Calender_ extends
     @Override
     public void onClick(View v) {
 
-        if (v == prevMonth)
-        {
-            if (month <= 0)
-            {
+        if (v == prevMonth) {
+            if (month <= 0) {
                 month = 11;
                 year--;
-            }
-            else
-            {
+            } else {
                 month--;
             }
             setGridCellAdapterToDate(month, year);
         }
-        if (v == nextMonth)
-        {
-            if (month >= 11)
-            {
+        if (v == nextMonth) {
+            if (month >= 11) {
                 month = 0;
                 year++;
-            }
-            else
-            {
+            } else {
                 month++;
             }
             setGridCellAdapterToDate(month, year);
@@ -268,7 +280,7 @@ public class Calender_ extends
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_calender_, container, false);
             return rootView;
         }
@@ -281,15 +293,14 @@ public class Calender_ extends
         }
     }
 
-   public class GridCellAdapter extends BaseAdapter implements OnClickListener{
-       private ListenableFuture<List<Event>> even;
-       private PopupWindow popUp;
+    public class GridCellAdapter extends BaseAdapter implements OnClickListener,View.OnLongClickListener {
+        private ListenableFuture<List<Event>> even;
         private static final String tag = "GridCellAdapter";
         private final Context _context;
         private View first;
-       private View Second;
+        private View Second;
         private final List<String> list;
-      private List<Event> events;
+        private List<Event> events;
         private static final int DAY_OFFSET = 1;
         private final String[] weekdays = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
         private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -301,13 +312,12 @@ public class Calender_ extends
         private Button gridcell;
         private TextView num_events_per_day;
         private SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
-       private Singleton singleton=Singleton.getInstance();
-       private String date;
+        private Singleton singleton = Singleton.getInstance();
+        private String date;
         //private final HashMap eventsPerMonthMap;
         private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
 
-        public GridCellAdapter(Context context, int textViewResourceId, int month, int year)
-        {
+        public GridCellAdapter(Context context, int textViewResourceId, int month, int year) {
             super();
 
             this._context = context;
@@ -324,30 +334,25 @@ public class Calender_ extends
             printMonth(month, year);
         }
 
-        private String getMonthAsString(int i)
-        {
+        private String getMonthAsString(int i) {
             return months[i];
         }
 
-        private String getWeekDayAsString(int i)
-        {
+        private String getWeekDayAsString(int i) {
             return weekdays[i];
         }
 
-        private int getNumberOfDaysOfMonth(int i)
-        {
+        private int getNumberOfDaysOfMonth(int i) {
             return daysOfMonth[i];
         }
 
-        public String getItem(int position)
-        {
+        public String getItem(int position) {
             return list.get(position);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
-            if (row == null)
-            {
+            if (row == null) {
                 LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(R.layout.calendar_day_gridcell, parent, false);
             }
@@ -355,56 +360,72 @@ public class Calender_ extends
             // Get a reference to the Day gridcell
             gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
             gridcell.setOnClickListener(this);
+            gridcell.setOnLongClickListener(this);
             String[] day_color = list.get(position).split("-");
             String theday = day_color[0];
             String themonth = day_color[2];
             String theyear = day_color[3];
 
 
+            int m = Integer.parseInt(themonth);
+            gridcell.setText(theday);
+            gridcell.setTag(theday + "-" + themonth + "-" + theyear);
+            String today=theday + "-" + themonth + "-" + theyear;
 
-                int m = Integer.parseInt(themonth);
-                gridcell.setText(theday);
-                gridcell.setTag(theday + "-" + themonth + "-" + theyear);
+            if (m - 1 == month) {   row.setBackgroundResource(R.drawable.calendar_button_selector1);
+               gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
 
-                if (m-1==month) {
-                         gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
-                    try {
-                        events = singleton.getEvent();
-                        SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
-                        for (Event e : events) {
-                            if (!e.getIsAllDay()) {
-                                date = sdf.format(e.getStart().getTime());
-                                if (date.compareTo(gridcell.getTag().toString()) == 0) {
-                                    gridcell.setTextColor(Color.RED);
-                                    continue;
-                                }
-                            }
-                            date = sdf.format(e.getEnd().getTime());
+                try {
+                    events = singleton.getEvent();
+                    SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
+                    for (Event e : events) {
+                        if (!e.getIsAllDay()) {
+                            date = sdf.format(e.getStart().getTime());
                             if (date.compareTo(gridcell.getTag().toString()) == 0) {
                                 gridcell.setTextColor(Color.RED);
-
+                                continue;
                             }
-                            Log.d("im getting the day", e.getStart().getTime() + "\n");
                         }
-                        Log.d("this is the day", theday + "\n");
-                        Log.d("this is the month", themonth + "\n");
-                        Log.d("this is the year", theyear + "\n");
-                    }
-                    catch (Exception e)
-                    {
-                        Log.d("the error is",e+"\n");
+                        date = sdf.format(e.getEnd().getTime());
+                        if (date.compareTo(gridcell.getTag().toString()) == 0) {
+
+                            gridcell.setTextColor(Color.RED);
+
+                        }
+
                     }
 
+                } catch (Exception e) {
+                    Log.d("the error is", e + "\n");
+                }
+                int todayYear,todaymonth,todayDate;
+                Calendar temp=Calendar.getInstance();
+                todayYear=temp.get(Calendar.YEAR);
+                todaymonth=temp.getInstance().get(Calendar.MONTH)+1;
+                todayDate=temp.getInstance().get(Calendar.DATE);
+
+
+
+                String line=todayDate + "-" + todaymonth+ "-" + todayYear;
+                if(todaymonth==13) {
+                    todaymonth = 0;
+                }
+                if(today.equals(line))
+                {
+                    gridcell.setBackgroundResource(R.drawable.calendar_button_selector);//Current day color
+                }
             }
-
+            else{
+                row.setBackgroundResource(R.drawable.calendar_button_selector);
+            }
             // Set the Day GridCell
+
             gridcell.setText(theday);
             gridcell.setTag(theday + "-" + themonth + "-" + theyear);
             return row;
         }
 
-        private void printMonth(int mm, int yy)
-        {
+        private void printMonth(int mm, int yy) {
 
             // The number of days to leave blank at
             // the start of this month.
@@ -423,31 +444,26 @@ public class Calender_ extends
             GregorianCalendar cal = new GregorianCalendar(yy, curMonth, 1);
 
 
-            if (curMonth == 11)
-            {
+            if (curMonth == 11) {
                 prevMonth = curMonth - 1;
                 daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
                 nextMonth = 0;
                 prevYear = yy;
                 nextYear = yy + 1;
-            }
-            else if (curMonth == 0)
-            {
+            } else if (curMonth == 0) {
                 prevMonth = 11;
                 prevYear = yy - 1;
                 nextYear = yy;
                 daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
                 nextMonth = 1;
-                Log.d(tag, "**--> PrevYear: " + prevYear + " PrevMonth:" + prevMonth + " NextMonth: " + nextMonth + " NextYear: " + nextYear);
-            }
-            else
-            {
+
+            } else {
                 prevMonth = curMonth - 1;
                 nextMonth = curMonth + 1;
                 nextYear = yy;
                 prevYear = yy;
                 daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-                Log.d(tag, "***---> PrevYear: " + prevYear + " PrevMonth:" + prevMonth + " NextMonth: " + nextMonth + " NextYear: " + nextYear);
+
             }
 
             // Compute how much to leave before before the first day of the
@@ -457,36 +473,29 @@ public class Calender_ extends
             trailingSpaces = currentWeekDay;
 
 
-            if (cal.isLeapYear(cal.get(Calendar.YEAR)) && mm == 1)
-            {
+            if (cal.isLeapYear(cal.get(Calendar.YEAR)) && mm == 1) {
                 ++daysInMonth;
             }
 
             // Trailing Month days
-            for (int i = 0; i < trailingSpaces; i++)
-            {
-                list.add(String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i) + "-GREY" + "-" + (prevMonth+1) + "-" + prevYear);
+            for (int i = 0; i < trailingSpaces; i++) {
+                list.add(String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i) + "-GREY" + "-" + (prevMonth + 1) + "-" + prevYear);
             }
 
             // Current Month Days
-            for (int i = 1; i <= daysInMonth; i++)
-            {
+            for (int i = 1; i <= daysInMonth; i++) {
 
-                if (i == getCurrentDayOfMonth())
-                {
-                    list.add(String.valueOf(i) + "-BLUE" + "-" + (curMonth+1) + "-" + yy);
-                }
-                else
-                {
-                    list.add(String.valueOf(i) + "-WHITE" + "-" + (curMonth+1) + "-" + yy);
+                if (i == getCurrentDayOfMonth()) {
+                    list.add(String.valueOf(i) + "-BLUE" + "-" + (curMonth + 1) + "-" + yy);
+                } else {
+                    list.add(String.valueOf(i) + "-WHITE" + "-" + (curMonth + 1) + "-" + yy);
                 }
             }
 
             // Leading Month days
-            for (int i = 0; i < list.size() % 7; i++)
-            {
+            for (int i = 0; i < list.size() % 7; i++) {
 
-                list.add(String.valueOf(i + 1) + "-GREY" + "-" + (nextMonth+1) + "-" + nextYear);
+                list.add(String.valueOf(i + 1) + "-GREY" + "-" + (nextMonth + 1) + "-" + nextYear);
             }
         }
 
@@ -494,50 +503,62 @@ public class Calender_ extends
 
             return list.size();
         }
-        public void onClick(View view)
-        {
-            final ArrayList<String>body=new ArrayList<String>();
-            final ArrayList<String> title=new ArrayList<String>();
-           final ArrayList<Event> TodayEvent=new ArrayList<Event>();
 
-
-            Second=view;
-            if(first!=null) {
+        public void onClick(View view) {
+            Second = view;
+            if (first != null) {
                 first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
             }
             String date_month_year = (String) view.getTag();
 
             Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
-            first=Second;
+            first = Second;
 
-                Intent i = new Intent(getApplicationContext(), Events.class);
-            /*    i.putExtra("body", body);
-                i.putExtra("title", title);
-                  i.putExtra("variable",date_month_year);*/
-                singleton.setTodayDate(date_month_year);
-                startActivity(i);
+            Intent i = new Intent(getApplicationContext(), Events.class);
+
+            singleton.setTodayDate(date_month_year);
+            startActivity(i);
+            finish();
 
         }
-        public long getItemId(int position)
-        {
-           return position;
+      public boolean onLongClick(View view)
+      {
+          Second = view;
+          if (first != null) {
+              first.setBackground(getResources().getDrawable(R.drawable.calendar_tile_small));
+          }
+          String date_month_year = (String) view.getTag();
+
+          Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
+          first = Second;
+
+          Intent i = new Intent(getApplicationContext(), NewNotes.class);
+          singleton.setTodayDate(date_month_year);
+          i.putExtra("date", singleton.getTodayDate());
+          startActivity(i);
+          finish();
+
+          return true;
+      }
+
+        public long getItemId(int position) {
+            return position;
         }
-        public int getCurrentDayOfMonth()
-        {
+
+        public int getCurrentDayOfMonth() {
             return currentDayOfMonth;
         }
 
-        private void setCurrentDayOfMonth(int currentDayOfMonth)
-        {
+        private void setCurrentDayOfMonth(int currentDayOfMonth) {
             this.currentDayOfMonth = currentDayOfMonth;
         }
-        public void setCurrentWeekDay(int currentWeekDay)
-        {
+
+        public void setCurrentWeekDay(int currentWeekDay) {
 
             this.currentWeekDay = currentWeekDay;
         }
-        public int getCurrentWeekDay()
-        {
+
+        public int getCurrentWeekDay() {
 
             return currentWeekDay;
         }
