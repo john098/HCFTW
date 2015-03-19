@@ -81,6 +81,7 @@ public class Home extends Activity
             Futures.addCallback(authenticated, new FutureCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
+
                     Controller.getInstance().postASyncTask(new Callable<Void>() {
                         @Override
                         public Void call() throws Exception {
@@ -215,8 +216,9 @@ public class Home extends Activity
             clearApplicationData();
           onDestroy();
 
-           finish();
-           System.exit(0);
+            finish();
+            System.exit(0);
+
             return true;
         }
 

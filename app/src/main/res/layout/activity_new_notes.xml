@@ -187,7 +187,8 @@
             android:layout_weight="0.34"
             android:editable="true"
             android:background="#ffd9d9d9"
-            android:gravity="top" />
+            android:gravity="top"
+            />
 
     </LinearLayout>
 

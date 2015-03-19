@@ -3,6 +3,7 @@ package com.example.johnpham.hcftw;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.text.Html;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +31,9 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.directoryservices.User;
+import com.microsoft.outlookservices.BodyType;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.ItemBody;
 import com.microsoft.outlookservices.Message;
 import com.microsoft.outlookservices.Recipient;
 import com.microsoft.outlookservices.odata.MessageFetcher;
@@ -98,7 +101,13 @@ public class Email extends Activity
                     String subject, date, body, from;
                     List<Recipient> to;
                     subject = m.getSubject();
-                    body = m.getBody().getContent();
+                    ItemBody text = m.getBody();
+                    if(text.getContentType()==BodyType.HTML) {
+                        body = Html.fromHtml((text.getContent())).toString();
+                    }
+                    else{
+                        body=text.getContent();
+                    }
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                     date = sdf.format(m.getDateTimeSent().getTime());
                     to = m.getToRecipients();

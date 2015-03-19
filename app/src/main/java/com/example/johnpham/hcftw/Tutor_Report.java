@@ -61,9 +61,11 @@ import java.util.Date;
 import java.util.List;
 
 
+
 public class Tutor_Report extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private int numb=0;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -73,10 +75,11 @@ public class Tutor_Report extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    String month, teachhr, prephr, travel;
-    Spinner spin1, spin2, spin3, spin4;
-    EditText etext;
-    Button send;
+    private String month, teachhr, prephr, travel;
+    private Spinner spin1, spin2, spin3, spin4,yearSpinner;
+    private EditText etext;
+    private Button send;
+    private ArrayList<String> years=new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,20 @@ public class Tutor_Report extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        yearSpinner=(Spinner)findViewById(R.id.yearSpinner);
+        int theyear=Calendar.getInstance().get(Calendar.YEAR);
+        for(int i=0;i<5;i++)
+        {
+            years.add(Integer.toString(theyear));
+            Log.d("this is the year",theyear+"\n");
+            theyear--;
+        }
+        ArrayAdapter<String> yearAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,years);
+
+        yearSpinner.setAdapter(yearAdapter);
         spin1 = (Spinner) findViewById(R.id.spinner);
+
         spin2 = (Spinner) findViewById(R.id.spinner2);
         spin3 = (Spinner) findViewById(R.id.spinner3);
         spin4 = (Spinner) findViewById(R.id.spinner4);
@@ -109,6 +125,9 @@ public class Tutor_Report extends Activity
                 ArrayList<String> list = new ArrayList<String>();
                 String name;
                 name=Singleton.getInstance().getName();
+                String address;
+                address=Singleton.getInstance().getAddress();
+                Log.d("my address is ", address+"\n");
                 submit.setName(name);
                 submit.setMonth(month);
                 submit.setRole("A1");

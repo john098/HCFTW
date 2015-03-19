@@ -155,7 +155,7 @@ public class NewNotes extends Activity {
                     e.setStart(start);
                     e.setEnd(end);
                 List<Event>n=singleton.getEvent();
-                n.add(e);
+             //   n.addAll(e);
                 singleton.setEvent(n);
                     ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
                     Futures.addCallback(send, new FutureCallback<Event>() {

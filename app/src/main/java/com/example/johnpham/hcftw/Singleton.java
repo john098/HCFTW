@@ -56,7 +56,7 @@ public class Singleton {
     private String name;
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
-    private ListenableFuture<List<Contact>> contacts =client.getMe().getContacts().read();
+    private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
     private User userName;
     public static Singleton getInstance() {
         if (singleton == null) {

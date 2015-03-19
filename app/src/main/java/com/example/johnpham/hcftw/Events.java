@@ -91,13 +91,8 @@ private  ArrayAdapter<String> myAdapter;
                     }
             }
 
-            myAdapter=new
-                    ArrayAdapter <String>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    array);
-            list.setAdapter(myAdapter);
-            myAdapter.notifyDataSetChanged();
+            Display(array);
+
            list.setFocusable(false);
             list.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
@@ -150,7 +145,7 @@ private  ArrayAdapter<String> myAdapter;
                            singleton.setEvent(events);
                             arrayEvent.remove(w);
                             array.remove(w);
-                            change();
+                            Display(array);
                             popUp.dismiss();
                         }
                     });
@@ -200,7 +195,7 @@ private  ArrayAdapter<String> myAdapter;
 
     }
 
-    public void change()
+    public void Display(ArrayList<String> array)
     {
         myAdapter=new
                 ArrayAdapter <String>(
@@ -208,6 +203,7 @@ private  ArrayAdapter<String> myAdapter;
                 android.R.layout.simple_list_item_1,
                 array);
         list.setAdapter(myAdapter);
+        myAdapter.notifyDataSetChanged();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
