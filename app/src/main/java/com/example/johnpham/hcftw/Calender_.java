@@ -361,13 +361,20 @@ public class Calender_ extends
             String theyear = day_color[3];
 
 
-
+                int d = Integer.parseInt(theday);
                 int m = Integer.parseInt(themonth);
                 gridcell.setText(theday);
                 gridcell.setTag(theday + "-" + themonth + "-" + theyear);
 
                 if (m-1==month) {
-                         gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
+                        if(d==getCurrentDayOfMonth()){
+                            gridcell.setBackgroundResource(R.drawable.calendar_button_selector2);
+                            row.setBackgroundResource(R.drawable.calendar_button_selector2);
+                        }
+                         else {
+                            gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
+                            row.setBackgroundResource(R.drawable.calendar_button_selector1);
+                        }
                     try {
                         events = singleton.getEvent();
                         SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
@@ -396,7 +403,9 @@ public class Calender_ extends
                     }
 
             }
-
+            else{
+                    row.setBackgroundResource(R.drawable.calendar_button_selector);
+                }
             // Set the Day GridCell
             gridcell.setText(theday);
             gridcell.setTag(theday + "-" + themonth + "-" + theyear);
