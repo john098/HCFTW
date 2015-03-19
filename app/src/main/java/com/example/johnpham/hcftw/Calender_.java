@@ -383,6 +383,7 @@ public class Calender_ extends
                             date = sdf.format(e.getStart().getTime());
                             if (date.compareTo(gridcell.getTag().toString()) == 0) {
                                 gridcell.setTextColor(Color.RED);
+                                row.setBackgroundResource(R.drawable.calendar_tile_small4);
                                 continue;
                             }
                         }
@@ -412,7 +413,8 @@ public class Calender_ extends
                 }
                 if(today.equals(line))
                 {
-                    gridcell.setBackgroundResource(R.drawable.calendar_button_selector);//Current day color
+                    gridcell.setBackgroundResource(R.drawable.calendar_button_selector2);//Current day color
+                    row.setBackgroundResource(R.drawable.calendar_button_selector2);
                 }
             }
             else{
