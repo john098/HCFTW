@@ -91,8 +91,6 @@ public class Tutor_Report extends Activity
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         final Report submit = new Report();
-        User current = new User();
-        current.gettelephoneNumber();
 
 
         // Set up the drawer.
@@ -117,8 +115,8 @@ public class Tutor_Report extends Activity
         spin3 = (Spinner) findViewById(R.id.spinner3);
         spin4 = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
-        etext2 = (EditText)findViewById(R.id.editText2);
         etext = (EditText)findViewById(R.id.editText);
+        //etext2 = (EditText)findViewById(R.id.editText2);
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,11 +124,11 @@ public class Tutor_Report extends Activity
                 ArrayList<String> list = new ArrayList<String>();
                 String name;
                 name=Singleton.getInstance().getName();
-                int phone = Integer.getInteger(etext2.getText().toString());
+                //int phone = Integer.getInteger(etext2.getText().toString());
                 submit.setName(name);
                 submit.setMonth(month);
                 submit.setRole("A1");
-                submit.setPhone(phone);
+                //submit.setPhone(phone);
                 submit.setTeachhr(teachhr);
                 submit.setPrephr(prephr);
                 submit.setTravel(travel);
@@ -289,7 +287,7 @@ public class Tutor_Report extends Activity
 
 
             try {
-                String path = "http://fortwayne.education/mobileApp/mobileapp.php";
+                String path = "http://fortwayne.education/mobileapp.php";
 
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
@@ -302,13 +300,13 @@ public class Tutor_Report extends Activity
                 try {
                     HttpPost post = new HttpPost(path);
                     json.put("lang", "en");
-                    json.put("ip", input[0].getIp());
-                    Log.d("ip = ", input[0].getIp());
                     json.put("sdate", input[0].getStartdate());
                     json.put("dtime", input[0].getDatetime());
+                    json.put("ip", input[0].getIp());
+                    Log.d("ip = ", input[0].getIp());
                     json.put("name", input[0].getName());
                     json.put("month", input[0].getMonth());
-                    json.put("phone", input[0].getPhone());
+                    //json.put("phone", input[0].getPhone());
                     json.put("email", Singleton.getInstance().getEmail());
                     json.put("role",input[0].getRole());
                     json.put("teachhr", input[0].getTeachhr());
