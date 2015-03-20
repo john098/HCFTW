@@ -77,7 +77,7 @@ public class Tutor_Report extends Activity
     private CharSequence mTitle;
     private String month, teachhr, prephr, travel;
     private Spinner spin1, spin2, spin3, spin4,yearSpinner;
-    private EditText etext;
+    private EditText etext, etext2;
     private Button send;
     private ArrayList<String> years=new ArrayList<String>();
 
@@ -93,7 +93,7 @@ public class Tutor_Report extends Activity
         final Report submit = new Report();
         User current = new User();
         current.gettelephoneNumber();
-        TabWidget widget;
+
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -117,6 +117,7 @@ public class Tutor_Report extends Activity
         spin3 = (Spinner) findViewById(R.id.spinner3);
         spin4 = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
+        etext2 = (EditText)findViewById(R.id.editText2);
         etext = (EditText)findViewById(R.id.editText);
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +126,11 @@ public class Tutor_Report extends Activity
                 ArrayList<String> list = new ArrayList<String>();
                 String name;
                 name=Singleton.getInstance().getName();
-                String address;
-                address=Singleton.getInstance().getAddress();
-                Log.d("my address is ", address+"\n");
+                int phone = Integer.getInteger(etext2.getText().toString());
                 submit.setName(name);
                 submit.setMonth(month);
                 submit.setRole("A1");
+                submit.setPhone(phone);
                 submit.setTeachhr(teachhr);
                 submit.setPrephr(prephr);
                 submit.setTravel(travel);
@@ -289,16 +289,14 @@ public class Tutor_Report extends Activity
 
 
             try {
-                String path = "http://fortwayne.education/mobileapp.php";
+                String path = "http://fortwayne.education/mobileApp/mobileapp.php";
 
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
                 // Limit
                 HttpResponse response;
                 JSONObject json = new JSONObject();
-                String name;
-                String test;
-                ;
+
 
 
                 try {
@@ -306,8 +304,12 @@ public class Tutor_Report extends Activity
                     json.put("lang", "en");
                     json.put("ip", input[0].getIp());
                     Log.d("ip = ", input[0].getIp());
+                    json.put("sdate", input[0].getStartdate());
+                    json.put("dtime", input[0].getDatetime());
                     json.put("name", input[0].getName());
                     json.put("month", input[0].getMonth());
+                    json.put("phone", input[0].getPhone());
+                    json.put("email", Singleton.getInstance().getEmail());
                     json.put("role",input[0].getRole());
                     json.put("teachhr", input[0].getTeachhr());
                     json.put("prephr", input[0].getPrephr());
