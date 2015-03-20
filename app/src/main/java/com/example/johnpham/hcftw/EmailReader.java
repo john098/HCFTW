@@ -11,8 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.apache.http.conn.scheme.HostNameResolver;
 import org.w3c.dom.Text;
 
 import java.util.Date;
@@ -60,9 +63,10 @@ public class EmailReader extends Activity {
         TextView subj = (TextView) findViewById(R.id.subjText);
         WebView mess = (WebView) findViewById(R.id.messageText);
         TextView mess2 = (TextView) findViewById(R.id.messageText2);
+        ScrollView test = (ScrollView) findViewById(R.id.scrollText);
         if(enabled==true){
             mess.setVisibility(View.VISIBLE);
-            mess.loadData(message,"text/html",null);
+            mess.loadData(message, "text/html", null);
         }
         else{
             mess2.setVisibility(View.VISIBLE);

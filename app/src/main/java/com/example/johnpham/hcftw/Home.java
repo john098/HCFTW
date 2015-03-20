@@ -93,18 +93,22 @@ public class Home extends Activity
                                             Home.this,
                                             "Authentication successful",
                                             Toast.LENGTH_LONG).show();*/
-                                          single=Singleton.getInstance();
-                                    background=(ImageView)findViewById(R.id.imageView3);
-                                    background.setBackground(getResources().getDrawable(R.drawable.resizehome));
                                     dial=ProgressDialog.show(Home.this,"Logging in","Please wait",true);
 
                                     new Thread() {
                                         public void run() {
-                                            SystemClock.sleep(3000);
+                                            //SystemClock.sleep(3000);
+                                            while(single==null) {
+                                                single=Singleton.getInstance();
+                                            }
                                             dial.dismiss();
 
                                         }
                                     }.start();
+
+                                    background=(ImageView)findViewById(R.id.imageView3);
+                                    background.setBackground(getResources().getDrawable(R.drawable.resizehome));
+
 
 
 
