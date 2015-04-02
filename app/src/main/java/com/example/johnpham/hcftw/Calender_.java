@@ -11,6 +11,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -121,7 +122,6 @@ public class Calender_ extends
         Button Thu = (Button) findViewById(R.id.Thu);
         Button Fri = (Button) findViewById(R.id.Fri);
         Button Sat = (Button) findViewById(R.id.Sat);
-
         Sun.getLayoutParams().width = eachSize;
         Mon.getLayoutParams().width = eachSize;
         Tue.getLayoutParams().width = eachSize;
@@ -138,7 +138,8 @@ public class Calender_ extends
 
         curMonth = (Button) this.findViewById(R.id.curMonth);
         curMonth.setText(date.format(dateTemplate, _calendar.getTime()));
-
+        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(),"freescpt.ttf");
+        curMonth.setTypeface(tf);
         nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
         nextMonth.setOnClickListener(this);
 
