@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.apache.http.conn.scheme.HostNameResolver;
 import org.w3c.dom.Text;
 
 import java.util.Date;
@@ -20,6 +24,7 @@ import java.util.List;
 
 public class EmailReader extends Activity {
     //String email;
+    boolean enabled;
     String inbox;
     List<String> toString;
     String fromString;
@@ -47,6 +52,7 @@ public class EmailReader extends Activity {
         }
         subjString = i.getStringExtra("Subject");
         message = i.getStringExtra("Body");
+        enabled = i.getBooleanExtra("Html",false);
         to = (TextView) findViewById(R.id.toName);
         TextView inboxView = (TextView) findViewById(R.id.inboxReader);
         TextView date = (TextView) findViewById(R.id.dateText);
@@ -55,8 +61,19 @@ public class EmailReader extends Activity {
         //editable from email String
         TextView from = (TextView) findViewById(R.id.fromName);
         TextView subj = (TextView) findViewById(R.id.subjText);
-        TextView mess = (TextView) findViewById(R.id.messageText);
+        WebView mess = (WebView) findViewById(R.id.messageText);
+        TextView mess2 = (TextView) findViewById(R.id.messageText2);
+        ScrollView test = (ScrollView) findViewById(R.id.scrollText);
+        if(enabled==true){
+            mess.setVisibility(View.VISIBLE);
+            mess.loadData(message, "text/html", null);
+        }
+        else{
+            mess2.setVisibility(View.VISIBLE);
+            mess2.setText(message);
+        }
         //setting the values
+
         inboxView.setText(inbox);
         StringBuilder names = new StringBuilder();
         for(int j=0;j<toString.size();j++){
@@ -70,7 +87,6 @@ public class EmailReader extends Activity {
         date.setText(dater);
         from.setText(fromString);
         subj.setText(subjString);
-        mess.setText(message);
         //listener
         reply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

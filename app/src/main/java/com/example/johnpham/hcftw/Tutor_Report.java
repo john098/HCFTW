@@ -77,9 +77,9 @@ public class Tutor_Report extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private String month, teachhr, prephr, travel;
+    private String month, year, teachhr, prephr, travel;
     private Spinner spin1, spin2, spin3, spin4,yearSpinner;
-    private EditText etext;
+    private EditText etext, etext2;
     private Button send;
     private ArrayList<String> years=new ArrayList<String>();
     private PopupWindow pop;
@@ -94,9 +94,7 @@ public class Tutor_Report extends Activity
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         final Report submit = new Report();
-        User current = new User();
-        current.gettelephoneNumber();
-        TabWidget widget;
+
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -114,39 +112,34 @@ public class Tutor_Report extends Activity
         ArrayAdapter<String> yearAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,years);
 
         yearSpinner.setAdapter(yearAdapter);
-        spin1 = (Spinner) findViewById(R.id.spinner);
 
+        spin1 = (Spinner) findViewById(R.id.spinner);
         spin2 = (Spinner) findViewById(R.id.spinner2);
 
         spin3 = (Spinner) findViewById(R.id.spinner3);
         spin4 = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
         etext = (EditText)findViewById(R.id.editText);
+        etext2 = (EditText)findViewById(R.id.editText2);
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> list = new ArrayList<String>();
+                String submitMonth = month+" "+year;
+                String acomp;
                 String name;
                 name=Singleton.getInstance().getName();
-                String address;
-                address=Singleton.getInstance().getAddress();
-                Log.d("my address is ", address+"\n");
+                acomp = etext.getText().toString();
+                long phone = Long.parseLong(etext2.getText().toString());
                 submit.setName(name);
-                submit.setMonth(month);
+                submit.setMonth(submitMonth);
                 submit.setRole("A1");
+                submit.setPhone(phone);
                 submit.setTeachhr(teachhr);
                 submit.setPrephr(prephr);
                 submit.setTravel(travel);
                 submit.setServhr("A0");
-                submit.setAcomp(etext.getText().toString());
-                String acomp = etext.getText().toString();
-                list.add(acomp);
-
-                String toast =submit.getMonth();
-
-                Toast.makeText(getApplicationContext(), submit.getIp(),
-                        Toast.LENGTH_SHORT).show();
+                submit.setAcomp(acomp);
                 new SubmitData().execute(submit);
             }
         });
@@ -255,6 +248,12 @@ public class Tutor_Report extends Activity
     }
 private TextView w;
     public void setSpinerslisteners(){
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                year=years.get(position);
+            }
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
             spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     month=getResources().getStringArray(R.array.Month)[position];
@@ -356,18 +355,20 @@ private TextView w;
                 // Limit
                 HttpResponse response;
                 JSONObject json = new JSONObject();
-                String name;
-                String test;
-                ;
+
 
 
                 try {
                     HttpPost post = new HttpPost(path);
                     json.put("lang", "en");
+                    json.put("sdate", input[0].getStartdate());
+                    json.put("dtime", input[0].getDatetime());
                     json.put("ip", input[0].getIp());
                     Log.d("ip = ", input[0].getIp());
                     json.put("name", input[0].getName());
                     json.put("month", input[0].getMonth());
+                    json.put("phone", input[0].getPhone());
+                    json.put("email", Singleton.getInstance().getEmail());
                     json.put("role",input[0].getRole());
                     json.put("teachhr", input[0].getTeachhr());
                     json.put("prephr", input[0].getPrephr());

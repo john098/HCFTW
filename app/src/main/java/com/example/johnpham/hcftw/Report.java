@@ -18,7 +18,7 @@ public class Report {
     private String datetime;
     private String ip;
     private String name;
-    private int phone;
+    private long phone;
     private String month;
     private String role;
     private String teachhr;
@@ -33,7 +33,6 @@ public class Report {
         startdate = sdf.format(dt);
         ip=getIPAddress(true);
         name=" ";
-        phone = 555555555;
         month ="Not Selected";
         role="A0";
         teachhr="A0";
@@ -55,7 +54,7 @@ public class Report {
     public void setName(String newName){
         name=newName;
     }
-    public void setPhone(int number){
+    public void setPhone(long number){
         phone=number;
     }
     public void setMonth(String rMonth){
@@ -91,6 +90,9 @@ public class Report {
     }
 
     public String getDatetime() {
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        datetime = sdf.format(dt);
         return datetime;
     }
 
@@ -102,7 +104,7 @@ public class Report {
         return name;
     }
 
-    public int getPhone() {
+    public long getPhone() {
         return phone;
     }
 
