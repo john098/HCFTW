@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
@@ -78,9 +79,10 @@ public class Tutor_Report extends Activity
     private String month, year, teachhr, prephr, travel;
     private Spinner spin1, spin2, spin3, spin4,yearSpinner;
     private EditText etext, etext2;
-    private Button send;
+    private Button send, clear;
     private ArrayList<String> years=new ArrayList<String>();
-
+    private TabHost host;
+    private TabHost.TabSpec spec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +119,9 @@ public class Tutor_Report extends Activity
         setSpinerslisteners();
         etext = (EditText)findViewById(R.id.editText);
         etext2 = (EditText)findViewById(R.id.editText2);
+        host= (TabHost) findViewById(R.id.tabHost);
+        TabWidget widget = host.getTabWidget();
+
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,17 +131,49 @@ public class Tutor_Report extends Activity
                 String name;
                 name=Singleton.getInstance().getName();
                 acomp = etext.getText().toString();
-                long phone = Long.parseLong(etext2.getText().toString());
-                submit.setName(name);
-                submit.setMonth(submitMonth);
-                submit.setRole("A1");
-                submit.setPhone(phone);
-                submit.setTeachhr(teachhr);
-                submit.setPrephr(prephr);
-                submit.setTravel(travel);
-                submit.setServhr("A0");
-                submit.setAcomp(acomp);
-                new SubmitData().execute(submit);
+
+                if(acomp.equals("")||etext2.getText().toString().equals("")){
+                    if(acomp.equals("")){
+                        etext.setError("Please leave a comment");
+                    }
+                    if(etext2.getText().toString().equals("")){
+                        etext2.setError("Please enter number");
+                    }
+                }
+                else {
+                    long phone = Long.parseLong(etext2.getText().toString());
+                    submit.setName(name);
+                    submit.setMonth(submitMonth);
+                    submit.setRole("A1");
+                    submit.setPhone(phone);
+                    submit.setTeachhr(teachhr);
+                    submit.setPrephr(prephr);
+                    submit.setTravel(travel);
+                    submit.setServhr("A0");
+                    submit.setAcomp(acomp);
+
+                    new SubmitData().execute(submit);
+                    yearSpinner.setSelection(0);
+                    spin1.setSelection(0);
+                    spin2.setSelection(0);
+                    spin3.setSelection(0);
+                    spin4.setSelection(0);
+                    etext2.setText("");
+                    etext.setText("");
+                }
+            }
+        });
+        clear = (Button) findViewById(R.id.clear);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yearSpinner.setSelection(0);
+                spin1.setSelection(0);
+                spin2.setSelection(0);
+                spin3.setSelection(0);
+                spin4.setSelection(0);
+                etext2.setText("");
+                etext.setText("");
             }
         });
 

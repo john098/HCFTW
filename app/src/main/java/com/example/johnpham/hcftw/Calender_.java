@@ -68,6 +68,7 @@ import android.view.Display;
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
     private static final String tag = "Main";
+    private int numb=0;
     private Button curMonth;
     private ImageView prevMonth;
     private ImageView nextMonth;
@@ -102,10 +103,10 @@ public class Calender_ extends
         //List<Event> events;
         //try {
         //  events = even.get();
-      /*  mNavigationDrawerFragment = (NavigationDrawerFragment)
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-*/
+
         // Set up the drawer.
         // mNavigationDrawerFragment.setUp(
         //       R.id.navigation_drawer,
@@ -172,18 +173,25 @@ public class Calender_ extends
     }
 
     public void onSectionAttached(int number) {
+        // mTitle="Report";
         switch (number) {
             case 1:
-                mTitle = "Home";
+                if(numb!=0) {
+                    startActivity(new Intent(getApplicationContext(), Home.class));
+                }
+                numb++;
                 break;
             case 2:
-                mTitle = "Email";
+                //  mTitle = "Email";
+                startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
-                mTitle = "Calendar";
+                //  mTitle = "Calendar";
+                startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
             case 4:
-                mTitle = "Report";
+                //  mTitle="Report";
+                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
         }
     }
@@ -196,8 +204,8 @@ public class Calender_ extends
     }
 
 
-    // @Override
-   /* public boolean onCreateOptionsMenu(Menu menu) {
+     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -208,8 +216,8 @@ public class Calender_ extends
         }
         return super.onCreateOptionsMenu(menu);
     }
-*/
-    /*@Override
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -220,7 +228,7 @@ public class Calender_ extends
         }
         return super.onOptionsItemSelected(item);
     }
-*/
+
     private void setGridCellAdapterToDate(int month, int year) {
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
         _calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
