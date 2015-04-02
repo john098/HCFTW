@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -80,7 +82,8 @@ public class Tutor_Report extends Activity
     private EditText etext;
     private Button send;
     private ArrayList<String> years=new ArrayList<String>();
-
+    private PopupWindow pop;
+    private View layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +117,7 @@ public class Tutor_Report extends Activity
         spin1 = (Spinner) findViewById(R.id.spinner);
 
         spin2 = (Spinner) findViewById(R.id.spinner2);
+
         spin3 = (Spinner) findViewById(R.id.spinner3);
         spin4 = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
@@ -213,14 +217,43 @@ public class Tutor_Report extends Activity
         int id = item.getItemId();
         if (id == R.id.logout) {
 
-                //Intent intent=new Intent(getApplicationContext(),Login.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-              //  startActivity(intent);
+            clearApplicationData();
+            onDestroy();
+
+            finish();
+            System.exit(0);
 
             return true;
         }
         return super.onOptionsItemSelected(item);
+    } public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
     }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
+    }
+private TextView w;
     public void setSpinerslisteners(){
             spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -231,7 +264,34 @@ public class Tutor_Report extends Activity
             month = getResources().getStringArray(R.array.Month)[spin1.getSelectedItemPosition()];
             spin2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    teachhr = getResources().getStringArray(R.array.Hour_Code)[position];
+                    w=(TextView)findViewById(R.id.otherView);
+
+                    if(position==41)
+                    {
+                        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        layout=inflater.inflate(R.layout.other,(ViewGroup)findViewById(R.id.otherId));
+                        pop=new PopupWindow(layout,500,500,true);
+                        pop.showAtLocation(layout,Gravity.CENTER,0,0);
+                        pop.setFocusable(true);
+                        Button ok=(Button)layout.findViewById(R.id.other_ok);
+
+                        ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText view=(EditText)layout.findViewById(R.id.other_edittext);
+                                teachhr=view.getText().toString();
+
+                                w.setText(teachhr);
+                               w.setVisibility(View.VISIBLE);
+                                pop.dismiss();
+
+                            }
+                        });
+                    }else {
+                        teachhr = getResources().getStringArray(R.array.Hour_Code)[position];
+                        w.setVisibility(View.INVISIBLE);
+
+                    }
                 }
                 public void onNothingSelected(AdapterView<?> parent){}
             });

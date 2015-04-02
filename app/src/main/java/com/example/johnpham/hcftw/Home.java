@@ -214,6 +214,16 @@ public class Home extends Activity
         int id = item.getItemId();
         if (id == R.id.logout) {
             clearApplicationData();
+            dial.setIcon(getResources().getDrawable(R.drawable.three));
+            dial=ProgressDialog.show(Home.this,"Logging Out","Please wait",true);
+
+            new Thread() {
+                public void run() {
+                    SystemClock.sleep(2000);
+                    dial.dismiss();
+
+                }
+            }.start();
           onDestroy();
 
             finish();

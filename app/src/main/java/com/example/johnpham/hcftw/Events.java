@@ -2,6 +2,7 @@ package com.example.johnpham.hcftw;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.outlookservices.Attendee;
 import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.odata.EventFetcher;
 import com.microsoft.outlookservices.odata.OutlookClient;
@@ -120,7 +122,10 @@ private  ArrayAdapter<String> myAdapter;
                     showThis.add("Title:     "+arrayEvent.get(position).getSubject());
                     showThis.add("Time:       "+happy.format(arrayEvent.get(position).getStart().getTime())
                             +" - "+happy.format(arrayEvent.get(position).getEnd().getTime()));
-                    showThis.add("Body");
+                    List<Attendee> atten=arrayEvent.get(position).getAttendees();
+
+                    showThis.add("Attendees    " + arrayEvent.get(position).getAttendees());
+                    showThis.add("Notes");
                     ArrayAdapter<String> popUpAdapter=new ArrayAdapter<String> (
                             Events.this,
                             android.R.layout.simple_list_item_1,

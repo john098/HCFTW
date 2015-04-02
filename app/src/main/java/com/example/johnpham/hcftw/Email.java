@@ -40,6 +40,7 @@ import com.microsoft.outlookservices.odata.MessageFetcher;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.services.odata.impl.DefaultDependencyResolver;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -331,12 +332,43 @@ public class Email extends Activity
         // as you specify a parent activity in AndroidManifest.xml
         int id = item.getItemId();
         if (id == R.id.logout){
-           // Intent intent=new Intent(getApplicationContext(),Login.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //startActivity(intent);
+            onPause();
+            clearApplicationData();
+
+            onDestroy();
+            System.exit(0);
+            finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
     }
     /**
      * A placeholder fragment containing a simple view.
