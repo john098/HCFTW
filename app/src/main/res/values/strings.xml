@@ -82,6 +82,7 @@
         <item>9.50</item>
         <item>9.75</item>
         <item>10.00</item>
+        <item>other</item>
     </string-array>
     <string-array name="Hour_Code">
         <item>A1</item>

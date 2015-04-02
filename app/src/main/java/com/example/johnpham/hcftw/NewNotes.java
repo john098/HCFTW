@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +57,29 @@ public class NewNotes extends Activity {
         super.onCreate(savedInstanceState);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+
+
         setContentView(R.layout.activity_new_notes);
+        Display dis = getWindowManager().getDefaultDisplay();
+        int height=dis.getHeight();
+        int repect=height/6;
+        TextView heightdate=(TextView)findViewById(R.id.dateText);
+        heightdate.getLayoutParams().height=repect;
+        TextView heightTitle=(TextView)findViewById(R.id.textView3);
+        heightTitle.getLayoutParams().height=repect;
+        TextView heightLocation=(TextView)findViewById(R.id.Locationtext);
+        heightLocation.getLayoutParams().height=repect;
+        TextView heightAtten=(TextView)findViewById(R.id.textAtten);
+        heightAtten.getLayoutParams().height=repect;
+        TextView heightStart=(TextView)findViewById(R.id.textView5);
+        heightStart.getLayoutParams().height=repect;
+        TextView heightStartTime=(TextView)findViewById(R.id.timed);
+        heightStartTime.getLayoutParams().height=repect;
+
+
+
+
+
         text=(AutoCompleteTextView)findViewById(R.id.Date);
         Calendar cal=Calendar.getInstance();
         Intent i = getIntent();
