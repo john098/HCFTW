@@ -197,7 +197,7 @@ public class Compose extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(Compose.this, "Message sent", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(Compose.this, "Message sent", Toast.LENGTH_SHORT).show();
                         }
                     });
 

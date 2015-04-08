@@ -91,7 +91,9 @@ public class Tutor_Report extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+        if (bar != null) {
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+        }
         setContentView(R.layout.activity_tutor__report);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -124,9 +126,9 @@ public class Tutor_Report extends Activity
         setSpinerslisteners();
         etext = (EditText)findViewById(R.id.editText);
         etext2 = (EditText)findViewById(R.id.editText2);
-        host= (TabHost) findViewById(R.id.tabHost);
+        /**host= (TabHost) findViewById(R.id.tabHost);
         TabWidget widget = host.getTabWidget();
-
+        **/
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,7 +286,7 @@ public class Tutor_Report extends Activity
 
         return dir.delete();
     }
-private TextView w;
+private TextView teachhrOther, prephrOther, travelOther;
     public void setSpinerslisteners(){
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -301,7 +303,7 @@ private TextView w;
             month = getResources().getStringArray(R.array.Month)[spin1.getSelectedItemPosition()];
             spin2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    w=(TextView)findViewById(R.id.otherView);
+                    teachhrOther=(TextView)findViewById(R.id.otherView);
 
                     if(position==41)
                     {
@@ -318,15 +320,15 @@ private TextView w;
                                 EditText view=(EditText)layout.findViewById(R.id.other_edittext);
                                 teachhr=view.getText().toString();
 
-                                w.setText(teachhr);
-                               w.setVisibility(View.VISIBLE);
+                                teachhrOther.setText(teachhr);
+                               teachhrOther.setVisibility(View.VISIBLE);
                                 pop.dismiss();
 
                             }
                         });
                     }else {
                         teachhr = getResources().getStringArray(R.array.Hour_Code)[position];
-                        w.setVisibility(View.INVISIBLE);
+                        teachhrOther.setVisibility(View.INVISIBLE);
 
                     }
                 }
@@ -335,14 +337,69 @@ private TextView w;
             teachhr = getResources().getStringArray(R.array.Hour_Code)[spin2.getSelectedItemPosition()];
             spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    prephr =getResources().getStringArray(R.array.Hour_Code)[position];
+                    prephrOther=(TextView)findViewById(R.id.otherView2);
+
+                    if(position==41)
+                    {
+                        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        layout=inflater.inflate(R.layout.other,(ViewGroup)findViewById(R.id.otherId));
+                        pop=new PopupWindow(layout,500,500,true);
+                        pop.showAtLocation(layout,Gravity.CENTER,0,0);
+                        pop.setFocusable(true);
+                        Button ok=(Button)layout.findViewById(R.id.other_ok);
+
+                        ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText view=(EditText)layout.findViewById(R.id.other_edittext);
+                                prephr=view.getText().toString();
+
+                                prephrOther.setText(prephr);
+                                prephrOther.setVisibility(View.VISIBLE);
+                                pop.dismiss();
+
+                            }
+                        });
+                    }else {
+                        prephr = getResources().getStringArray(R.array.Hour_Code)[position];
+                        prephrOther.setVisibility(View.INVISIBLE);
+
+                    }
                 }
+
                 public void onNothingSelected(AdapterView<?> parent){}
             });
             prephr = getResources().getStringArray(R.array.Hour_Code)[spin3.getSelectedItemPosition()];
             spin4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    travel =getResources().getStringArray(R.array.Hour_Code)[position];
+                    travelOther=(TextView)findViewById(R.id.otherView3);
+
+                    if(position==41)
+                    {
+                        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        layout=inflater.inflate(R.layout.other,(ViewGroup)findViewById(R.id.otherId));
+                        pop=new PopupWindow(layout,500,500,true);
+                        pop.showAtLocation(layout,Gravity.CENTER,0,0);
+                        pop.setFocusable(true);
+                        Button ok=(Button)layout.findViewById(R.id.other_ok);
+
+                        ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText view=(EditText)layout.findViewById(R.id.other_edittext);
+                                travel=view.getText().toString();
+
+                                travelOther.setText(travel);
+                                travelOther.setVisibility(View.VISIBLE);
+                                pop.dismiss();
+
+                            }
+                        });
+                    }else {
+                        travel = getResources().getStringArray(R.array.Hour_Code)[position];
+                        travelOther.setVisibility(View.INVISIBLE);
+
+                    }
                 }
                 public void onNothingSelected(AdapterView<?> parent){}
             });
@@ -443,11 +500,11 @@ private TextView w;
         @Override
         protected void onPostExecute(String result) {
 
-            if (result == null)
-                Toast.makeText(Tutor_Report.this, "error", Toast.LENGTH_SHORT).show();
-            else
+            if (result == null){
+               /* Toast.makeText(Tutor_Report.this, "error", Toast.LENGTH_SHORT).show();*/}
+            else{
 
-                Toast.makeText(Tutor_Report.this, result , Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(Tutor_Report.this, result , Toast.LENGTH_SHORT).show();*/}
             dialog.dismiss();
         }
 

@@ -2,12 +2,14 @@ package com.example.johnpham.hcftw;
 
 import android.app.Activity;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -108,9 +110,9 @@ public class Calender_ extends
         mTitle = getTitle();
 
         // Set up the drawer.
-        // mNavigationDrawerFragment.setUp(
-        //       R.id.navigation_drawer,
-        //     (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(
+               R.id.navigation_drawer,
+             (DrawerLayout) findViewById(R.id.drawer_layout));
         Display dis = getWindowManager().getDefaultDisplay();
         int widthSize = dis.getWidth();
         int eachSize = widthSize / 7;
@@ -223,10 +225,45 @@ public class Calender_ extends
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout){
+            onPause();
+            clearApplicationData();
+
+            onDestroy();
+            System.exit(0);
+            finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
     }
 
     private void setGridCellAdapterToDate(int month, int year) {
@@ -521,7 +558,7 @@ public class Calender_ extends
             }
             String date_month_year = (String) view.getTag();
 
-            Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first = Second;
 
             Intent i = new Intent(getApplicationContext(), Events.class);
@@ -539,7 +576,7 @@ public class Calender_ extends
           }
           String date_month_year = (String) view.getTag();
 
-          Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
+         // Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
           first = Second;
 
           Intent i = new Intent(getApplicationContext(), NewNotes.class);

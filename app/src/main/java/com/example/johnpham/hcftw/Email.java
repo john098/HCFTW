@@ -169,7 +169,7 @@ public class Email extends Activity
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        Toast.makeText(Email.this, "Deleted", Toast.LENGTH_SHORT).show();
+                                     //   Toast.makeText(Email.this, "Deleted", Toast.LENGTH_SHORT).show();
                                         Message m = (Message) mainListView.getItemAtPosition(position);
                                         adapter.remove(m);
                                         adapter.notifyDataSetChanged();
@@ -243,7 +243,7 @@ public class Email extends Activity
                     @Override
                     public void run() {
                         if(result.size()!=messageCounter) {
-                            Toast.makeText(Email.this, String.valueOf(result.size()) + " messages received", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(Email.this, String.valueOf(result.size()) + " messages received", Toast.LENGTH_SHORT).show();
                         }
                         messageCounter=result.size();
                         adapter.clear();
