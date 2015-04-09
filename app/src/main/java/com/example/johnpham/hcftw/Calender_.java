@@ -151,6 +151,14 @@ public class Calender_ extends
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
         Button add = (Button) findViewById(R.id.AddButton);
+        Button cancel=(Button)findViewById(R.id.cancel);
+        cancel.setText("Update");
+        cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         add.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -102,6 +102,7 @@ public class Singleton {
        Runnable runnable=new Runnable() {
             @Override
             public void run() {
+
                 while(true) {
                     try {
                         even=client.getMe().getCalendar().getEvents().read();
