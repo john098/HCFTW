@@ -9,3 +9,4 @@
 
     tools:context="com.example.johnpham.hcftw.NavigationDrawerFragment"
     android:fastScrollAlwaysVisible="false" />
+
