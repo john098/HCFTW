@@ -115,8 +115,11 @@ private  ArrayAdapter<String> myAdapter;
                     showThis.add("Time:       "+happy.format(arrayEvent.get(position).getStart().getTime())
                             +" - "+happy.format(arrayEvent.get(position).getEnd().getTime()));
                     List<Attendee> atten=arrayEvent.get(position).getAttendees();
-
-                    showThis.add("Attendees    " + arrayEvent.get(position).getAttendees());
+                    ArrayList<String> tester = new ArrayList<String>();
+                    for(int i=0;i<atten.size();i++) {
+                        tester.add(atten.get(i).getEmailAddress().getName());
+                    }
+                    showThis.add("Attendees    " + tester.toString());
                     showThis.add("Notes");
                     ArrayAdapter<String> popUpAdapter=new ArrayAdapter<String> (
                             Events.this,
