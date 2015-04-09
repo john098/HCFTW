@@ -114,11 +114,24 @@ public class Singleton {
                     {
 
                     }
+
                 }
             }
         };
         Thread thread=new Thread(runnable);
         thread.start();
+    }
+    public void refresh()
+    {try{
+        even=client.getMe().getCalendar().getEvents().read();
+        event = even.get();
+        setEvent(event);}
+    catch(Exception e)
+    {
+
+    }
+
+
     }
     public OutlookClient getClient()
     {

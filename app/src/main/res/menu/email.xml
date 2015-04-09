@@ -3,7 +3,7 @@
     tools:context="com.example.johnpham.hcftw.Email" >
     <item android:id="@+id/logout"
         android:icon="@android:drawable/arrow_down_float"
-        android:title="logout">
+       android:title="logout">
     </item>
     <item android:id="@+id/about"
         android:title="About"

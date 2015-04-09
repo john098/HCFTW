@@ -23,7 +23,9 @@
         android:clickable="true"
         android:layout_below="@+id/event"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/newEvent"  />
+        android:layout_above="@+id/newEvent"
+        android:divider="@drawable/bg"
+        android:dividerHeight="10dp" />
 
 
     <Button
