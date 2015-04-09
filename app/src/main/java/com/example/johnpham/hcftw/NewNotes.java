@@ -60,9 +60,10 @@ public class NewNotes extends Activity {
 
 
         setContentView(R.layout.activity_new_notes);
-        Display dis = getWindowManager().getDefaultDisplay();
-        int height=dis.getHeight();
-        int repect=height/6;
+       // Display dis = getWindowManager().getDefaultDisplay();
+       // int height=dis.getHeight();
+      //  int repect=height/6;
+        /*
         TextView heightdate=(TextView)findViewById(R.id.dateText);
         heightdate.getLayoutParams().height=repect;
         TextView heightTitle=(TextView)findViewById(R.id.textView3);
@@ -75,6 +76,7 @@ public class NewNotes extends Activity {
         heightStart.getLayoutParams().height=repect;
         TextView heightStartTime=(TextView)findViewById(R.id.timed);
         heightStartTime.getLayoutParams().height=repect;
+*/
 
 
 
