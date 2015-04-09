@@ -80,7 +80,7 @@ public class Calender_ extends
     private int month, year;
     private final DateFormat date = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
-    protected OutlookClient client = new OutlookClient(ServiceConstants.ENDPOINT_ID, (DefaultDependencyResolver) Controller.getInstance().getDependencyResolver());
+//    protected OutlookClient client = new OutlookClient(ServiceConstants.ENDPOINT_ID, (DefaultDependencyResolver) Controller.getInstance().getDependencyResolver());
 
 
     /**
