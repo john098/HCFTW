@@ -83,6 +83,7 @@ public class Calender_ extends
         Button Thu = (Button) findViewById(R.id.Thu);
         Button Fri = (Button) findViewById(R.id.Fri);
         Button Sat = (Button) findViewById(R.id.Sat);
+
         Sun.getLayoutParams().width = eachSize;
         Mon.getLayoutParams().width = eachSize;
         Tue.getLayoutParams().width = eachSize;
@@ -110,12 +111,18 @@ public class Calender_ extends
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
         Button add = (Button) findViewById(R.id.AddButton);
+        add.getLayoutParams().width=widthSize/2;
+
         Button cancel=(Button)findViewById(R.id.cancel);
+        cancel.getLayoutParams().width=widthSize/2;
         cancel.setText("Update");
         cancel.setOnClickListener(new OnClickListener() {//test this
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().refresh();
+                adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+                adapter.notifyDataSetChanged();
+                calendarView.setAdapter(adapter);
             }
         });
         add.setOnClickListener(new OnClickListener() {
@@ -312,16 +319,13 @@ public class Calender_ extends
         private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         private final int[] daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         private final int month, year;
-        private int daysInMonth, prevMonthDays;
+        private int daysInMonth;
         private int currentDayOfMonth;
         private int currentWeekDay;
         private Button gridcell;
-        private TextView num_events_per_day;
         private SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
         private Singleton singleton = Singleton.getInstance();
         private String date;
-        //private final HashMap eventsPerMonthMap;
-        private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
 
         public GridCellAdapter(Context context, int textViewResourceId, int month, int year) {
             super();
@@ -389,7 +393,7 @@ public class Calender_ extends
                             date = sdf.format(e.getStart().getTime());
                             if (date.compareTo(gridcell.getTag().toString()) == 0) {
                                 gridcell.setTextColor(Color.RED);
-                                row.setBackgroundResource(R.drawable.calendar_tile_small4);
+                               // row.setBackgroundResource(R.drawable.calendar_tile_small4);
                                 continue;
                             }
                         }
