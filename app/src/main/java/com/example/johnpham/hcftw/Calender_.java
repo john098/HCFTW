@@ -2,12 +2,14 @@ package com.example.johnpham.hcftw;
 
 import android.app.Activity;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -68,6 +70,7 @@ import android.view.Display;
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
     private static final String tag = "Main";
+    private int numb=0;
     private Button curMonth;
     private ImageView prevMonth;
     private ImageView nextMonth;
@@ -102,14 +105,14 @@ public class Calender_ extends
         //List<Event> events;
         //try {
         //  events = even.get();
-      /*  mNavigationDrawerFragment = (NavigationDrawerFragment)
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-*/
+
         // Set up the drawer.
-        // mNavigationDrawerFragment.setUp(
-        //       R.id.navigation_drawer,
-        //     (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(
+               R.id.navigation_drawer,
+             (DrawerLayout) findViewById(R.id.drawer_layout));
         Display dis = getWindowManager().getDefaultDisplay();
         int widthSize = dis.getWidth();
         int eachSize = widthSize / 7;
@@ -172,18 +175,25 @@ public class Calender_ extends
     }
 
     public void onSectionAttached(int number) {
+        // mTitle="Report";
         switch (number) {
             case 1:
-                mTitle = "Home";
+                if(numb!=0) {
+                    startActivity(new Intent(getApplicationContext(), Home.class));
+                }
+                numb++;
                 break;
             case 2:
-                mTitle = "Email";
+                //  mTitle = "Email";
+                startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
-                mTitle = "Calendar";
+                //  mTitle = "Calendar";
+                startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
             case 4:
-                mTitle = "Report";
+                //  mTitle="Report";
+                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
         }
     }
@@ -196,8 +206,8 @@ public class Calender_ extends
     }
 
 
-    // @Override
-   /* public boolean onCreateOptionsMenu(Menu menu) {
+     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -208,19 +218,54 @@ public class Calender_ extends
         }
         return super.onCreateOptionsMenu(menu);
     }
-*/
-    /*@Override
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout){
+            onPause();
+            clearApplicationData();
+
+            onDestroy();
+            System.exit(0);
+            finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-*/
+
+    public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
+    }
+
     private void setGridCellAdapterToDate(int month, int year) {
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
         _calendar.set(year, month, _calendar.get(Calendar.DAY_OF_MONTH));
@@ -513,7 +558,7 @@ public class Calender_ extends
             }
             String date_month_year = (String) view.getTag();
 
-            Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
             first = Second;
 
             Intent i = new Intent(getApplicationContext(), Events.class);
@@ -531,7 +576,7 @@ public class Calender_ extends
           }
           String date_month_year = (String) view.getTag();
 
-          Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
+         // Toast.makeText(getApplicationContext(), date_month_year, Toast.LENGTH_SHORT).show();
           first = Second;
 
           Intent i = new Intent(getApplicationContext(), NewNotes.class);

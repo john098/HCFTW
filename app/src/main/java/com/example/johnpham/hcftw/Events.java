@@ -169,7 +169,7 @@ private  ArrayAdapter<String> myAdapter;
                                 popUp.dismiss();
                             }
                         });
-                        Toast.makeText(getApplicationContext(), "CLICKED", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(), "CLICKED", Toast.LENGTH_SHORT).show();
                     }
                     catch(Exception e)
                     {
