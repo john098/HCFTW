@@ -103,7 +103,6 @@
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:id="@+id/scrollText"
-            android:layout_marginTop="-330dp"
            >
         <WebView
         android:layout_width="match_parent"
