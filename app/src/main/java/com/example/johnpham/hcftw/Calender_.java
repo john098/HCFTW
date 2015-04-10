@@ -1,26 +1,17 @@
 package com.example.johnpham.hcftw;
-
 import android.app.Activity;
-
 import java.io.File;
-import java.io.Serializable;
 import java.util.List;
-
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.SystemClock;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,48 +19,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
 import android.text.format.DateFormat;
-import android.widget.Toast;
-
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.Gson;
-import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.Event;
-import com.microsoft.outlookservices.Message;
-import com.microsoft.outlookservices.Recipient;
-import com.microsoft.outlookservices.odata.MessageFetcher;
-import com.microsoft.outlookservices.odata.OutlookClient;
-import com.microsoft.services.odata.impl.DefaultDependencyResolver;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.logging.Handler;
-
 import android.view.Display;
-
-
 public class Calender_ extends
         Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
+    private ListenableFuture<List<Event>> even;
     private static final String tag = "Main";
     private int numb=0;
     private Button curMonth;
@@ -82,8 +48,6 @@ public class Calender_ extends
     private int month, year;
     private final DateFormat date = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
-//    protected OutlookClient client = new OutlookClient(ServiceConstants.ENDPOINT_ID, (DefaultDependencyResolver) Controller.getInstance().getDependencyResolver());
-
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -101,11 +65,6 @@ public class Calender_ extends
         setContentView(R.layout.activity_calender_);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
-
-        //ListenableFuture<List<Event>> even=  client.getMe().getCalendar().getEvents().read();
-        //List<Event> events;
-        //try {
-        //  events = even.get();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -124,6 +83,7 @@ public class Calender_ extends
         Button Thu = (Button) findViewById(R.id.Thu);
         Button Fri = (Button) findViewById(R.id.Fri);
         Button Sat = (Button) findViewById(R.id.Sat);
+
         Sun.getLayoutParams().width = eachSize;
         Mon.getLayoutParams().width = eachSize;
         Tue.getLayoutParams().width = eachSize;
@@ -151,12 +111,18 @@ public class Calender_ extends
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
         Button add = (Button) findViewById(R.id.AddButton);
+        add.getLayoutParams().width=widthSize/2;
+
         Button cancel=(Button)findViewById(R.id.cancel);
+        cancel.getLayoutParams().width=widthSize/2;
         cancel.setText("Update");
-        cancel.setOnClickListener(new OnClickListener() {
+        cancel.setOnClickListener(new OnClickListener() {//test this
             @Override
             public void onClick(View v) {
-
+                Singleton.getInstance().refresh();
+                adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+                adapter.notifyDataSetChanged();
+                calendarView.setAdapter(adapter);
             }
         });
         add.setOnClickListener(new OnClickListener() {
@@ -165,13 +131,6 @@ public class Calender_ extends
                 startActivity(new Intent(getApplicationContext(), NewNotes.class));
             }
         });
-        //    }
-        //  catch(Exception e)
-        //{
-
-//        }
-
-
     }
 
     @Override
@@ -360,16 +319,13 @@ public class Calender_ extends
         private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         private final int[] daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         private final int month, year;
-        private int daysInMonth, prevMonthDays;
+        private int daysInMonth;
         private int currentDayOfMonth;
         private int currentWeekDay;
         private Button gridcell;
-        private TextView num_events_per_day;
         private SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
         private Singleton singleton = Singleton.getInstance();
         private String date;
-        //private final HashMap eventsPerMonthMap;
-        private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
 
         public GridCellAdapter(Context context, int textViewResourceId, int month, int year) {
             super();
@@ -437,7 +393,7 @@ public class Calender_ extends
                             date = sdf.format(e.getStart().getTime());
                             if (date.compareTo(gridcell.getTag().toString()) == 0) {
                                 gridcell.setTextColor(Color.RED);
-                                row.setBackgroundResource(R.drawable.calendar_tile_small4);
+                               // row.setBackgroundResource(R.drawable.calendar_tile_small4);
                                 continue;
                             }
                         }

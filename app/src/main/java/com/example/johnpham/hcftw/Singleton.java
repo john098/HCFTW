@@ -108,17 +108,31 @@ public class Singleton {
                         even=client.getMe().getCalendar().getEvents().read();
                         event = even.get();
                         setEvent(event);
+                        Thread.sleep(300000);//5min
 
                     }
                     catch(Exception e)
                     {
 
                     }
+
                 }
             }
         };
         Thread thread=new Thread(runnable);
         thread.start();
+    }
+    public void refresh()
+    {try{
+        even=client.getMe().getCalendar().getEvents().read();
+        event = even.get();
+        setEvent(event);}
+    catch(Exception e)
+    {
+
+    }
+
+
     }
     public OutlookClient getClient()
     {
