@@ -36,7 +36,11 @@ public class EmailReader extends Activity {
     String message;
     String dater;
     String emailAddress;
+    //WebView mess;
+    WebView mess2;
+    ScrollView test;
     TextView to;
+    int offset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -65,19 +69,9 @@ public class EmailReader extends Activity {
         //editable from email String
         TextView from = (TextView) findViewById(R.id.fromName);
         TextView subj = (TextView) findViewById(R.id.subjText);
-        WebView mess = (WebView) findViewById(R.id.messageText);
-        TextView mess2 = (TextView) findViewById(R.id.messageText2);
-        ScrollView test = (ScrollView) findViewById(R.id.scrollText);
-        if(enabled==true){
-            setMargins(test,0,-mess2.getTop(),0,0);
-            setMargins(mess,0,-mess2.getTop(),0,0);
-            mess.setVisibility(View.VISIBLE);
-            mess.loadData(message, "text/html", null);
-        }
-        else{
-            mess2.setVisibility(View.VISIBLE);
-            mess2.setText(message);
-        }
+        mess2 = (WebView) findViewById(R.id.messageText2);
+        mess2.setVisibility(View.VISIBLE);
+        mess2.loadData(message,"text/html",null);
         //setting the values
 
         inboxView.setText(inbox);
@@ -104,14 +98,6 @@ public class EmailReader extends Activity {
         });
 
 
-    }
-    public static void setMargins (View v, int l, int t, int r, int b) {
-        Log.d("test", "" + t);
-        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            p.setMargins(l, t, r, b);
-            v.requestLayout();
-        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
