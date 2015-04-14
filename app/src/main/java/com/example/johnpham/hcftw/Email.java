@@ -98,19 +98,11 @@ public class Email extends Activity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (disabled == false) {
                     Message m = (Message) mainListView.getItemAtPosition(position);
-                    Intent i;
+                    Intent i= new Intent(getApplicationContext(), EmailReader.class);
                     String subject, date, body, from;
                     List<Recipient> to;
                     subject = m.getSubject();
                     ItemBody text = m.getBody();
-                    if(text.getContentType()==BodyType.HTML) {
-                        htmlOrText=true;
-                        i = new Intent(getApplicationContext(), EmailReader.class);
-                    }
-                    else{
-                        htmlOrText=false;
-                        i = new Intent(getApplicationContext(), EmailReader.class);
-                    }
                     body=text.getContent();
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                     date = sdf.format(m.getDateTimeSent().getTime());
