@@ -7,14 +7,11 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -24,28 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.common.util.concurrent.ListenableFuture;
-import com.microsoft.outlookservices.EmailAddress;
-import com.microsoft.outlookservices.ItemBody;
-import com.microsoft.outlookservices.Message;
-import com.microsoft.outlookservices.Recipient;
-import com.microsoft.outlookservices.User;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
-import com.microsoft.outlookservices.EmailAddress;
-import com.microsoft.outlookservices.odata.OutlookClient;
-
-import java.awt.font.TextAttribute;
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.logging.FileHandler;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -89,18 +70,16 @@ public class Home extends Activity
                                 @Override
                                 public void run() {
 
-                                /*    Toast.makeText(
-                                            Home.this,
-                                            "Authentication successful",
-                                            Toast.LENGTH_LONG).show();*/
-                                    dial=ProgressDialog.show(Home.this,"Logging in","Please wait",true);
 
+                                    dial=ProgressDialog.show(Home.this,"Logging in","Please wait",true);
+                                    onPause();
                                     new Thread() {
                                         public void run() {
-                                            //SystemClock.sleep(3000);
+                                            SystemClock.sleep(3000);
                                             while(single==null) {
                                                 single=Singleton.getInstance();
                                             }
+                                            onResume();
                                             dial.dismiss();
 
                                         }
@@ -206,8 +185,7 @@ public class Home extends Activity
             restoreActionBar();
             return true;
         }
-      //  MenuItem item=(MenuItem)findViewById(R.id.name);
-      //  item.setTitle("hehee");
+
         return super.onCreateOptionsMenu(menu);
     }
     @Override

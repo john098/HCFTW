@@ -87,7 +87,6 @@ public class Singleton {
     }
     public ListenableFuture<List<Event>> getFuture()
     {
-
         return even;
     }
     public Singleton() {
@@ -102,7 +101,7 @@ public class Singleton {
        Runnable runnable=new Runnable() {
             @Override
             public void run() {
-
+                SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
                 while(true) {
                     try {
                         even=client.getMe().getCalendar().getEvents().read();
@@ -123,9 +122,11 @@ public class Singleton {
         thread.start();
     }
     public void refresh()
-    {try{
+    {
+        try{
         even=client.getMe().getCalendar().getEvents().read();
         event = even.get();
+
         setEvent(event);}
     catch(Exception e)
     {

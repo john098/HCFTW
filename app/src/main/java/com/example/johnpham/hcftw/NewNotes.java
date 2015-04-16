@@ -2,6 +2,7 @@ package com.example.johnpham.hcftw;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -52,6 +53,7 @@ public class NewNotes extends Activity {
     private TextView d;
     private EditText note;
     private Singleton singleton=Singleton.getInstance();
+    private ProgressDialog dial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,9 +195,9 @@ public class NewNotes extends Activity {
                                 }
                             });
                             Intent i = new Intent(getApplicationContext(), Calender_.class);
-
-
                             startActivity(i);
+                            singleton.refresh();
+
                             finish();
 
                         }

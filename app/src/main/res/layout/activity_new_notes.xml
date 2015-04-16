@@ -232,14 +232,16 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="74dp"
                 android:id="@+id/editText"
-                android:layout_weight="0.34"
                 android:editable="true"
                 android:background="#ffd9d9d9"
                 android:gravity="top"
 
-                />
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:inputType="text" />
 
         </LinearLayout>
     </ScrollView>
