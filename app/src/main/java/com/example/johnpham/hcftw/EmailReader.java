@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -32,7 +36,11 @@ public class EmailReader extends Activity {
     String message;
     String dater;
     String emailAddress;
+    //WebView mess;
+    WebView mess2;
+    ScrollView test;
     TextView to;
+    int offset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -61,17 +69,9 @@ public class EmailReader extends Activity {
         //editable from email String
         TextView from = (TextView) findViewById(R.id.fromName);
         TextView subj = (TextView) findViewById(R.id.subjText);
-        WebView mess = (WebView) findViewById(R.id.messageText);
-        TextView mess2 = (TextView) findViewById(R.id.messageText2);
-        ScrollView test = (ScrollView) findViewById(R.id.scrollText);
-        if(enabled==true){
-            mess.setVisibility(View.VISIBLE);
-            mess.loadData(message, "text/html", null);
-        }
-        else{
-            mess2.setVisibility(View.VISIBLE);
-            mess2.setText(message);
-        }
+        mess2 = (WebView) findViewById(R.id.messageText2);
+        mess2.setVisibility(View.VISIBLE);
+        mess2.loadData(message,"text/html",null);
         //setting the values
 
         inboxView.setText(inbox);
@@ -99,7 +99,6 @@ public class EmailReader extends Activity {
 
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

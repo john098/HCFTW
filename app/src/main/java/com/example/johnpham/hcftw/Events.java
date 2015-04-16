@@ -2,10 +2,8 @@ package com.example.johnpham.hcftw;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,17 +13,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
-import android.view.LayoutInflater;
 import android.widget.AdapterView.OnItemClickListener;
 import android.util.Log;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import android.widget.PopupWindow;
 import android.widget.LinearLayout;
@@ -59,7 +53,6 @@ private  ArrayAdapter<String> myAdapter;
     private Singleton singleton=Singleton.getInstance();
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         setContentView(R.layout.activity_events);
@@ -99,7 +92,6 @@ private  ArrayAdapter<String> myAdapter;
             }
 
             Display(array);
-
            list.setFocusable(false);
             list.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
