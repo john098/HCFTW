@@ -105,7 +105,7 @@ public class Singleton {
 
                 while(true) {
                     try {
-                        even=client.getMe().getCalendar().getEvents().read();
+                        even=client.getMe().getCalendar().getEvents().top(9999).read();
                         event = even.get();
                         setEvent(event);
                         Thread.sleep(300000);//5min
@@ -129,7 +129,7 @@ public class Singleton {
             public void run() {
 
                     try {
-                        even=client.getMe().getCalendar().getEvents().read();
+                        even=client.getMe().getCalendar().getEvents().top(9999).read();
                         event = even.get();
                         setEvent(event);
                         //Thread.sleep(300000);//5min

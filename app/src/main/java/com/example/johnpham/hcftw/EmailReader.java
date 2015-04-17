@@ -18,6 +18,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.conn.scheme.HostNameResolver;
 import org.w3c.dom.Text;
@@ -96,7 +97,11 @@ public class EmailReader extends Activity {
                 startActivity(i);
             }
         });
-
+         move.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 Toast.makeText(EmailReader.this, "NYI", Toast.LENGTH_SHORT).show();
+             }
+         });
 
     }
     @Override
