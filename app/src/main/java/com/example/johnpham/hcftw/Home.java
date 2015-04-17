@@ -242,6 +242,10 @@ public class Home extends Activity
 
             return true;
         }
+        if(id == R.id.about){
+            Toast.makeText(Home.this,"NYI",Toast.LENGTH_SHORT).show();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
