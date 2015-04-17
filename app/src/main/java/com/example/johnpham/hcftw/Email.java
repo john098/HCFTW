@@ -225,6 +225,7 @@ public class Email extends Activity
                 .getFolders()
                 .getById("Inbox")
                 .getMessages()
+                .top(9999)
                 .read();
 
         // handle success and failure cases

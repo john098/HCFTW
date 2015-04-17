@@ -65,6 +65,11 @@ public class Home extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean finish = getIntent().getBooleanExtra("finish", false);
+        if(finish){
+            System.exit(0);
+            return;
+        }
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         setContentView(R.layout.activity_home);
@@ -217,22 +222,28 @@ public class Home extends Activity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.logout) {
-            clearApplicationData();
-            dial.setIcon(getResources().getDrawable(R.drawable.three));
+            Intent intent = new Intent(this,Home.class);
+            intent.putExtra("finish", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+/*            dial.setIcon(getResources().getDrawable(R.drawable.three));
             dial=ProgressDialog.show(Home.this,"Logging Out","Please wait",true);
-
             new Thread() {
                 public void run() {
                     SystemClock.sleep(2000);
                     dial.dismiss();
 
                 }
-            }.start();
-          onDestroy();
-
+            }.start();*/
+            clearApplicationData();
+            onDestroy();
+            startActivity(intent);
             finish();
-            System.exit(0);
+            //System.exit(0);
 
+            return true;
+        }
+        if(id == R.id.about){
+            Toast.makeText(Home.this,"NYI",Toast.LENGTH_SHORT).show();
             return true;
         }
 
