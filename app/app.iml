@@ -9,6 +9,7 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
@@ -89,13 +90,13 @@
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="file-services-0.12.0" level="project" />
     <orderEntry type="library" exported="" name="odata-engine-android-impl-0.12.0" level="project" />
+    <orderEntry type="library" exported="" name="directory-services-0.12.0" level="project" />
     <orderEntry type="library" exported="" name="discovery-services-0.12.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
-    <orderEntry type="library" exported="" name="directory-services-0.12.0" level="project" />
     <orderEntry type="library" exported="" name="odata-engine-core-0.12.0" level="project" />
     <orderEntry type="library" exported="" name="adal-1.0.5" level="project" />
-    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
     <orderEntry type="library" exported="" name="outlook-services-0.12.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
   </component>
 </module>
 

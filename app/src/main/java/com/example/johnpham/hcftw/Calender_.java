@@ -119,9 +119,9 @@ public class Calender_ extends
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().refresh();
-             //   adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+                //adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
                 adapter.notifyDataSetChanged();
-               // calendarView.setAdapter(adapter);
+                //calendarView.setAdapter(adapter);
             }
         });
         add.setOnClickListener(new OnClickListener() {
