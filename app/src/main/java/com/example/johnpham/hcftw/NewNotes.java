@@ -2,7 +2,6 @@ package com.example.johnpham.hcftw;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -35,6 +34,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.ItemBody;
+import com.microsoft.outlookservices.Location;
 import com.microsoft.outlookservices.odata.OutlookClient;
 import com.microsoft.sharepointservices.OfficeClient;
 
@@ -52,8 +52,8 @@ public class NewNotes extends Activity {
     private int endMin;
     private TextView d;
     private EditText note;
+    private EditText location;
     private Singleton singleton=Singleton.getInstance();
-    private ProgressDialog dial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class NewNotes extends Activity {
         heightStart.getLayoutParams().height=repect;
         TextView heightStartTime=(TextView)findViewById(R.id.timed);
         heightStartTime.getLayoutParams().height=repect;
-*/
+*/      location = (EditText) findViewById(R.id.editLocation);
 
 
 
@@ -178,10 +178,13 @@ public class NewNotes extends Activity {
                     UUID id = java.util.UUID.randomUUID();
                     e.setId(id.toString());
                     e.setBody(itemBody);
+                    Location theLocation = new Location();
+                    theLocation.setDisplayName(location.getText().toString());
+                    e.setLocation(theLocation);
                     e.setSubject(enter.getText().toString());
                     e.setStart(start);
                     e.setEnd(end);
-                List<Event>n=singleton.getEvent();
+                    List<Event>n=singleton.getEvent();
              //   n.addAll(e);
                 singleton.setEvent(n);
                     ListenableFuture<Event> send = singleton.getClient().getMe().getCalendar().getEvents().add(e);
@@ -195,9 +198,8 @@ public class NewNotes extends Activity {
                                 }
                             });
                             Intent i = new Intent(getApplicationContext(), Calender_.class);
+                            Singleton.getInstance().refresh();
                             startActivity(i);
-                            singleton.refresh();
-
                             finish();
 
                         }

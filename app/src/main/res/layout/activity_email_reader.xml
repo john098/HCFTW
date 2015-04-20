@@ -91,27 +91,17 @@
             android:id="@+id/divider2"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/messageText2"
-            android:visibility="invisible" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:id="@+id/scrollText"
-            android:layout_marginTop="-330dp"
-           >
+            android:id="@+id/scrollText">
         <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/messageText"
-        android:visibility="invisible"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/messageText2"
+            android:visibility="visible" />
         </ScrollView>
     </LinearLayout>
 
