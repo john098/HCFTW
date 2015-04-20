@@ -10,10 +10,10 @@
     tools:context="com.example.johnpham.hcftw.NewNotes">
 
 
-    <ScrollView
+    <!--<ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/scrollView3">
+        android:id="@+id/scrollView3">-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -112,13 +112,13 @@
                     android:id="@+id/editLocation"
                     android:layout_weight="1"
                     android:layout_gravity="bottom"
-                    android:hint="Enter Location (optional)"
+                    android:hint="Enter Location (NYI)"
                     android:gravity="right" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="79dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/layoutLocation"
                 >
 
@@ -138,7 +138,7 @@
                     android:id="@+id/editAttendees"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:hint="Enter Name (Optional)" />
+                    android:hint="Enter Name (NYI)" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -244,7 +244,7 @@
                 android:inputType="text" />
 
         </LinearLayout>
-    </ScrollView>
+    <!--</ScrollView-->
 
 
     <LinearLayout

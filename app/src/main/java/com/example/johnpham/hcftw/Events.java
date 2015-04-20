@@ -73,6 +73,7 @@ private  ArrayAdapter<String> myAdapter;
             for(Event e: events)
             {
                 e.getBody().setContentType(typ);
+                Log.d("Event",events.size()+"");
                 if(!e.getIsAllDay()) {
                     date = sdf.format(e.getStart().getTime());
                     if (date.compareTo(dat) == 0) {
