@@ -41,7 +41,7 @@ public class Volunteer_Report extends Activity
         super.onCreate(savedInstanceState);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
-        setContentView(R.layout.activity_student__report);
+        setContentView(R.layout.activity_volunteer_report);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -161,7 +161,7 @@ public class Volunteer_Report extends Activity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_volunteer__report3, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_volunteer__report, container, false);
             return rootView;
         }
 

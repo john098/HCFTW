@@ -3,6 +3,7 @@ package com.example.johnpham.hcftw;
 import android.app.Activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -86,7 +87,6 @@ public class Tutor_Report extends Activity
     private PopupWindow pop;
     private View layout;
     private TabHost host;
-    private TabHost.TabSpec spec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +99,6 @@ public class Tutor_Report extends Activity
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         final Report submit = new Report();
-
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -126,9 +125,8 @@ public class Tutor_Report extends Activity
         setSpinerslisteners();
         etext = (EditText)findViewById(R.id.editText);
         etext2 = (EditText)findViewById(R.id.editText2);
-        /**host= (TabHost) findViewById(R.id.tabHost);
-        TabWidget widget = host.getTabWidget();
-        **/
+
+
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +216,7 @@ public class Tutor_Report extends Activity
               //  mTitle="Report";
                 startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
                 break;
+
         }
     }
 
@@ -259,7 +258,8 @@ public class Tutor_Report extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    } public void clearApplicationData() {
+    }
+    public void clearApplicationData() {
         File cache = getCacheDir();
         File appDir = new File(cache.getParent());
         if(appDir.exists()){
@@ -405,6 +405,7 @@ private TextView teachhrOther, prephrOther, travelOther;
             });
             travel = getResources().getStringArray(R.array.Hour_Code)[spin3.getSelectedItemPosition()];
     }
+
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -499,13 +500,14 @@ private TextView teachhrOther, prephrOther, travelOther;
 
         @Override
         protected void onPostExecute(String result) {
-
             if (result == null){
                /* Toast.makeText(Tutor_Report.this, "error", Toast.LENGTH_SHORT).show();*/}
             else{
 
                 /*Toast.makeText(Tutor_Report.this, result , Toast.LENGTH_SHORT).show();*/}
             dialog.dismiss();
+            //AlertDialog finished = new AlertDialog.Builder(getActivity());
+
         }
 
     }
