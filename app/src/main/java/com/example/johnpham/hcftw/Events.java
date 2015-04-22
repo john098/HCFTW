@@ -108,7 +108,7 @@ private  ArrayAdapter<String> myAdapter;
                     Display dis = getWindowManager().getDefaultDisplay();
                     int widthSize = dis.getWidth();
                     int hight=dis.getHeight();
-                    popUp=new PopupWindow(layout,widthSize/2,hight/2,true);
+                    popUp=new PopupWindow(layout,1200,1000,true);
                     popUp.showAtLocation(layout,Gravity.CENTER,0,0);
                     popUp.setFocusable(true);
                     Button PopCan=(Button)layout.findViewById(R.id.PopupButton);

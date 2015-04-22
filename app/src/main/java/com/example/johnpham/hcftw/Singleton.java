@@ -52,6 +52,8 @@ public class Singleton {
 
     private static Singleton singleton = null;
     private List<Event> event;
+    private List<Contact> contacts;
+    ListenableFuture<List<Contact>> contactFuture;
     private OutlookClient client =new OutlookClient(ServiceConstants.ENDPOINT_ID,(DefaultDependencyResolver)Controller.getInstance().getDependencyResolver());
     private ListenableFuture<List<Event>> even;
     private String name;
@@ -59,6 +61,7 @@ public class Singleton {
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
     private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
+    private  ArrayList<String> nameList=new ArrayList<String>();
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
@@ -75,7 +78,6 @@ public class Singleton {
     }
     public void setFuture(ListenableFuture<List<Event>> even)
     {
-
         this.even=even;
     }
     public void setEmail(String alias){
@@ -105,7 +107,10 @@ public class Singleton {
                 while(true) {
                     try {
                         even=client.getMe().getCalendar().getEvents().top(9999).read();
+                        contactFuture=client.getMe().getContacts().top(9999).read();
                         event = even.get();
+                        contacts=contactFuture.get();
+                        setContacts(contacts);
                         setEvent(event);
                         Thread.sleep(300000);//5min
 
@@ -121,6 +126,29 @@ public class Singleton {
         Thread thread=new Thread(runnable);
         thread.start();
     }
+    public  void setContacts(List<Contact> contacts)
+    {
+        this.contacts=contacts;
+    }
+   public ArrayList<String> getContact()
+    {
+        ArrayList<String> contactList=new ArrayList<String>();
+        for(int j=0;j<contacts.size();j++){
+            contactList.add(contacts.get(j).getEmailAddresses().get(0).getAddress());
+            //nameList.add(contact.get(j).getEmailAddresses().get(0).getName());
+        }
+        return contactList;
+    }
+    public ArrayList<String> getNameList()
+    {
+
+        for(int j=0;j<contacts.size();j++){
+
+            nameList.add(contacts.get(j).getEmailAddresses().get(0).getName());
+        }
+        return nameList;
+    }
+
     public void refresh()
     {try{
         Runnable runnable=new Runnable() {
@@ -131,7 +159,9 @@ public class Singleton {
                         even=client.getMe().getCalendar().getEvents().top(9999).read();
                         event = even.get();
                         setEvent(event);
-                        //Thread.sleep(300000);//5min
+                        contactFuture=client.getMe().getContacts().top(9999).read();
+                        contacts=contactFuture.get();
+                        setContacts(contacts);
 
                     }
                     catch(Exception e)

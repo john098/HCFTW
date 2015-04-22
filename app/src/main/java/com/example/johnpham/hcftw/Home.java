@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import java.io.File;
 import java.util.concurrent.Callable;
+import android.widget.Toast;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -56,6 +57,8 @@ public class Home extends Activity
         setContentView(R.layout.activity_home);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+
         // Set up the drawer.
         if(count==0) {
         SettableFuture<Void> authenticated =
@@ -89,7 +92,8 @@ public class Home extends Activity
 
                                         }
                                     }.start();
-
+                                  //  MenuItem name=(MenuItem)findViewById(R.id.name);
+                                    //name.setTitle(single.getName());
                                     background=(ImageView)findViewById(R.id.imageView3);
                                     background.setBackground(getResources().getDrawable(R.drawable.resizehome));
 
@@ -102,7 +106,6 @@ public class Home extends Activity
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
-
                                 }
                             });
 
@@ -184,9 +187,6 @@ public class Home extends Activity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home, menu);
-
-
-
             restoreActionBar();
             return true;
         }
@@ -199,6 +199,8 @@ public class Home extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+       // MenuItem name=(MenuItem)findViewById(R.id.name);
+        //name.setTitle(single.getName());
         if (id == R.id.logout) {
             Intent intent = new Intent(this,Home.class);
             intent.putExtra("finish", true);
