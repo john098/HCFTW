@@ -18,7 +18,8 @@ android:id="@+id/compose">
     android:id="@+id/newMess"
     android:textColor="#ffff0003"
     android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true" />
+    android:layout_centerHorizontal="true"
+    android:maxLines="1" />
 
     <MultiAutoCompleteTextView
     android:layout_width="fill_parent"

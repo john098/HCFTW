@@ -130,7 +130,7 @@
                     android:id="@+id/textAtten"
                     android:gravity="bottom" />
 
-                <EditText
+                <MultiAutoCompleteTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -138,7 +138,8 @@
                     android:id="@+id/editAttendees"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:hint="Enter Name (NYI)" />
+                    android:hint="Enter Name (NYI)"
+                    android:autoText="true" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -232,14 +233,16 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="74dp"
                 android:id="@+id/editText"
-                android:layout_weight="0.34"
                 android:editable="true"
                 android:background="#ffd9d9d9"
                 android:gravity="top"
 
-                />
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:inputType="text" />
 
         </LinearLayout>
     <!--</ScrollView-->

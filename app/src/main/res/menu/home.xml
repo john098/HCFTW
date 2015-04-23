@@ -11,9 +11,11 @@
           android:title="About"
           />
       <item android:id="@+id/name"
-          android:title=""
+
           android:showAsAction="ifRoom"
           ></item>
+
+
   </menu>
 
 

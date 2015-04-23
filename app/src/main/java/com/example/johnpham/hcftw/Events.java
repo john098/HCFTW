@@ -2,6 +2,7 @@ package com.example.johnpham.hcftw;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.app.Activity;
@@ -104,7 +105,10 @@ private  ArrayAdapter<String> myAdapter;
                     SimpleDateFormat happy = new SimpleDateFormat("MM/dd/yyyy hh:mm");
                     View layout = inflater.inflate(R.layout.popup,
                             (ViewGroup) findViewById(R.id.PopLayoutID));
-                    popUp=new PopupWindow(layout,1000,1200,true);
+                    Display dis = getWindowManager().getDefaultDisplay();
+                    int widthSize = dis.getWidth();
+                    int hight=dis.getHeight();
+                    popUp=new PopupWindow(layout,1200,1000,true);
                     popUp.showAtLocation(layout,Gravity.CENTER,0,0);
                     popUp.setFocusable(true);
                     Button PopCan=(Button)layout.findViewById(R.id.PopupButton);
@@ -119,9 +123,16 @@ private  ArrayAdapter<String> myAdapter;
                     ArrayList<String> tester = new ArrayList<String>();
                     for(int i=0;i<atten.size();i++) {
                         tester.add(atten.get(i).getEmailAddress().getName());
+
                     }
+                    if(atten.size()<0)
+                    {
+                        tester.add("");
+                    }
+
+
                     showThis.add("Attendees    " + tester.toString());
-                    showThis.add("Notes");
+                    showThis.add("Location:     "+arrayEvent.get(position).getLocation().getDisplayName());
                     ArrayAdapter<String> popUpAdapter=new ArrayAdapter<String> (
                             Events.this,
                             android.R.layout.simple_list_item_1,
@@ -176,11 +187,6 @@ private  ArrayAdapter<String> myAdapter;
 
 
             });
-      /*  if(get!=null)
-        {
-            String date=get.getString("variable");
-            k.setText(date);
-        }*/
             j.setFocusable(false);
            j.setOnClickListener(new View.OnClickListener() {
                 @Override
