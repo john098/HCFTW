@@ -32,12 +32,12 @@
         </activity>
         <activity
             android:name=".Volunteer_Report"
-            android:label="Report"
+            android:label="Reports: Administrative Volunteer"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Tutor_Report"
-            android:label="Report"
+            android:label="Reports: Tutor"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -64,6 +64,24 @@
         <activity
             android:name=".NewNotes"
             android:label="Create Event"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity
+            android:name=".ReportHub"
+            android:label="Report"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity
+            android:name=".Intern_Report"
+            android:label="Reports: Intern"
+            android:screenOrientation="portrait"
+            >
+            </activity>
+        <activity
+            android:name=".MultiRole_Report"
+            android:label="Reports: Multi-Role"
             android:screenOrientation="portrait"
             >
         </activity>

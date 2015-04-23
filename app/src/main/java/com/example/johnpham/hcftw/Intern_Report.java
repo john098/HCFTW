@@ -62,16 +62,16 @@ private ArrayList<String> years=new ArrayList<String>();
 private CharSequence mTitle;
     private String month, year, volhr, travel;
     private Spinner monthSpinner, volunteerSpinner, travelSpinner,yearSpinner;
-    private TextView volOther,  travelOther;
-    private PopupWindow pop;
-    private View layout;
-    private EditText acomplishments, phoneNum;
+    private TextView volOther,  travelOther; //
+    private PopupWindow pop; //Pop up window
+    private View layout; //
+    private EditText acomplishments, phoneNum; //
     private Button send, clear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grantwriter);
+        setContentView(R.layout.activity_intern);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -293,7 +293,7 @@ private CharSequence mTitle;
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.gw_report, menu);
+            getMenuInflater().inflate(R.menu.intern_report, menu);
             restoreActionBar();
             return true;
         }
@@ -479,7 +479,7 @@ private CharSequence mTitle;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_gw_report, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_intern_report, container, false);
             return rootView;
         }
 

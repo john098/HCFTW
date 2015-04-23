@@ -36,7 +36,7 @@
         <item>2011</item>
         <item>2010</item>
     </string-array>
-
+    <string name="title_activity_reporting">ReportHub</string>
     <string name="title_activity_tutor__report">Tutor_Report</string>
     <string name="Choose_Hour">Choose_Hour</string>
 

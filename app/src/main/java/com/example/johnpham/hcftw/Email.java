@@ -297,7 +297,7 @@ public class Email extends Activity
                 break;
             case 4:
                // mTitle = "Report";
-                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
+                startActivity(new Intent(getApplicationContext(), ReportHub.class));
                 break;
 
         }
