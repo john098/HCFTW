@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.io.File;
 
@@ -32,11 +33,11 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
+    private Button tutor, volunteer, grantWriter, multi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reporting);
+        setContentView(R.layout.activity_report);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -46,6 +47,34 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        tutor = (Button) findViewById(R.id.tutor);
+        tutor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
+            }
+        });
+        volunteer=(Button) findViewById(R.id.volunteer);
+        volunteer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Volunteer_Report.class));
+            }
+        });
+        grantWriter=(Button) findViewById(R.id.intern);
+        grantWriter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Intern_Report.class));
+            }
+        });
+        multi = (Button) findViewById(R.id.multiRole);
+        multi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MultiRole_Report.class));
+            }
+        });
     }
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -173,14 +202,14 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_reporting, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_report, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((Calender_) activity).onSectionAttached(
+            ((ReportHub) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
