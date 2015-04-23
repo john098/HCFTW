@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -66,7 +67,7 @@ public class EmailReader extends Activity {
         TextView inboxView = (TextView) findViewById(R.id.inboxReader);
         TextView date = (TextView) findViewById(R.id.dateText);
         Button reply = (Button) findViewById(R.id.replyButton);
-        Button move = (Button) findViewById(R.id.moveButton);
+        ImageButton clip = (ImageButton) findViewById(R.id.imageButton);
         //editable from email String
         TextView from = (TextView) findViewById(R.id.fromName);
         TextView subj = (TextView) findViewById(R.id.subjText);
@@ -97,9 +98,10 @@ public class EmailReader extends Activity {
                 startActivity(i);
             }
         });
-         move.setOnClickListener(new View.OnClickListener() {
+         clip.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                 Toast.makeText(EmailReader.this, "NYI", Toast.LENGTH_SHORT).show();
+               //  Toast.makeText(EmailReader.this, "NYI", Toast.LENGTH_SHORT).show();
+
              }
          });
 
