@@ -7,14 +7,11 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -24,28 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.common.util.concurrent.ListenableFuture;
-import com.microsoft.outlookservices.EmailAddress;
-import com.microsoft.outlookservices.ItemBody;
-import com.microsoft.outlookservices.Message;
-import com.microsoft.outlookservices.Recipient;
-import com.microsoft.outlookservices.User;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
-import com.microsoft.outlookservices.EmailAddress;
-import com.microsoft.outlookservices.odata.OutlookClient;
-
-import java.awt.font.TextAttribute;
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.logging.FileHandler;
+import android.widget.Toast;
 
 public class Home extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -75,6 +57,8 @@ public class Home extends Activity
         setContentView(R.layout.activity_home);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+
         // Set up the drawer.
         if(count==0) {
         SettableFuture<Void> authenticated =
@@ -94,23 +78,22 @@ public class Home extends Activity
                                 @Override
                                 public void run() {
 
-                                /*    Toast.makeText(
-                                            Home.this,
-                                            "Authentication successful",
-                                            Toast.LENGTH_LONG).show();*/
-                                    dial=ProgressDialog.show(Home.this,"Logging in","Please wait",true);
 
+                                    dial=ProgressDialog.show(Home.this,"Logging in","Please wait",true);
+                                    onPause();
                                     new Thread() {
                                         public void run() {
-                                            //SystemClock.sleep(3000);
+                                            SystemClock.sleep(3000);
                                             while(single==null) {
                                                 single=Singleton.getInstance();
                                             }
+                                            onResume();
                                             dial.dismiss();
 
                                         }
                                     }.start();
-
+                                  //  MenuItem name=(MenuItem)findViewById(R.id.name);
+                                    //name.setTitle(single.getName());
                                     background=(ImageView)findViewById(R.id.imageView3);
                                     background.setBackground(getResources().getDrawable(R.drawable.resizehome));
 
@@ -123,7 +106,6 @@ public class Home extends Activity
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
-
                                 }
                             });
 
@@ -205,14 +187,10 @@ public class Home extends Activity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.home, menu);
-
-
-
             restoreActionBar();
             return true;
         }
-      //  MenuItem item=(MenuItem)findViewById(R.id.name);
-      //  item.setTitle("hehee");
+
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -221,6 +199,8 @@ public class Home extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+       // MenuItem name=(MenuItem)findViewById(R.id.name);
+        //name.setTitle(single.getName());
         if (id == R.id.logout) {
             Intent intent = new Intent(this,Home.class);
             intent.putExtra("finish", true);

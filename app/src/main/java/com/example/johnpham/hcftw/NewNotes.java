@@ -6,15 +6,18 @@ import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import com.google.common.util.concurrent.ListenableFuture;
 import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import android.widget.Button;
@@ -31,6 +34,7 @@ import android.content.Intent;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
+import com.microsoft.outlookservices.Attendee;
 import com.microsoft.outlookservices.EmailAddress;
 import com.microsoft.outlookservices.Event;
 import com.microsoft.outlookservices.ItemBody;
@@ -50,10 +54,13 @@ public class NewNotes extends Activity {
     private int startMin;
     private int endHour;
     private int endMin;
+    private List<Attendee> at;
+    private MultiAutoCompleteTextView attendees;
     private TextView d;
     private EditText note;
     private EditText location;
     private Singleton singleton=Singleton.getInstance();
+    private ArrayList<String>nameList=new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +94,7 @@ public class NewNotes extends Activity {
         Intent i = getIntent();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String date = df.format(cal.getTime());
-
+        attendees=(MultiAutoCompleteTextView)findViewById(R.id.editAttendees);
          SimpleDateFormat sp=new SimpleDateFormat(("MM/dd/yyyy"));
         Date dated=new Date();
         String datename = singleton.getTodayDate();
@@ -107,6 +114,14 @@ public class NewNotes extends Activity {
         note=(EditText)findViewById(R.id.editText);
         b=(TextView)findViewById(R.id.timed);
         d=(TextView)findViewById(R.id.timed1);
+        nameList=singleton.getNameList();
+        ArrayAdapter<String> adap = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,nameList);
+        attendees.setAdapter(adap);
+        attendees.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        adap.notifyDataSetChanged();
+
+
+
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +129,7 @@ public class NewNotes extends Activity {
                 b.setText("");
                 d.setText("");
                 note.setText("");
+                attendees.setText("");
             }
         });
 
@@ -161,9 +177,12 @@ public class NewNotes extends Activity {
                      text.setError("please enter correct MM/DD/YYY");
                     e.printStackTrace();
                 }
+                at.addAll(parseAttendees(attendees.getText().toString()));
                 finish();
+
                     df.format(base);
-                    final Singleton singleton = Singleton.getInstance();
+
+
                     Calendar start = Calendar.getInstance();
                     start.setTime(base);
                     Calendar end = df.getCalendar();
@@ -184,6 +203,10 @@ public class NewNotes extends Activity {
                     e.setSubject(enter.getText().toString());
                     e.setStart(start);
                     e.setEnd(end);
+                    e.setAttendees(at);
+
+
+
                     List<Event>n=singleton.getEvent();
              //   n.addAll(e);
                 singleton.setEvent(n);
@@ -212,6 +235,21 @@ public class NewNotes extends Activity {
 
             }
         });
+    }
+    public  ArrayList<Attendee> parseAttendees(String addressString) {
+        ArrayList<Attendee> attendees1 = new ArrayList<Attendee>();
+        String[] split = addressString.split("\\(|\\)|\\,");
+        for (int i = 0; i < split.length; i++) {
+            if (split[i].contains("@")) {
+                Attendee temp = new Attendee();
+                EmailAddress emailAddress = new EmailAddress();
+                String wa = split[i].trim();
+                emailAddress.setAddress(wa);
+                temp.setEmailAddress(emailAddress);
+                attendees1.add(temp);
+            }
+        }
+        return attendees1;
     }
     public void call()
     {

@@ -34,6 +34,7 @@ dependencies {
     // ADAL
     compile (group: 'com.microsoft.aad', name: 'adal', version: '1.0.5') {
         // exclude group: 'com.android.support'   // this may not be necessary
+
     }
 }
 

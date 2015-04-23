@@ -1,36 +1,33 @@
 package com.example.johnpham.hcftw;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.content.Intent;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import java.io.File;
 
+/**
+ * Created by Jake on 4/22/2015.
+ */
+public class ReportHub extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-public class Volunteer_Report extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-        private int numb=0;
-        private  ArrayList<String> years = new ArrayList<String>();
+    private int numb=0;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -39,32 +36,17 @@ public class Volunteer_Report extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reporting);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
-        setContentView(R.layout.activity_volunteer_report);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 2009; i <= thisYear; i++)
-        {
-            years.add(Integer.toString(i));
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, years);
-
-        Spinner spinYear = (Spinner)findViewById(R.id.spinner4);
-        spinYear.setAdapter(adapter);
     }
-
-    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
@@ -72,9 +54,8 @@ public class Volunteer_Report extends Activity
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
-
     public void onSectionAttached(int number) {
-       // mTitle="Report";
+        // mTitle="Report";
         switch (number) {
             case 1:
                 if(numb!=0) {
@@ -83,16 +64,16 @@ public class Volunteer_Report extends Activity
                 numb++;
                 break;
             case 2:
-               // mTitle = "Email";
+                //  mTitle = "Email";
                 startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
-              //  mTitle = "Calendar";
+                //  mTitle = "Calendar";
                 startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
             case 4:
-              //  mTitle = "Report";
-               startActivity(new Intent(getApplicationContext(), Volunteer_Report.class));
+                //  mTitle="Report";
+                startActivity(new Intent(getApplicationContext(), ReportHub.class));
                 break;
         }
     }
@@ -111,7 +92,7 @@ public class Volunteer_Report extends Activity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.student__report, menu);
+            getMenuInflater().inflate(R.menu.reporthub, menu);
             restoreActionBar();
             return true;
         }
@@ -124,15 +105,46 @@ public class Volunteer_Report extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-          //  Intent intent=new Intent(getApplicationContext(),Login.class);
-           // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-           // startActivity(intent);
-            //return true;
+        if (id == R.id.logout){
+            onPause();
+            clearApplicationData();
+
+            onDestroy();
+            System.exit(0);
+            finish();
+
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s + " DELETED");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -160,17 +172,16 @@ public class Volunteer_Report extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_volunteer__report, container, false);
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_reporting, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((Volunteer_Report) activity).onSectionAttached(
+            ((Calender_) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }

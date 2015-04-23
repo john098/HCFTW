@@ -23,7 +23,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -120,9 +119,9 @@ public class Calender_ extends
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().refresh();
-                adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
+                //adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
                 adapter.notifyDataSetChanged();
-                calendarView.setAdapter(adapter);
+                //calendarView.setAdapter(adapter);
             }
         });
         add.setOnClickListener(new OnClickListener() {
@@ -381,10 +380,8 @@ public class Calender_ extends
             gridcell.setText(theday);
             gridcell.setTag(theday + "-" + themonth + "-" + theyear);
             String today=theday + "-" + themonth + "-" + theyear;
-
             if (m - 1 == month) {   row.setBackgroundResource(R.drawable.calendar_button_selector1);
                gridcell.setBackgroundResource(R.drawable.calendar_button_selector1);
-
                 try {
                     events = singleton.getEvent();
                     SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy");
@@ -401,9 +398,7 @@ public class Calender_ extends
                         if (date.compareTo(gridcell.getTag().toString()) == 0) {
 
                             gridcell.setTextColor(Color.RED);
-
                         }
-
                     }
 
                 } catch (Exception e) {
@@ -453,7 +448,7 @@ public class Calender_ extends
             String currentMonthName = getMonthAsString(mm);
             daysInMonth = getNumberOfDaysOfMonth(mm);
             // Gregorian Calendar : MINUS 1, set to FIRST OF MONTH
-            GregorianCalendar cal = new GregorianCalendar(yy, curMonth, 1);
+            GregorianCalendar cal = new GregorianCalendar(yy, curMonth, 1);//1
 
 
             if (curMonth == 11) {
