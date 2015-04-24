@@ -1,16 +1,17 @@
 package com.example.johnpham.hcftw;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,17 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.content.Intent;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,25 +37,35 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-public class Volunteer_Report extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-    private int numb=0;
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private ArrayList<String> years=new ArrayList<String>();
-    private CharSequence mTitle;
+/**
+ * Created by Jake on 4/22/2015.
+ */
+public class Intern_Report extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+private int numb=0;
+/**
+ * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+ */
+private NavigationDrawerFragment mNavigationDrawerFragment;
+/**
+ * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+ */
+private ArrayList<String> years=new ArrayList<String>();
+private CharSequence mTitle;
     private String month, year, volhr, travel;
     private Spinner monthSpinner, volunteerSpinner, travelSpinner,yearSpinner;
-    private TextView volOther,  travelOther;
-    private PopupWindow pop;
-    private View layout;
-    private EditText acomplishments, phoneNum;
+    private TextView volOther,  travelOther; //
+    private PopupWindow pop; //Pop up window
+    private View layout; //
+    private EditText acomplishments, phoneNum; //
     private Button send, clear;
 
     @Override
@@ -87,7 +87,7 @@ public class Volunteer_Report extends Activity
         for(int i=0;i<5;i++)
         {
             years.add(Integer.toString(theyear));
-            Log.d("this is the year", theyear + "\n");
+            Log.d("this is the year",theyear+"\n");
             theyear--;
         }
         ArrayAdapter<String> yearAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,years);
@@ -122,7 +122,7 @@ public class Volunteer_Report extends Activity
                     long phone = Long.parseLong(phoneNum.getText().toString());
                     submit.setName(name);
                     submit.setMonth(submitMonth);
-                    submit.setRole("A2");
+                    submit.setRole("A1");
                     submit.setPhone(phone);
                     submit.setTeachhr("A0");
                     submit.setPrephr("A0");
@@ -373,7 +373,7 @@ public class Volunteer_Report extends Activity
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(Volunteer_Report.this);
+            dialog = new ProgressDialog(Intern_Report.this);
             dialog.setTitle("Submitting...");
             dialog.setMessage("Please wait...");
             dialog.setIndeterminate(true);
@@ -479,14 +479,14 @@ public class Volunteer_Report extends Activity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_volunteer__report, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_intern_report, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((Volunteer_Report) activity).onSectionAttached(
+            ((Intern_Report) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }

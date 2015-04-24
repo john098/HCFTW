@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.johnpham.hcftw.MultiRole_Report" >
+    <!-- <item android:id="@+id/logout"
+         android:icon="@android:drawable/arrow_down_float"
+         android:title="logout">
+
+
+
+     </item>
+     <item android:id="@+id/about"
+         android:title="About"
+         ></item>-->
+</menu>

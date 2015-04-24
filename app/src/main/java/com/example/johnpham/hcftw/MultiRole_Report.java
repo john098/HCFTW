@@ -1,16 +1,17 @@
 package com.example.johnpham.hcftw;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,20 +19,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.content.Intent;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -47,9 +38,19 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-public class Volunteer_Report extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+/**
+ * Created by Jake on 4/22/2015.
+ */
+public class MultiRole_Report extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
     private int numb=0;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -58,20 +59,23 @@ public class Volunteer_Report extends Activity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private ArrayList<String> years=new ArrayList<String>();
     private CharSequence mTitle;
-    private String month, year, volhr, travel;
-    private Spinner monthSpinner, volunteerSpinner, travelSpinner,yearSpinner;
-    private TextView volOther,  travelOther;
+    private boolean tutorCheck, internCheck, volCheck;
+    private ArrayList<String> years=new ArrayList<String>();
+    private String month, year, teachhr, prephr, travel;
+    private Spinner monthSpinner, teachSpinner, prepSpinner, travelSpinner,yearSpinner;
+    private TextView teachhrOther, prephrOther, travelOther;
     private PopupWindow pop;
     private View layout;
     private EditText acomplishments, phoneNum;
     private Button send, clear;
+    private CheckBox internBox, tutorBox, volBox;
+    private TextView checkboxText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intern);
+        setContentView(R.layout.activity_multirole_report);
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -87,19 +91,24 @@ public class Volunteer_Report extends Activity
         for(int i=0;i<5;i++)
         {
             years.add(Integer.toString(theyear));
-            Log.d("this is the year", theyear + "\n");
+            Log.d("this is the year",theyear+"\n");
             theyear--;
         }
         ArrayAdapter<String> yearAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,years);
 
         yearSpinner.setAdapter(yearAdapter);
         monthSpinner = (Spinner) findViewById(R.id.spinner);
-        volunteerSpinner = (Spinner) findViewById(R.id.spinner2);
+        teachSpinner = (Spinner) findViewById(R.id.spinner2);
+
+        prepSpinner = (Spinner) findViewById(R.id.spinner3);
         travelSpinner = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
+        checkboxText = (TextView) findViewById(R.id.checks);
         acomplishments = (EditText)findViewById(R.id.editText);
         phoneNum = (EditText)findViewById(R.id.editText2);
-
+        internBox = (CheckBox) findViewById(R.id.internBox);
+        tutorBox = (CheckBox) findViewById(R.id.tutorBox);
+        volBox = (CheckBox) findViewById(R.id.volBox);
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,29 +120,32 @@ public class Volunteer_Report extends Activity
                 acomp = acomplishments.getText().toString();
 
                 if(acomp.equals("")||phoneNum.getText().toString().equals("")){
-                    if(acomp.equals("")){
+
+                    /*if(acomp.equals("")){
                         acomplishments.setError("Please leave a comment");
                     }
                     if(phoneNum.getText().toString().equals("")){
                         phoneNum.setError("Please enter number");
-                    }
+                    }*/
                 }
                 else {
+
                     long phone = Long.parseLong(phoneNum.getText().toString());
                     submit.setName(name);
                     submit.setMonth(submitMonth);
-                    submit.setRole("A2");
+                    submit.setRole("A1");
                     submit.setPhone(phone);
-                    submit.setTeachhr("A0");
-                    submit.setPrephr("A0");
+                    submit.setTeachhr(teachhr);
+                    submit.setPrephr(prephr);
                     submit.setTravel(travel);
-                    submit.setServhr(volhr);
+                    submit.setServhr("A0");
                     submit.setAcomp(acomp);
 
-                    new SubmitData().execute(submit);
+                    //new SubmitData().execute(submit);
                     yearSpinner.setSelection(0);
                     monthSpinner.setSelection(0);
-                    volunteerSpinner.setSelection(0);
+                    teachSpinner.setSelection(0);
+                    prepSpinner.setSelection(0);
                     travelSpinner.setSelection(0);
                     phoneNum.setText("");
                     acomplishments.setText("");
@@ -146,7 +158,8 @@ public class Volunteer_Report extends Activity
             public void onClick(View v) {
                 yearSpinner.setSelection(0);
                 monthSpinner.setSelection(0);
-                volunteerSpinner.setSelection(0);
+                teachSpinner.setSelection(0);
+                prepSpinner.setSelection(0);
                 travelSpinner.setSelection(0);
                 phoneNum.setText("");
                 acomplishments.setText("");
@@ -155,8 +168,6 @@ public class Volunteer_Report extends Activity
 
 
     }
-
-
     public void setSpinerslisteners(){
         //Spinner for years
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -176,9 +187,9 @@ public class Volunteer_Report extends Activity
         });
         month = getResources().getStringArray(R.array.Month)[monthSpinner.getSelectedItemPosition()];
         //Spinner for teaching hours
-        volunteerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        teachSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                volOther = (TextView) findViewById(R.id.otherView);
+                teachhrOther = (TextView) findViewById(R.id.otherView);
 
                 if (position == 41) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -192,17 +203,17 @@ public class Volunteer_Report extends Activity
                         @Override
                         public void onClick(View v) {
                             EditText view = (EditText) layout.findViewById(R.id.other_edittext);
-                            volhr = view.getText().toString();
+                            teachhr = view.getText().toString();
 
-                            volOther.setText(volhr);
-                            volOther.setVisibility(View.VISIBLE);
+                            teachhrOther.setText(teachhr);
+                            teachhrOther.setVisibility(View.VISIBLE);
                             pop.dismiss();
 
                         }
                     });
                 } else {
-                    volhr = getResources().getStringArray(R.array.Hour_Code)[position];
-                    volOther.setVisibility(View.INVISIBLE);
+                    teachhr = getResources().getStringArray(R.array.Hour_Code)[position];
+                    teachhrOther.setVisibility(View.INVISIBLE);
 
                 }
             }
@@ -210,7 +221,43 @@ public class Volunteer_Report extends Activity
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        volhr = getResources().getStringArray(R.array.Hour_Code)[volunteerSpinner.getSelectedItemPosition()];
+        teachhr = getResources().getStringArray(R.array.Hour_Code)[teachSpinner.getSelectedItemPosition()];
+        //Preparation Spinner
+        prepSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                prephrOther = (TextView) findViewById(R.id.otherView2);
+
+                if (position == 41) {
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    layout = inflater.inflate(R.layout.other, (ViewGroup) findViewById(R.id.otherId));
+                    pop = new PopupWindow(layout, 500, 500, true);
+                    pop.showAtLocation(layout, Gravity.CENTER, 0, 0);
+                    pop.setFocusable(true);
+                    Button ok = (Button) layout.findViewById(R.id.other_ok);
+
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText view = (EditText) layout.findViewById(R.id.other_edittext);
+                            prephr = view.getText().toString();
+
+                            prephrOther.setText(prephr);
+                            prephrOther.setVisibility(View.VISIBLE);
+                            pop.dismiss();
+
+                        }
+                    });
+                } else {
+                    prephr = getResources().getStringArray(R.array.Hour_Code)[position];
+                    prephrOther.setVisibility(View.INVISIBLE);
+
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        prephr = getResources().getStringArray(R.array.Hour_Code)[prepSpinner.getSelectedItemPosition()];
         //Travel Spinner
         travelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -246,7 +293,42 @@ public class Volunteer_Report extends Activity
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        travel = getResources().getStringArray(R.array.Hour_Code)[travelSpinner.getSelectedItemPosition()];
+        travel = getResources().getStringArray(R.array.Hour_Code)[prepSpinner.getSelectedItemPosition()];
+    }
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.tutorBox:
+                if (checked) {
+                    tutorCheck=true;
+                    Report tutor = new Report();
+                }
+                else{
+                    tutorCheck=false;
+                }
+
+                break;
+            case R.id.internBox:
+                if (checked){
+                    internCheck=true;
+                }
+
+                else{
+
+                }
+
+                break;
+            case R.id.volBox:
+                if (checked){}
+
+                else{}
+
+                break;
+
+        }
     }
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -293,7 +375,7 @@ public class Volunteer_Report extends Activity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.intern_report, menu);
+            getMenuInflater().inflate(R.menu.mr_report, menu);
             restoreActionBar();
             return true;
         }
@@ -373,7 +455,7 @@ public class Volunteer_Report extends Activity
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(Volunteer_Report.this);
+            dialog = new ProgressDialog(MultiRole_Report.this);
             dialog.setTitle("Submitting...");
             dialog.setMessage("Please wait...");
             dialog.setIndeterminate(true);
@@ -479,14 +561,14 @@ public class Volunteer_Report extends Activity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_volunteer__report, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_multirole_report, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((Volunteer_Report) activity).onSectionAttached(
+            ((MultiRole_Report) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }

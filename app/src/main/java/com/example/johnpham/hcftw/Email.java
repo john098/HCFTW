@@ -3,6 +3,7 @@ package com.example.johnpham.hcftw;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -31,8 +32,10 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.directoryservices.User;
+import com.microsoft.outlookservices.Attachment;
 import com.microsoft.outlookservices.BodyType;
 import com.microsoft.outlookservices.EmailAddress;
+import com.microsoft.outlookservices.FileAttachment;
 import com.microsoft.outlookservices.ItemBody;
 import com.microsoft.outlookservices.Message;
 import com.microsoft.outlookservices.Recipient;
@@ -119,6 +122,7 @@ public class Email extends Activity
                             name = address.getName();
                         }
                     }
+                    //Toast.makeText(Email.this,m.getHasAttachments()+"",Toast.LENGTH_SHORT).show();
                     i.putExtra("From", name);
                     i.putExtra("Email", recipient.getEmailAddress().getAddress());
                     i.putExtra("Date", date);
@@ -293,7 +297,7 @@ public class Email extends Activity
                 break;
             case 4:
                // mTitle = "Report";
-                startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
+                startActivity(new Intent(getApplicationContext(), ReportHub.class));
                 break;
 
         }
