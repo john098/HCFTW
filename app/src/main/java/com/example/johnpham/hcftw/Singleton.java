@@ -61,7 +61,7 @@ public class Singleton {
     private String todayDate;
     private ListenableFuture<User> user=client.getMe().read();
     private ListenableFuture<List<Contact>> contact =client.getMe().getContacts().read();
-    private  ArrayList<String> nameList=new ArrayList<String>();
+
     public static Singleton getInstance() {
         if (singleton == null) {
             singleton = new Singleton();
@@ -141,7 +141,7 @@ public class Singleton {
     }
     public ArrayList<String> getNameList()
     {
-
+        ArrayList<String> nameList=new ArrayList<String>();
         for(int j=0;j<contacts.size();j++){
 
             nameList.add(contacts.get(j).getEmailAddresses().get(0).getName());

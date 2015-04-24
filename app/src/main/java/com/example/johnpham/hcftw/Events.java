@@ -166,7 +166,7 @@ private  ArrayAdapter<String> myAdapter;
                             popUp.dismiss();
                         }
                     });
-                   // tex.setText(body.get(position));
+
 
                     try {
                         PopCan.setOnClickListener(new View.OnClickListener() {

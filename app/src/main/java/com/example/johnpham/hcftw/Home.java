@@ -15,18 +15,26 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
+
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 public class Home extends Activity
@@ -44,6 +52,9 @@ public class Home extends Activity
     private  Singleton single;
     private ProgressDialog dial=null;
     private ImageView background;
+
+
+    private PopupWindow about;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +103,7 @@ public class Home extends Activity
 
                                         }
                                     }.start();
-                                  //  MenuItem name=(MenuItem)findViewById(R.id.name);
-                                    //name.setTitle(single.getName());
+
                                     background=(ImageView)findViewById(R.id.imageView3);
                                     background.setBackground(getResources().getDrawable(R.drawable.resizehome));
 
@@ -106,6 +116,7 @@ public class Home extends Activity
                                     mNavigationDrawerFragment.setUp(
                                             R.id.navigation_drawer,
                                             (DrawerLayout) findViewById(R.id.drawer_layout));
+
                                 }
                             });
 
@@ -223,7 +234,33 @@ public class Home extends Activity
             return true;
         }
         if(id == R.id.about){
-            Toast.makeText(Home.this,"NYI",Toast.LENGTH_SHORT).show();
+            ArrayList<String>con=new ArrayList<String>();
+            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.activity_login,
+                    (ViewGroup) findViewById(R.id.aboutUsPopup));
+            Display dis = getWindowManager().getDefaultDisplay();
+            Button ok=(Button)layout.findViewById(R.id.Okbutton);
+
+            about=new PopupWindow(layout,1200,1000,true);
+            about.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            about.setFocusable(true);
+            con.add("Detroit Phone");
+            con.add("313-789-0100");
+            con.add("Fort Wayne Phone");
+            con.add("260-557-1230");
+            con.add("Email");
+            con.add("info@lifetime.education");
+            ArrayAdapter<String> adp=new ArrayAdapter<String>(Home.this,android.R.layout.simple_list_item_1,con);
+            adp.notifyDataSetChanged();
+            ListView contactUs=(ListView)layout.findViewById(R.id.ContactList);
+            contactUs.setAdapter(adp);
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    about.dismiss();
+                }
+            });
+
             return true;
         }
 

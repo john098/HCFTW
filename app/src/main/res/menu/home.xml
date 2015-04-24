@@ -8,13 +8,8 @@
           android:icon="@android:drawable/arrow_down_float"
           android:title="Log Out"/>
       <item android:id="@+id/about"
-          android:title="About"
+          android:title="Contact Us"
           />
-      <item android:id="@+id/name"
-
-          android:showAsAction="ifRoom"
-          ></item>
-
 
   </menu>
 

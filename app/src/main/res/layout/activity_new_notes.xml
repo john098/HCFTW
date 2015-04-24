@@ -240,9 +240,9 @@
                 android:gravity="top"
 
                 android:clickable="true"
-                android:focusable="false"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:inputType="text" />
+                android:inputType="text|none" />
 
         </LinearLayout>
     <!--</ScrollView-->

@@ -54,13 +54,14 @@ public class NewNotes extends Activity {
     private int startMin;
     private int endHour;
     private int endMin;
-    private List<Attendee> at;
+    private ArrayList<Attendee> at=new ArrayList<Attendee>();
     private MultiAutoCompleteTextView attendees;
     private TextView d;
     private EditText note;
     private EditText location;
     private Singleton singleton=Singleton.getInstance();
     private ArrayList<String>nameList=new ArrayList<String>();
+    private Location loc=new Location();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,12 +178,10 @@ public class NewNotes extends Activity {
                      text.setError("please enter correct MM/DD/YYY");
                     e.printStackTrace();
                 }
+                loc.setDisplayName(location.getText().toString());
                 at.addAll(parseAttendees(attendees.getText().toString()));
                 finish();
-
                     df.format(base);
-
-
                     Calendar start = Calendar.getInstance();
                     start.setTime(base);
                     Calendar end = df.getCalendar();
@@ -204,9 +203,7 @@ public class NewNotes extends Activity {
                     e.setStart(start);
                     e.setEnd(end);
                     e.setAttendees(at);
-
-
-
+                    e.setLocation(loc);
                     List<Event>n=singleton.getEvent();
              //   n.addAll(e);
                 singleton.setEvent(n);
@@ -240,7 +237,7 @@ public class NewNotes extends Activity {
         ArrayList<Attendee> attendees1 = new ArrayList<Attendee>();
         String[] split = addressString.split("\\(|\\)|\\,");
         for (int i = 0; i < split.length; i++) {
-            if (split[i].contains("@")) {
+           if (split[i].contains("@")) {
                 Attendee temp = new Attendee();
                 EmailAddress emailAddress = new EmailAddress();
                 String wa = split[i].trim();
