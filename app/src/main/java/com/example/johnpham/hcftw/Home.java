@@ -94,10 +94,10 @@ public class Home extends Activity
                                     onPause();
                                     new Thread() {
                                         public void run() {
-                                            SystemClock.sleep(3000);
                                             while(single==null) {
                                                 single=Singleton.getInstance();
                                             }
+                                            SystemClock.sleep(3000);
                                             onResume();
                                             dial.dismiss();
 

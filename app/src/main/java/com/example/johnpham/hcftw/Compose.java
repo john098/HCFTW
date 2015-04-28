@@ -80,7 +80,7 @@ public class Compose extends Activity {
     final int PICKFILE_RESULT_CODE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        List<Contact> contact;
+        //List<Contact> contact;
         ArrayList<String> contactList;
         ArrayList<String> nameList;
         super.onCreate(savedInstanceState);
@@ -92,10 +92,9 @@ public class Compose extends Activity {
         Intent i = getIntent();
         Display dis = getWindowManager().getDefaultDisplay();
         int widthSize = dis.getWidth();
-        ListenableFuture<List<Contact>> contactFuture= Singleton.getInstance().getClient().getMe().getContacts().top(9999).read();
+        Singleton singleton = Singleton.getInstance();
+        //ListenableFuture<List<Contact>> contactFuture= Singleton.getInstance().getClient().getMe().getContacts().top(9999).read();
 
-        try {
-            contact = contactFuture.get();
             toField = (MultiAutoCompleteTextView) findViewById(R.id.toTextBox);
             toField.getLayoutParams().width=widthSize;
             ccField = (MultiAutoCompleteTextView) findViewById(R.id.ccTextBox);
@@ -108,11 +107,12 @@ public class Compose extends Activity {
             // In the onCreate method
             contactList = new ArrayList<String>();
             nameList = new ArrayList<String>();
-            for(int j=0;j<contact.size();j++){
+           /* for(int j=0;j<contact.size();j++){
                 contactList.add(contact.get(j).getEmailAddresses().get(0).getAddress());
                 nameList.add(contact.get(j).getEmailAddresses().get(0).getName());
-            }
+            }*/
             //change to diff adapter
+            nameList = singleton.getNameList();
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(Compose.this,android.R.layout.simple_dropdown_item_1line,nameList);
             toField.setAdapter(adapter);
             toField.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
@@ -152,11 +152,7 @@ public class Compose extends Activity {
                     finish();
                 }
             });
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
 
     }
     /**
@@ -250,7 +246,7 @@ public class Compose extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                          //  Toast.makeText(Compose.this, "Message sent", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Compose.this, "Message sent", Toast.LENGTH_SHORT).show();
                         }
                     });
 
