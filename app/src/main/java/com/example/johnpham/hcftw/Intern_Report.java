@@ -122,10 +122,10 @@ private CharSequence mTitle;
                     long phone = Long.parseLong(phoneNum.getText().toString());
                     submit.setName(name);
                     submit.setMonth(submitMonth);
-                    submit.setRole("A1");
+                    submit.setRole("A2");
                     submit.setPhone(phone);
-                    submit.setTeachhr("A0");
-                    submit.setPrephr("A0");
+                    submit.setTeachhr("A1");
+                    submit.setPrephr("A1");
                     submit.setTravel(travel);
                     submit.setServhr(volhr);
                     submit.setAcomp(acomp);
@@ -384,7 +384,7 @@ private CharSequence mTitle;
 
 
             try {
-                String path = "http://fortwayne.education/mobileapp.php";
+                String path = "http://lifetime.education/mobileapp.php";
 
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout

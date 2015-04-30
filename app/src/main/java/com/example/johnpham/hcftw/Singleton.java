@@ -81,7 +81,7 @@ public class Singleton {
         this.even=even;
     }
     public void setEmail(String alias){
-        this.email=alias+"@fortwayne.education";
+        this.email=alias+"@lifetime.education";
     }
     public String getEmail(){
         return email;

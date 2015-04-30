@@ -147,12 +147,12 @@ public class Tutor_Report extends Activity
                     long phone = Long.parseLong(phoneNum.getText().toString());
                     submit.setName(name);
                     submit.setMonth(submitMonth);
-                    submit.setRole("A0");
+                    submit.setRole("A1");
                     submit.setPhone(phone);
                     submit.setTeachhr(teachhr);
                     submit.setPrephr(prephr);
                     submit.setTravel(travel);
-                    submit.setServhr("A0");
+                    submit.setServhr("A1");
                     submit.setAcomp(acomp);
 
                     new SubmitData().execute(submit);
@@ -451,7 +451,7 @@ private TextView teachhrOther, prephrOther, travelOther;
 
 
             try {
-                String path = "http://fortwayne.education/mobileapp.php";
+                String path = "http://lifetime.education/mobileapp.php";
 
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout

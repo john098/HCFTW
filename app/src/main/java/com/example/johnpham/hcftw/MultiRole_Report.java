@@ -145,12 +145,12 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                         long phone = Long.parseLong(phoneNum.getText().toString());
                         Tutorsubmit.setName(name);
                         Tutorsubmit.setMonth(submitMonth);
-                        Tutorsubmit.setRole("A0");
+                        Tutorsubmit.setRole("A1");
                         Tutorsubmit.setPhone(phone);
                         Tutorsubmit.setTeachhr(teachhr);
                         Tutorsubmit.setPrephr(prephr);
                         Tutorsubmit.setTravel(travel);
-                        Tutorsubmit.setServhr("A0");
+                        Tutorsubmit.setServhr("A1");
                         Tutorsubmit.setAcomp(acomp);
 
                         new SubmitData().execute(Tutorsubmit);
@@ -160,10 +160,10 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                         long phone = Long.parseLong(phoneNum.getText().toString());
                         Internsubmit.setName(name);
                         Internsubmit.setMonth(submitMonth);
-                        Internsubmit.setRole("A1");
+                        Internsubmit.setRole("A2");
                         Internsubmit.setPhone(phone);
-                        Internsubmit.setTeachhr("A0");
-                        Internsubmit.setPrephr("A0");
+                        Internsubmit.setTeachhr("A1");
+                        Internsubmit.setPrephr("A1");
                         Internsubmit.setTravel(travel);
                         Internsubmit.setServhr(servehr);
                         Internsubmit.setAcomp(acomp);
@@ -174,10 +174,10 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                         long phone = Long.parseLong(phoneNum.getText().toString());
                         Volunteersubmit.setName(name);
                         Volunteersubmit.setMonth(submitMonth);
-                        Volunteersubmit.setRole("A2");
+                        Volunteersubmit.setRole("A3");
                         Volunteersubmit.setPhone(phone);
-                        Volunteersubmit.setTeachhr("A0");
-                        Volunteersubmit.setPrephr("A0");
+                        Volunteersubmit.setTeachhr("A1");
+                        Volunteersubmit.setPrephr("A1");
                         Volunteersubmit.setTravel(travel);
                         Volunteersubmit.setServhr(servehr);
                         Volunteersubmit.setAcomp(acomp);
@@ -500,7 +500,7 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
             for(String s : children){
                 if(!s.equals("lib")){
                     deleteDir(new File(appDir, s));
-                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s + " DELETED");
+
                 }
             }
         }
@@ -557,7 +557,7 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
 
 
             try {
-                String path = "http://fortwayne.education/mobileapp.php";
+                String path = "http://lifetime.education/mobileapp.php";
 
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
