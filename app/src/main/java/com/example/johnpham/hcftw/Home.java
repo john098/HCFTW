@@ -68,7 +68,7 @@ public class Home extends Activity
         setContentView(R.layout.activity_home);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-
+        mTitle = getTitle();
 
         // Set up the drawer.
         if(count==0) {
@@ -112,10 +112,7 @@ public class Home extends Activity
 
                                     // enable scenarios
 
-                                    mTitle = getTitle();
-                                    mNavigationDrawerFragment.setUp(
-                                            R.id.navigation_drawer,
-                                            (DrawerLayout) findViewById(R.id.drawer_layout));
+
 
                                 }
                             });
@@ -145,6 +142,10 @@ public class Home extends Activity
             count++;
 
         }
+        mTitle = getTitle();
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {

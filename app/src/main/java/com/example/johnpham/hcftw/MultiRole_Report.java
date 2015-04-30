@@ -60,33 +60,37 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private boolean tutorCheck, internCheck, volCheck;
+    private boolean tutorCheck=false,internCheck=false, volCheck =false;
     private ArrayList<String> years=new ArrayList<String>();
-    private String month, year, teachhr, prephr, travel;
-    private Spinner monthSpinner, teachSpinner, prepSpinner, travelSpinner,yearSpinner;
-    private TextView teachhrOther, prephrOther, travelOther;
+    private String month, year, teachhr, prephr, travel, servehr;
+    private Spinner monthSpinner, teachSpinner, prepSpinner, travelSpinner,yearSpinner, serveSpinner;
+    private TextView teachhrOther, prephrOther, travelOther, serveOther;
     private PopupWindow pop;
     private View layout;
     private EditText acomplishments, phoneNum;
     private Button send, clear;
-    private CheckBox internBox, tutorBox, volBox;
     private TextView checkboxText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multirole_report);
+        //recolor the ActionBar
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+        //Set up the Nav Drawer
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        final Report submit = new Report();
+        //reports to be submitted
+        final Report Tutorsubmit = new Report();
+        final Report Internsubmit = new Report();
+        final Report Volunteersubmit = new Report();
         yearSpinner=(Spinner)findViewById(R.id.yearSpinner);
+        //set up the years to be placed in the spinner starting with the current year going back 5 years
         int theyear= Calendar.getInstance().get(Calendar.YEAR);
         for(int i=0;i<5;i++)
         {
@@ -95,20 +99,19 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
             theyear--;
         }
         ArrayAdapter<String> yearAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,years);
-
+        //Initialize the spinners and set up listeners
         yearSpinner.setAdapter(yearAdapter);
         monthSpinner = (Spinner) findViewById(R.id.spinner);
         teachSpinner = (Spinner) findViewById(R.id.spinner2);
-
+        serveSpinner = (Spinner) findViewById(R.id.spinner5);
         prepSpinner = (Spinner) findViewById(R.id.spinner3);
         travelSpinner = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
+        //Set up variables for recording phone numbers and accomplishments
         checkboxText = (TextView) findViewById(R.id.checks);
         acomplishments = (EditText)findViewById(R.id.editText);
         phoneNum = (EditText)findViewById(R.id.editText2);
-        internBox = (CheckBox) findViewById(R.id.internBox);
-        tutorBox = (CheckBox) findViewById(R.id.tutorBox);
-        volBox = (CheckBox) findViewById(R.id.volBox);
+        //set up Submit button and set listener
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,30 +121,70 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                 String name;
                 name=Singleton.getInstance().getName();
                 acomp = acomplishments.getText().toString();
+                //if Accomplishments, Phone number, or at least 1 check box is not selected mark them as errors
+                if(acomp.equals("")||phoneNum.getText().toString().equals("")||!(internCheck||volCheck||tutorCheck)){
 
-                if(acomp.equals("")||phoneNum.getText().toString().equals("")){
 
-                    /*if(acomp.equals("")){
+                    if(!(internCheck||volCheck||tutorCheck)){
+                        checkboxText.setError("Please leave comment");
+                    }
+                    else{
+                        checkboxText.setError(null);
+                    }
+                    if(acomp.equals("")){
                         acomplishments.setError("Please leave a comment");
                     }
                     if(phoneNum.getText().toString().equals("")){
                         phoneNum.setError("Please enter number");
-                    }*/
+                    }
                 }
+                //Submit the reports if all fields have been completed.
                 else {
+                    // If tutor checkbox is checked submit a tutor form
+                    if(tutorCheck) {
+                        long phone = Long.parseLong(phoneNum.getText().toString());
+                        Tutorsubmit.setName(name);
+                        Tutorsubmit.setMonth(submitMonth);
+                        Tutorsubmit.setRole("A0");
+                        Tutorsubmit.setPhone(phone);
+                        Tutorsubmit.setTeachhr(teachhr);
+                        Tutorsubmit.setPrephr(prephr);
+                        Tutorsubmit.setTravel(travel);
+                        Tutorsubmit.setServhr("A0");
+                        Tutorsubmit.setAcomp(acomp);
 
-                    long phone = Long.parseLong(phoneNum.getText().toString());
-                    submit.setName(name);
-                    submit.setMonth(submitMonth);
-                    submit.setRole("A1");
-                    submit.setPhone(phone);
-                    submit.setTeachhr(teachhr);
-                    submit.setPrephr(prephr);
-                    submit.setTravel(travel);
-                    submit.setServhr("A0");
-                    submit.setAcomp(acomp);
-
-                    //new SubmitData().execute(submit);
+                        new SubmitData().execute(Tutorsubmit);
+                    }
+                    // If intern checkbox is checked submit an intern form
+                    if(internCheck){
+                        long phone = Long.parseLong(phoneNum.getText().toString());
+                        Internsubmit.setName(name);
+                        Internsubmit.setMonth(submitMonth);
+                        Internsubmit.setRole("A1");
+                        Internsubmit.setPhone(phone);
+                        Internsubmit.setTeachhr("A0");
+                        Internsubmit.setPrephr("A0");
+                        Internsubmit.setTravel(travel);
+                        Internsubmit.setServhr(servehr);
+                        Internsubmit.setAcomp(acomp);
+                        new SubmitData().execute(Internsubmit);
+                    }
+                    //If volunteer checkbox is checked submit a volunteer form.
+                    if(volCheck){
+                        long phone = Long.parseLong(phoneNum.getText().toString());
+                        Volunteersubmit.setName(name);
+                        Volunteersubmit.setMonth(submitMonth);
+                        Volunteersubmit.setRole("A2");
+                        Volunteersubmit.setPhone(phone);
+                        Volunteersubmit.setTeachhr("A0");
+                        Volunteersubmit.setPrephr("A0");
+                        Volunteersubmit.setTravel(travel);
+                        Volunteersubmit.setServhr(servehr);
+                        Volunteersubmit.setAcomp(acomp);
+                        new SubmitData().execute(Volunteersubmit);
+                    }
+                    //Reset all the fields back to their initial inputs.
+                    checkboxText.setError(null);
                     yearSpinner.setSelection(0);
                     monthSpinner.setSelection(0);
                     teachSpinner.setSelection(0);
@@ -149,9 +192,11 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                     travelSpinner.setSelection(0);
                     phoneNum.setText("");
                     acomplishments.setText("");
+                    serveSpinner.setSelection(0);
                 }
             }
         });
+        //Initialize the clear button and set up a Listener to clear on click.
         clear = (Button) findViewById(R.id.clear);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,49 +207,58 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                 prepSpinner.setSelection(0);
                 travelSpinner.setSelection(0);
                 phoneNum.setText("");
+                serveSpinner.setSelection(0);
                 acomplishments.setText("");
             }
         });
 
 
     }
+
+    /**
+     * Adds Listeners to each Spinner on the form.
+     */
     public void setSpinerslisteners(){
-        //Spinner for years
+        //Sets up the spinner for the year Spinner.
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //sets the year vairable to the currently selected item
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 year=years.get(position);
             }
+            //Do nothing
             public void onNothingSelected(AdapterView<?> parent){}
         });
-        //Month Spinner
+        //Sets up the Listener for the month spinner
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //set month variable to currently selected item.
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 month = getResources().getStringArray(R.array.Month)[position];
             }
-
+            //Do nothing
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
         month = getResources().getStringArray(R.array.Month)[monthSpinner.getSelectedItemPosition()];
-        //Spinner for teaching hours
+        //Sets up the Listener for how many hours recorded teaching
         teachSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //sets the teachhr variable to the currently selected item
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 teachhrOther = (TextView) findViewById(R.id.otherView);
-
+                //if other is selected get the user input for the actual amount of hours
                 if (position == 41) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     layout = inflater.inflate(R.layout.other, (ViewGroup) findViewById(R.id.otherId));
+                    //Display a pop up window to get the number of hours for teaching
                     pop = new PopupWindow(layout, 500, 500, true);
                     pop.showAtLocation(layout, Gravity.CENTER, 0, 0);
                     pop.setFocusable(true);
                     Button ok = (Button) layout.findViewById(R.id.other_ok);
-
                     ok.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            //display the Input of the text box to show the user how many hours were entered.
                             EditText view = (EditText) layout.findViewById(R.id.other_edittext);
                             teachhr = view.getText().toString();
-
                             teachhrOther.setText(teachhr);
                             teachhrOther.setVisibility(View.VISIBLE);
                             pop.dismiss();
@@ -212,17 +266,19 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                         }
                     });
                 } else {
+                    //if the user selected an option besides other use the Hour_Code to get the value correlating to that input.
                     teachhr = getResources().getStringArray(R.array.Hour_Code)[position];
                     teachhrOther.setVisibility(View.INVISIBLE);
 
                 }
             }
-
+            //do nothing
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        //set the teach hours initial value
         teachhr = getResources().getStringArray(R.array.Hour_Code)[teachSpinner.getSelectedItemPosition()];
-        //Preparation Spinner
+        //Sets up the listener for the preparation spinner
         prepSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 prephrOther = (TextView) findViewById(R.id.otherView2);
@@ -293,7 +349,42 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        travel = getResources().getStringArray(R.array.Hour_Code)[prepSpinner.getSelectedItemPosition()];
+        travel = getResources().getStringArray(R.array.Hour_Code)[travelSpinner.getSelectedItemPosition()];
+        serveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                serveOther = (TextView) findViewById(R.id.otherView4);
+
+                if (position == 41) {
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    layout = inflater.inflate(R.layout.other, (ViewGroup) findViewById(R.id.otherId));
+                    pop = new PopupWindow(layout, 500, 500, true);
+                    pop.showAtLocation(layout, Gravity.CENTER, 0, 0);
+                    pop.setFocusable(true);
+                    Button ok = (Button) layout.findViewById(R.id.other_ok);
+
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText view = (EditText) layout.findViewById(R.id.other_edittext);
+                            servehr = view.getText().toString();
+
+                            serveOther.setText(servehr);
+                            serveOther.setVisibility(View.VISIBLE);
+                            pop.dismiss();
+
+                        }
+                    });
+                } else {
+                    servehr = getResources().getStringArray(R.array.Hour_Code)[position];
+                    serveOther.setVisibility(View.INVISIBLE);
+
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        servehr = getResources().getStringArray(R.array.Hour_Code)[serveSpinner.getSelectedItemPosition()];
     }
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
@@ -304,7 +395,7 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
             case R.id.tutorBox:
                 if (checked) {
                     tutorCheck=true;
-                    Report tutor = new Report();
+
                 }
                 else{
                     tutorCheck=false;
@@ -317,15 +408,15 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                 }
 
                 else{
-
+                    internCheck=false;
                 }
 
                 break;
             case R.id.volBox:
-                if (checked){}
-
-                else{}
-
+                if (checked){
+                    volCheck=true;}
+                else{
+                    volCheck=false;}
                 break;
 
         }

@@ -135,6 +135,7 @@ public class Report {
     public String getAcomp() {
         return acomp;
     }
+
     public static String getIPAddress(boolean useIPv4) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
