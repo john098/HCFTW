@@ -134,9 +134,9 @@ public class Compose extends Activity {
         //check for compose click
         attach.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent,PICKFILE_RESULT_CODE);
+                //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                //intent.setType("*/*");
+               // startActivityForResult(intent,PICKFILE_RESULT_CODE);
             }
         });
             send = (Button) findViewById(R.id.sendButton);
