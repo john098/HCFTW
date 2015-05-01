@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by Jake on 4/22/2015.
+ * Created by Jake Raber
  */
 public class MultiRole_Report extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -60,16 +60,16 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private boolean tutorCheck=false,internCheck=false, volCheck =false;
-    private ArrayList<String> years=new ArrayList<String>();
-    private String month, year, teachhr, prephr, travel, servehr;
-    private Spinner monthSpinner, teachSpinner, prepSpinner, travelSpinner,yearSpinner, serveSpinner;
-    private TextView teachhrOther, prephrOther, travelOther, serveOther;
+    private boolean tutorCheck=false,internCheck=false, volCheck =false; //status of the checkboxes initilized to false for initial state
+    private ArrayList<String> years=new ArrayList<String>(); //arrayList for years to be stored in
+    private String month, year, teachhr, prephr, travel, servehr; //values to be put into the report submission
+    private Spinner monthSpinner, teachSpinner, prepSpinner, travelSpinner,yearSpinner, serveSpinner; // spinners for selections
+    private TextView teachhrOther, prephrOther, travelOther, serveOther; //set up if other is selected for its related view
     private PopupWindow pop;
     private View layout;
     private EditText acomplishments, phoneNum;
-    private Button send, clear;
-    private TextView checkboxText;
+    private Button send, clear; //used for buttons
+    private TextView checkboxText; //used to set error if checkboxes are not selected
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,39 +282,45 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         prepSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 prephrOther = (TextView) findViewById(R.id.otherView2);
-
+                //check if other was selected
                 if (position == 41) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     layout = inflater.inflate(R.layout.other, (ViewGroup) findViewById(R.id.otherId));
+                    //set up the pop up window for user to input their hours for preperation
                     pop = new PopupWindow(layout, 500, 500, true);
                     pop.showAtLocation(layout, Gravity.CENTER, 0, 0);
                     pop.setFocusable(true);
                     Button ok = (Button) layout.findViewById(R.id.other_ok);
-
+                    //set up the listener for the ok button
                     ok.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EditText view = (EditText) layout.findViewById(R.id.other_edittext);
+                            //display the manual input hours on the right and store the input in prephr
                             prephr = view.getText().toString();
-
                             prephrOther.setText(prephr);
                             prephrOther.setVisibility(View.VISIBLE);
                             pop.dismiss();
 
                         }
                     });
+                    //otherwise get the selected input relative to the hour_code array
                 } else {
                     prephr = getResources().getStringArray(R.array.Hour_Code)[position];
                     prephrOther.setVisibility(View.INVISIBLE);
 
                 }
             }
-
+            //do nothing
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        //initialize the prephr on spinner creation
         prephr = getResources().getStringArray(R.array.Hour_Code)[prepSpinner.getSelectedItemPosition()];
-        //Travel Spinner
+        //Sets up the Spinner for the travel selection
+        //if other is selected a pop window displays and allows for user input on distance traveld
+        //sets that value to the right once user hits ok
+        //if user selects any other input the travel is set to the corresponding input from the Hour_code array
         travelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 travelOther = (TextView) findViewById(R.id.otherView3);
@@ -350,6 +356,10 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
             }
         });
         travel = getResources().getStringArray(R.array.Hour_Code)[travelSpinner.getSelectedItemPosition()];
+        //Sets up the Spinner for the volunteer(service) selection
+        //if other is selected a pop window displays and allows for user input on hours served(volunteered)
+        //sets that value to the right once user hits ok
+        //if user selects any other input the servhr is set to the corresponding input from the Hour_code array
         serveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 serveOther = (TextView) findViewById(R.id.otherView4);
@@ -386,6 +396,11 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         });
         servehr = getResources().getStringArray(R.array.Hour_Code)[serveSpinner.getSelectedItemPosition()];
     }
+
+    /**
+     * Sets actions for when each CheckBox is clicked or unclicked
+     * @param view
+     */
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
@@ -421,6 +436,12 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
 
         }
     }
+
+    /**
+     * creates the new instance for a action selected
+     * @param position
+     */
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
@@ -428,6 +449,11 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
+
+    /**
+     * Sets up action for each item on the Navigation menu
+     * @param number
+     */
     public void onSectionAttached(int number) {
         // mTitle="Report";
         switch (number) {
@@ -452,6 +478,9 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         }
     }
 
+    /**
+     * Resets upt the Action bar with Navigation mode enabled
+     */
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -459,13 +488,17 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         actionBar.setTitle(mTitle);
     }
 
-
+    /**
+     *  Only show items in the action bar relevant to this screen
+     * if the drawer is not showing. Otherwise, let the drawer
+     // decide what to show in the action bar.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
+
             getMenuInflater().inflate(R.menu.mr_report, menu);
             restoreActionBar();
             return true;
@@ -473,11 +506,15 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.logout){
             onPause();
@@ -492,6 +529,9 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Clears all data saved by the application
+     */
     public void clearApplicationData() {
         File cache = getCacheDir();
         File appDir = new File(cache.getParent());
@@ -506,6 +546,11 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         }
     }
 
+    /**
+     * Deletes a given directory
+     * @param dir
+     * @return
+     */
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -519,6 +564,12 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
 
         return dir.delete();
     }
+
+    /**
+     * converts an InputStream to a String
+     * @param is
+     * @return
+     */
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -540,10 +591,17 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
         }
         return sb.toString();
     }
+
+    /**
+     * submits the report to the database
+     */
     private class SubmitData extends
             AsyncTask<Report, Void, String> {
         ProgressDialog dialog;
 
+        /**
+         * create a dialog box to let the user know it is submitting the data
+         */
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(MultiRole_Report.this);
@@ -553,12 +611,17 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
             dialog.show();
         }
 
+        /**
+         * submits the report to the database
+         * @param input
+         * @return
+         */
         protected String doInBackground(Report... input) {
 
 
             try {
+                //connects to this php file
                 String path = "http://lifetime.education/mobileapp.php";
-
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
                 // Limit
@@ -568,6 +631,7 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
 
 
                 try {
+                    //fill the the json object with all the report fields
                     HttpPost post = new HttpPost(path);
                     json.put("lang", "en");
                     json.put("sdate", input[0].getStartdate());
@@ -608,9 +672,13 @@ public class MultiRole_Report extends Activity implements NavigationDrawerFragme
 
 
             }
-            return "s";
+            return "success";
         }
 
+        /**
+         * close the dialog box after submission
+         * @param result
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result == null){

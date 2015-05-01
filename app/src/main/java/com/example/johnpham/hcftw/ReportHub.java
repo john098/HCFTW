@@ -33,13 +33,16 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private Button tutor, volunteer, grantWriter, multi;
+    private Button tutor, volunteer, intern, multi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //sets up the layout and content
         setContentView(R.layout.activity_report);
+        //recolor the action bar
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+        //sets up the Navigation menu
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -47,6 +50,7 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        //Allows for the tutor button to link to the tutor report page
         tutor = (Button) findViewById(R.id.tutor);
         tutor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +58,7 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
                 startActivity(new Intent(getApplicationContext(), Tutor_Report.class));
             }
         });
+        //Allows for the volunteer button to link to the volunteer report page
         volunteer=(Button) findViewById(R.id.volunteer);
         volunteer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +66,15 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
                 startActivity(new Intent(getApplicationContext(), Volunteer_Report.class));
             }
         });
-        grantWriter=(Button) findViewById(R.id.intern);
-        grantWriter.setOnClickListener(new View.OnClickListener() {
+        //Allows for the intern button to link to the intern report page
+        intern=(Button) findViewById(R.id.intern);
+        intern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Intern_Report.class));
             }
         });
+        //Allows for the multirole button to link to the multirole report page
         multi = (Button) findViewById(R.id.multiRole);
         multi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +83,11 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
             }
         });
     }
+
+    /**
+     * Sets up the navigation drawer fragment
+     * @param position
+     */
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
@@ -83,30 +95,42 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
+
+    /**
+     * Allows for redirection of the menu items
+     * @param number //item selected
+     */
     public void onSectionAttached(int number) {
         // mTitle="Report";
         switch (number) {
             case 1:
                 if(numb!=0) {
+                    //redirect to the home page
                     startActivity(new Intent(getApplicationContext(), Home.class));
                 }
                 numb++;
                 break;
             case 2:
                 //  mTitle = "Email";
+                //redirect to Email page
                 startActivity(new Intent(getApplicationContext(), Email.class));
                 break;
             case 3:
                 //  mTitle = "Calendar";
+                //redirect to Calendar page
                 startActivity(new Intent(getApplicationContext(), Calender_.class));
                 break;
             case 4:
                 //  mTitle="Report";
-                startActivity(new Intent(getApplicationContext(), ReportHub.class));
+                //all ready on this page so do nothing
+                //startActivity(new Intent(getApplicationContext(), ReportHub.class));
                 break;
         }
     }
 
+    /**
+     * Resets the Action bar with Navigation settings
+     */
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -114,7 +138,11 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         actionBar.setTitle(mTitle);
     }
 
-
+    /**
+     * Sets up the Navigation Menu once it is created
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -128,6 +156,11 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Sets up the Options Menu
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -147,6 +180,9 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Clears the data for the application saved on the phone
+     */
     public void clearApplicationData() {
         File cache = getCacheDir();
         File appDir = new File(cache.getParent());
@@ -161,6 +197,11 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         }
     }
 
+    /**
+     * Deletes the directory
+     * @param dir
+     * @return
+     */
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -199,6 +240,13 @@ public class ReportHub extends Activity implements NavigationDrawerFragment.Navi
         public PlaceholderFragment() {
         }
 
+        /**
+         * Sets up the place holder fragment
+         * @param inflater
+         * @param container
+         * @param savedInstanceState
+         * @return
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

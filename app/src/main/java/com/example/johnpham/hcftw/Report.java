@@ -14,19 +14,22 @@ import java.util.List;
  */
 public class Report {
 
-    private String startdate;
-    private String datetime;
-    private String ip;
-    private String name;
+    private String startdate;//stores the start time of the report
+    private String datetime;//stores the timeof completion
+    private String ip; //stores user ipaddress
+    private String name;//stores the user name
     private long phone;
     private String month;
-    private String role;
-    private String teachhr;
-    private String prephr;
-    private String travel;
-    private String servhr;
-    private String acomp;
+    private String role; //stores the selected role
+    private String teachhr; //stores how many hours spent teaching
+    private String prephr; //stores how many hours spent preparing
+    private String travel; //stores miles traveled
+    private String servhr; //stores how many hours volunteering(serving)
+    private String acomp;// stores the users accomplishments for the month
 
+    /**
+     * Initializes a Report sets the start date right away
+     */
     public Report(){
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -136,6 +139,11 @@ public class Report {
         return acomp;
     }
 
+    /**
+     * Gets the IP address of the current user
+     * @param useIPv4 //checks to see which ip type the current address is either ipv4 or ipv6
+     * @return
+     */
     public static String getIPAddress(boolean useIPv4) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());

@@ -46,34 +46,36 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by Jake on 4/22/2015.
+ * Created by Jake Raber
  */
 public class Intern_Report extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-private int numb=0;
-/**
- * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
- */
-private NavigationDrawerFragment mNavigationDrawerFragment;
-/**
- * Used to store the last screen title. For use in {@link #restoreActionBar()}.
- */
-private ArrayList<String> years=new ArrayList<String>();
-private CharSequence mTitle;
-    private String month, year, volhr, travel;
-    private Spinner monthSpinner, volunteerSpinner, travelSpinner,yearSpinner;
-    private TextView volOther,  travelOther; //
+    private int numb=0;
+    /**
+     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+     */
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    /**
+     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+     */
+    private ArrayList<String> years=new ArrayList<String>();//arraylist for calculated years
+    private CharSequence mTitle;
+    private String month, year, volhr, travel;// holds data for the report
+    private Spinner monthSpinner, volunteerSpinner, travelSpinner,yearSpinner; //spinners for selection fields
+    private TextView volOther,  travelOther; //sets up if other is selected in corresponding spinner
     private PopupWindow pop; //Pop up window
-    private View layout; //
-    private EditText acomplishments, phoneNum; //
-    private Button send, clear;
+    private View layout;
+    private EditText acomplishments, phoneNum; //acomplishments stores text while phoneNum only stores numbers
+    private Button send, clear; //buttons for selections
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intern);
+        //recolor actionbar
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0c2f51")));
+        //set up the navigation menu
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -81,7 +83,9 @@ private CharSequence mTitle;
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        //creates the report to be submitted
         final Report submit = new Report();
+        //creates the year spinner an calculates the last 5 years
         yearSpinner=(Spinner)findViewById(R.id.yearSpinner);
         int theyear= Calendar.getInstance().get(Calendar.YEAR);
         for(int i=0;i<5;i++)
@@ -91,15 +95,16 @@ private CharSequence mTitle;
             theyear--;
         }
         ArrayAdapter<String> yearAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,years);
-
+        //Sets up all the other spinners and adds listeners
         yearSpinner.setAdapter(yearAdapter);
         monthSpinner = (Spinner) findViewById(R.id.spinner);
         volunteerSpinner = (Spinner) findViewById(R.id.spinner2);
         travelSpinner = (Spinner) findViewById(R.id.spinner4);
         setSpinerslisteners();
+        //Sets up the EditText
         acomplishments = (EditText)findViewById(R.id.editText);
         phoneNum = (EditText)findViewById(R.id.editText2);
-
+        //Set up the Submit button and add click listener
         send = (Button) findViewById(R.id.sendData);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +114,7 @@ private CharSequence mTitle;
                 String name;
                 name=Singleton.getInstance().getName();
                 acomp = acomplishments.getText().toString();
-
+                //check to see if the phone number and accomplishments have been filled in if not set errors
                 if(acomp.equals("")||phoneNum.getText().toString().equals("")){
                     if(acomp.equals("")){
                         acomplishments.setError("Please leave a comment");
@@ -118,7 +123,9 @@ private CharSequence mTitle;
                         phoneNum.setError("Please enter number");
                     }
                 }
+                //otherwise submit the form
                 else {
+                    //fill in the report with the user selected fields
                     long phone = Long.parseLong(phoneNum.getText().toString());
                     submit.setName(name);
                     submit.setMonth(submitMonth);
@@ -129,8 +136,9 @@ private CharSequence mTitle;
                     submit.setTravel(travel);
                     submit.setServhr(volhr);
                     submit.setAcomp(acomp);
-
+                    //submit the form
                     new SubmitData().execute(submit);
+                    //clear the selections
                     yearSpinner.setSelection(0);
                     monthSpinner.setSelection(0);
                     volunteerSpinner.setSelection(0);
@@ -140,6 +148,7 @@ private CharSequence mTitle;
                 }
             }
         });
+        //Set up the clear button and add a listener to clear the fields when selected
         clear = (Button) findViewById(R.id.clear);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,16 +165,20 @@ private CharSequence mTitle;
 
     }
 
-
+    /**
+     * Sets up the listeners for each spinner and sets the values of each id related to that spinner
+     */
     public void setSpinerslisteners(){
-        //Spinner for years
+        //Sets up the Spinner for the year selection
+        //Sets year to the currently selected item in the spinner
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 year=years.get(position);
             }
             public void onNothingSelected(AdapterView<?> parent){}
         });
-        //Month Spinner
+        //Sets up the Spinner for the month selection
+        //Sets month to the currently selected item in the spinner
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 month = getResources().getStringArray(R.array.Month)[position];
@@ -175,7 +188,10 @@ private CharSequence mTitle;
             }
         });
         month = getResources().getStringArray(R.array.Month)[monthSpinner.getSelectedItemPosition()];
-        //Spinner for teaching hours
+        //Sets up the Spinner for the volunteer selection
+        //if other is selected a pop window displays and allows for user input on hours volunteered
+        //sets that value to the right once user hits ok
+        //if user selects any other input the volhr is set to the corresponding input from the Hour_code array
         volunteerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 volOther = (TextView) findViewById(R.id.otherView);
@@ -211,7 +227,10 @@ private CharSequence mTitle;
             }
         });
         volhr = getResources().getStringArray(R.array.Hour_Code)[volunteerSpinner.getSelectedItemPosition()];
-        //Travel Spinner
+        //Sets up the Spinner for the travel selection
+        //if other is selected a pop window displays and allows for user input on distance traveld
+        //sets that value to the right once user hits ok
+        //if user selects any other input the travel is set to the corresponding input from the Hour_code array
         travelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 travelOther = (TextView) findViewById(R.id.otherView3);
@@ -248,6 +267,12 @@ private CharSequence mTitle;
         });
         travel = getResources().getStringArray(R.array.Hour_Code)[travelSpinner.getSelectedItemPosition()];
     }
+
+    /**
+     * update the main content by replacing fragments
+     * @param position
+     */
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
@@ -255,6 +280,11 @@ private CharSequence mTitle;
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
+
+    /**
+     * Allows for redirection when item from the menu is selected
+     * @param number
+     */
     public void onSectionAttached(int number) {
         // mTitle="Report";
         switch (number) {
@@ -279,6 +309,9 @@ private CharSequence mTitle;
         }
     }
 
+    /**
+     * Resets upt the Action bar with Navigation mode enabled
+     */
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -286,13 +319,16 @@ private CharSequence mTitle;
         actionBar.setTitle(mTitle);
     }
 
-
+    /**
+     *  Only show items in the action bar relevant to this screen
+     * if the drawer is not showing. Otherwise, let the drawer
+     // decide what to show in the action bar.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.intern_report, menu);
             restoreActionBar();
             return true;
@@ -300,11 +336,15 @@ private CharSequence mTitle;
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.logout){
             onPause();
@@ -319,6 +359,9 @@ private CharSequence mTitle;
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Clears all data saved by the application
+     */
     public void clearApplicationData() {
         File cache = getCacheDir();
         File appDir = new File(cache.getParent());
@@ -333,6 +376,11 @@ private CharSequence mTitle;
         }
     }
 
+    /**
+     * Deletes a given directory
+     * @param dir
+     * @return
+     */
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -367,10 +415,16 @@ private CharSequence mTitle;
         }
         return sb.toString();
     }
+    /**
+     * Submits the report to the database
+     */
     private class SubmitData extends
             AsyncTask<Report, Void, String> {
         ProgressDialog dialog;
 
+        /**
+         * runs before the report is submitted sets up a Dialog box to let the user know what is happening
+         */
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(Intern_Report.this);
@@ -380,12 +434,18 @@ private CharSequence mTitle;
             dialog.show();
         }
 
+        /**
+         * Submits to the database the report filed
+         * @param input //report to be filed
+         * @return
+         */
         protected String doInBackground(Report... input) {
 
 
             try {
+                //link to php file for submission
                 String path = "http://lifetime.education/mobileapp.php";
-
+                //Set up the client to run through
                 HttpClient client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
                 // Limit
@@ -393,7 +453,7 @@ private CharSequence mTitle;
                 JSONObject json = new JSONObject();
 
 
-
+                //connect to the database and fill in the json object with the report fields and submit it
                 try {
                     HttpPost post = new HttpPost(path);
                     json.put("lang", "en");
@@ -438,6 +498,10 @@ private CharSequence mTitle;
             return "s";
         }
 
+        /**
+         * Close the dialog box after submission
+         * @param result
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result == null){
